@@ -1,3 +1,13 @@
+/*
+ * THIS IS JUST A DUMMMY SERVER.
+ * THIS IS JUST A .H FILE
+ *
+ * IMPORTANT!!!!!!
+ * IF YOU MODIFY ANYTHING IN THIS FILE, YOU HAVE TO CLEAN ALL AND THEN REBUILD
+ * IF YOU DON'T, THE COMPILER WILL NOT HAVE THE RECENT VERSION OF THIS CODE
+ *
+ */
+
 #ifndef DUMMYSERVER_H
 #define DUMMYSERVER_H
 
@@ -21,6 +31,11 @@ void setupServer()
     u.password = "bush";
     u.teacher = false;
     users.push_back(u);
+    user u1;
+    u1.username = "john";
+    u1.password = "young";
+    u1.teacher = true;
+    users.push_back(u1);
 }
 
 bool login(std::string username, std::string password)
