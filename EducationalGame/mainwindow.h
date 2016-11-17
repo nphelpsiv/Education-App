@@ -15,6 +15,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_signUpButton_clicked();
+
+    void on_signup_cancelButton_clicked();
+
+    void on_signup_submitButton_clicked();
+
+    void on_loginButton_clicked();
+
+    void on_playToolButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
