@@ -30,7 +30,7 @@
      <string/>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="loginPage">
      <widget class="QWidget" name="gridLayoutWidget">
@@ -38,7 +38,7 @@
        <rect>
         <x>180</x>
         <y>220</y>
-        <width>341</width>
+        <width>361</width>
         <height>101</height>
        </rect>
       </property>
@@ -309,9 +309,9 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>380</y>
+        <y>370</y>
         <width>711</width>
-        <height>191</height>
+        <height>201</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
@@ -372,10 +372,10 @@
      <widget class="QLabel" name="questionLabel">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>30</y>
-        <width>681</width>
-        <height>331</height>
+        <x>150</x>
+        <y>50</y>
+        <width>561</width>
+        <height>311</height>
        </rect>
       </property>
       <property name="text">
@@ -383,6 +383,154 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>320</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>45</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+        <underline>false</underline>
+        <strikeout>false</strikeout>
+       </font>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>00</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>19</x>
+        <y>20</y>
+        <width>111</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Power Ups</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget_6">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>91</width>
+         <height>221</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <item row="0" column="0">
+         <widget class="QToolButton" name="toolButton">
+          <property name="text">
+           <string>Skip</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QToolButton" name="toolButton_2">
+          <property name="text">
+           <string>Pause</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QToolButton" name="toolButton_3">
+          <property name="text">
+           <string>Pause</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QToolButton" name="toolButton_4">
+          <property name="text">
+           <string>Narrow</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="gameBufferPage">
+     <widget class="QWidget" name="gridLayoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>170</y>
+        <width>341</width>
+        <height>213</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="font">
+          <font>
+           <pointsize>50</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Prize:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="font">
+          <font>
+           <pointsize>25</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Description</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QTextBrowser" name="textBrowser"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QTextBrowser" name="textBrowser_2"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>30</y>
+        <width>701</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Response message:</string>
       </property>
      </widget>
     </widget>
