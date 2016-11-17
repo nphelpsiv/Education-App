@@ -44,14 +44,14 @@
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="loginButton">
          <property name="text">
           <string>Login</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLineEdit" name="lineEdit_4">
+        <widget class="QLineEdit" name="login_userNameText">
          <property name="text">
           <string/>
          </property>
@@ -61,7 +61,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLineEdit" name="lineEdit_5">
+        <widget class="QLineEdit" name="login_passwordText">
          <property name="text">
           <string/>
          </property>
@@ -72,7 +72,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="signUpButton">
       <property name="geometry">
        <rect>
         <x>320</x>
@@ -98,7 +98,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEdit_3">
+        <widget class="QLineEdit" name="signup_confirmPasswordText">
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>
          </property>
@@ -108,7 +108,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="signup_userNameText">
          <property name="echoMode">
           <enum>QLineEdit::Normal</enum>
          </property>
@@ -118,14 +118,14 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="teacherCheckBox">
          <property name="text">
           <string>Teacher</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_2">
+        <widget class="QLineEdit" name="signup_passwordText">
          <property name="echoMode">
           <enum>QLineEdit::Password</enum>
          </property>
@@ -136,7 +136,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="signup_submitButton">
       <property name="geometry">
        <rect>
         <x>360</x>
@@ -149,7 +149,7 @@
        <string>Submit</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="signup_cancelButton">
       <property name="geometry">
        <rect>
         <x>270</x>
@@ -177,7 +177,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="startPage">
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="gameTitleLabel">
       <property name="geometry">
        <rect>
         <x>110</x>
@@ -200,13 +200,13 @@
        <rect>
         <x>220</x>
         <y>300</y>
-        <width>322</width>
+        <width>437</width>
         <height>80</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="1">
-        <widget class="QToolButton" name="toolButton">
+        <widget class="QToolButton" name="playToolButton">
          <property name="font">
           <font>
            <pointsize>15</pointsize>
@@ -218,7 +218,7 @@
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QComboBox" name="comboBox">
+        <widget class="QComboBox" name="selectQuestionComboBox">
          <property name="font">
           <font>
            <pointsize>15</pointsize>
@@ -232,7 +232,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QToolButton" name="toolButton_2">
+        <widget class="QToolButton" name="profileToolButton">
          <property name="font">
           <font>
            <pointsize>15</pointsize>
@@ -256,7 +256,7 @@
      <x>0</x>
      <y>0</y>
      <width>741</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
