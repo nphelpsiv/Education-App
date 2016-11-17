@@ -15,6 +15,7 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QDockWidget>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -22,8 +23,10 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
@@ -45,13 +48,13 @@ public:
     QWidget *signUp;
     QWidget *gridLayoutWidget_2;
     QGridLayout *gridLayout_2;
-    QLineEdit *lineEdit_2;
-    QCheckBox *checkBox;
-    QLineEdit *lineEdit;
     QLineEdit *lineEdit_3;
-    QLabel *label_5;
+    QLineEdit *lineEdit;
+    QCheckBox *checkBox;
+    QLineEdit *lineEdit_2;
     QPushButton *pushButton_3;
     QPushButton *pushButton_4;
+    QLabel *signUpLabel;
     QWidget *startPage;
     QLabel *label_3;
     QWidget *gridLayoutWidget_3;
@@ -60,7 +63,23 @@ public:
     QComboBox *comboBox;
     QToolButton *toolButton_2;
     QWidget *teacherPage;
+    QDockWidget *dockWidget_2;
+    QWidget *dockWidgetContents_2;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QDockWidget *dockWidget_3;
+    QWidget *dockWidgetContents_3;
+    QTableView *tableView;
+    QScrollArea *scrollArea_2;
+    QWidget *scrollAreaWidgetContents_2;
     QWidget *gamePage;
+    QWidget *gridLayoutWidget_4;
+    QGridLayout *gridLayout_4;
+    QPushButton *q3_Button;
+    QPushButton *q2_Button;
+    QPushButton *q1_Button;
+    QPushButton *q4_Button;
+    QLabel *questionLabel;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -115,33 +134,28 @@ public:
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        lineEdit_2 = new QLineEdit(gridLayoutWidget_2);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        lineEdit_2->setEchoMode(QLineEdit::Password);
+        lineEdit_3 = new QLineEdit(gridLayoutWidget_2);
+        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
+        lineEdit_3->setEchoMode(QLineEdit::Password);
 
-        gridLayout_2->addWidget(lineEdit_2, 2, 1, 1, 1);
-
-        checkBox = new QCheckBox(gridLayoutWidget_2);
-        checkBox->setObjectName(QStringLiteral("checkBox"));
-
-        gridLayout_2->addWidget(checkBox, 4, 1, 1, 1);
+        gridLayout_2->addWidget(lineEdit_3, 2, 1, 1, 1);
 
         lineEdit = new QLineEdit(gridLayoutWidget_2);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
         lineEdit->setEchoMode(QLineEdit::Normal);
 
-        gridLayout_2->addWidget(lineEdit, 1, 1, 1, 1);
+        gridLayout_2->addWidget(lineEdit, 0, 1, 1, 1);
 
-        lineEdit_3 = new QLineEdit(gridLayoutWidget_2);
-        lineEdit_3->setObjectName(QStringLiteral("lineEdit_3"));
-        lineEdit_3->setEchoMode(QLineEdit::Password);
+        checkBox = new QCheckBox(gridLayoutWidget_2);
+        checkBox->setObjectName(QStringLiteral("checkBox"));
 
-        gridLayout_2->addWidget(lineEdit_3, 3, 1, 1, 1);
+        gridLayout_2->addWidget(checkBox, 3, 1, 1, 1);
 
-        label_5 = new QLabel(gridLayoutWidget_2);
-        label_5->setObjectName(QStringLiteral("label_5"));
+        lineEdit_2 = new QLineEdit(gridLayoutWidget_2);
+        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        lineEdit_2->setEchoMode(QLineEdit::Password);
 
-        gridLayout_2->addWidget(label_5, 0, 1, 1, 1);
+        gridLayout_2->addWidget(lineEdit_2, 1, 1, 1, 1);
 
         pushButton_3 = new QPushButton(signUp);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
@@ -149,6 +163,9 @@ public:
         pushButton_4 = new QPushButton(signUp);
         pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
         pushButton_4->setGeometry(QRect(270, 400, 79, 24));
+        signUpLabel = new QLabel(signUp);
+        signUpLabel->setObjectName(QStringLiteral("signUpLabel"));
+        signUpLabel->setGeometry(QRect(130, 40, 60, 16));
         stackedWidget->addWidget(signUp);
         startPage = new QWidget();
         startPage->setObjectName(QStringLiteral("startPage"));
@@ -189,9 +206,76 @@ public:
         stackedWidget->addWidget(startPage);
         teacherPage = new QWidget();
         teacherPage->setObjectName(QStringLiteral("teacherPage"));
+        dockWidget_2 = new QDockWidget(teacherPage);
+        dockWidget_2->setObjectName(QStringLiteral("dockWidget_2"));
+        dockWidget_2->setGeometry(QRect(0, 0, 201, 401));
+        dockWidgetContents_2 = new QWidget();
+        dockWidgetContents_2->setObjectName(QStringLiteral("dockWidgetContents_2"));
+        scrollArea = new QScrollArea(dockWidgetContents_2);
+        scrollArea->setObjectName(QStringLiteral("scrollArea"));
+        scrollArea->setGeometry(QRect(10, 10, 181, 391));
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 179, 389));
+        scrollArea->setWidget(scrollAreaWidgetContents);
+        dockWidget_2->setWidget(dockWidgetContents_2);
+        dockWidget_3 = new QDockWidget(teacherPage);
+        dockWidget_3->setObjectName(QStringLiteral("dockWidget_3"));
+        dockWidget_3->setGeometry(QRect(6, 410, 731, 331));
+        dockWidgetContents_3 = new QWidget();
+        dockWidgetContents_3->setObjectName(QStringLiteral("dockWidgetContents_3"));
+        tableView = new QTableView(dockWidgetContents_3);
+        tableView->setObjectName(QStringLiteral("tableView"));
+        tableView->setGeometry(QRect(0, 0, 731, 141));
+        dockWidget_3->setWidget(dockWidgetContents_3);
+        scrollArea_2 = new QScrollArea(teacherPage);
+        scrollArea_2->setObjectName(QStringLiteral("scrollArea_2"));
+        scrollArea_2->setGeometry(QRect(200, 30, 531, 371));
+        scrollArea_2->setWidgetResizable(true);
+        scrollAreaWidgetContents_2 = new QWidget();
+        scrollAreaWidgetContents_2->setObjectName(QStringLiteral("scrollAreaWidgetContents_2"));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 529, 369));
+        scrollArea_2->setWidget(scrollAreaWidgetContents_2);
         stackedWidget->addWidget(teacherPage);
         gamePage = new QWidget();
         gamePage->setObjectName(QStringLiteral("gamePage"));
+        gridLayoutWidget_4 = new QWidget(gamePage);
+        gridLayoutWidget_4->setObjectName(QStringLiteral("gridLayoutWidget_4"));
+        gridLayoutWidget_4->setGeometry(QRect(20, 380, 711, 191));
+        gridLayout_4 = new QGridLayout(gridLayoutWidget_4);
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setContentsMargins(11, 11, 11, 11);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+        gridLayout_4->setContentsMargins(0, 0, 0, 0);
+        q3_Button = new QPushButton(gridLayoutWidget_4);
+        q3_Button->setObjectName(QStringLiteral("q3_Button"));
+        q3_Button->setIconSize(QSize(16, 16));
+
+        gridLayout_4->addWidget(q3_Button, 1, 0, 1, 1);
+
+        q2_Button = new QPushButton(gridLayoutWidget_4);
+        q2_Button->setObjectName(QStringLiteral("q2_Button"));
+        q2_Button->setIconSize(QSize(16, 16));
+
+        gridLayout_4->addWidget(q2_Button, 0, 1, 1, 1);
+
+        q1_Button = new QPushButton(gridLayoutWidget_4);
+        q1_Button->setObjectName(QStringLiteral("q1_Button"));
+        q1_Button->setIconSize(QSize(16, 16));
+
+        gridLayout_4->addWidget(q1_Button, 0, 0, 1, 1);
+
+        q4_Button = new QPushButton(gridLayoutWidget_4);
+        q4_Button->setObjectName(QStringLiteral("q4_Button"));
+        q4_Button->setIconSize(QSize(16, 16));
+
+        gridLayout_4->addWidget(q4_Button, 1, 1, 1, 1);
+
+        questionLabel = new QLabel(gamePage);
+        questionLabel->setObjectName(QStringLiteral("questionLabel"));
+        questionLabel->setGeometry(QRect(30, 30, 681, 331));
+        questionLabel->setAlignment(Qt::AlignCenter);
         stackedWidget->addWidget(gamePage);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -207,7 +291,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -225,13 +309,13 @@ public:
         lineEdit_5->setText(QString());
         lineEdit_5->setPlaceholderText(QApplication::translate("MainWindow", "Password", 0));
         pushButton_2->setText(QApplication::translate("MainWindow", "Sign Up", 0));
-        lineEdit_2->setPlaceholderText(QApplication::translate("MainWindow", "Password", 0));
-        checkBox->setText(QApplication::translate("MainWindow", "Teacher", 0));
-        lineEdit->setPlaceholderText(QApplication::translate("MainWindow", "Username", 0));
         lineEdit_3->setPlaceholderText(QApplication::translate("MainWindow", "Confirm Password", 0));
-        label_5->setText(QApplication::translate("MainWindow", "Sign up:", 0));
+        lineEdit->setPlaceholderText(QApplication::translate("MainWindow", "Username", 0));
+        checkBox->setText(QApplication::translate("MainWindow", "Teacher", 0));
+        lineEdit_2->setPlaceholderText(QApplication::translate("MainWindow", "Password", 0));
         pushButton_3->setText(QApplication::translate("MainWindow", "Submit", 0));
         pushButton_4->setText(QApplication::translate("MainWindow", "Cancel", 0));
+        signUpLabel->setText(QApplication::translate("MainWindow", "Sign up:", 0));
         label_3->setText(QApplication::translate("MainWindow", "GAME TITLE", 0));
         toolButton->setText(QApplication::translate("MainWindow", "PLAY!", 0));
         comboBox->clear();
@@ -239,6 +323,11 @@ public:
          << QApplication::translate("MainWindow", "Select Question Set", 0)
         );
         toolButton_2->setText(QApplication::translate("MainWindow", "My Profile", 0));
+        q3_Button->setText(QApplication::translate("MainWindow", "Q3", 0));
+        q2_Button->setText(QApplication::translate("MainWindow", "Q2", 0));
+        q1_Button->setText(QApplication::translate("MainWindow", "Q1", 0));
+        q4_Button->setText(QApplication::translate("MainWindow", "Q4", 0));
+        questionLabel->setText(QApplication::translate("MainWindow", "Question Text", 0));
     } // retranslateUi
 
 };
