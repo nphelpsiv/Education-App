@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "dummyserver.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->stackedWidget->setCurrentIndex(0);
+    setupServer();
 }
 
 MainWindow::~MainWindow()
@@ -27,19 +29,29 @@ void MainWindow::on_signup_cancelButton_clicked()
 
 void MainWindow::on_signup_submitButton_clicked()
 {
-    if(ui->teacherCheckBox->isChecked())
+    if(signup(ui->login_userNameText->text().toStdString(), ui->login_passwordText->text().toStdString(), ui->teacherCheckBox->isChecked()))
     {
-        ui->stackedWidget->setCurrentIndex(3);
-    }
-    else
-    {
-        ui->stackedWidget->setCurrentIndex(2);
+        if(ui->teacherCheckBox->isChecked())
+        {
+            ui->stackedWidget->setCurrentIndex(3);
+        }
+        else
+        {
+            ui->stackedWidget->setCurrentIndex(2);
+        }
+
     }
 }
 
 void MainWindow::on_loginButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
+    if(login(ui->login_userNameText->text().toStdString(), ui->login_passwordText->text().toStdString()))
+    {
+        if(isTeacher(ui->login_userNameText->text().toStdString()))
+            ui->stackedWidget->setCurrentIndex(3);
+        else
+            ui->stackedWidget->setCurrentIndex(2);
+    }
 }
 
 void MainWindow::on_playToolButton_clicked()
