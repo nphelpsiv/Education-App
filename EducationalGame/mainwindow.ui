@@ -30,7 +30,7 @@
      <string/>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="loginPage">
      <widget class="QWidget" name="gridLayoutWidget">
@@ -198,8 +198,8 @@
      <widget class="QWidget" name="gridLayoutWidget_3">
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>300</y>
+        <x>140</x>
+        <y>310</y>
         <width>437</width>
         <height>80</height>
        </rect>
@@ -247,70 +247,13 @@
      </widget>
     </widget>
     <widget class="QWidget" name="teacherPage">
-     <widget class="QDockWidget" name="dockWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>201</width>
-        <height>401</height>
-       </rect>
-      </property>
-      <widget class="QWidget" name="dockWidgetContents_2">
-       <widget class="QScrollArea" name="scrollArea">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>181</width>
-          <height>391</height>
-         </rect>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>179</width>
-           <height>389</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
-      </widget>
-     </widget>
-     <widget class="QDockWidget" name="dockWidget_3">
-      <property name="geometry">
-       <rect>
-        <x>6</x>
-        <y>410</y>
-        <width>731</width>
-        <height>331</height>
-       </rect>
-      </property>
-      <widget class="QWidget" name="dockWidgetContents_3">
-       <widget class="QTableView" name="tableView">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>731</width>
-          <height>141</height>
-         </rect>
-        </property>
-       </widget>
-      </widget>
-     </widget>
      <widget class="QScrollArea" name="scrollArea_2">
       <property name="geometry">
        <rect>
         <x>200</x>
-        <y>30</y>
+        <y>10</y>
         <width>531</width>
-        <height>371</height>
+        <height>391</height>
        </rect>
       </property>
       <property name="widgetResizable">
@@ -322,10 +265,43 @@
          <x>0</x>
          <y>0</y>
          <width>529</width>
-         <height>369</height>
+         <height>389</height>
         </rect>
        </property>
       </widget>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>181</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>179</width>
+         <height>389</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QTableView" name="tableView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>410</y>
+        <width>721</width>
+        <height>151</height>
+       </rect>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="gamePage">
@@ -418,7 +394,7 @@
      <x>0</x>
      <y>0</y>
      <width>741</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
