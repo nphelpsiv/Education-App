@@ -30,7 +30,7 @@
      <string/>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="loginPage">
      <widget class="QWidget" name="gridLayoutWidget">
@@ -246,8 +246,170 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="teacherPage"/>
-    <widget class="QWidget" name="gamePage"/>
+    <widget class="QWidget" name="teacherPage">
+     <widget class="QDockWidget" name="dockWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>201</width>
+        <height>401</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="dockWidgetContents_2">
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>181</width>
+          <height>391</height>
+         </rect>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>179</width>
+           <height>389</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QDockWidget" name="dockWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>410</y>
+        <width>731</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <widget class="QWidget" name="dockWidgetContents_3">
+       <widget class="QTableView" name="tableView">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>731</width>
+          <height>141</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QScrollArea" name="scrollArea_2">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>30</y>
+        <width>531</width>
+        <height>371</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>529</width>
+         <height>369</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="gamePage">
+     <widget class="QWidget" name="gridLayoutWidget_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>380</y>
+        <width>711</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="q3_Button">
+         <property name="text">
+          <string>Q3</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="q2_Button">
+         <property name="text">
+          <string>Q2</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="q1_Button">
+         <property name="text">
+          <string>Q1</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="q4_Button">
+         <property name="text">
+          <string>Q4</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="questionLabel">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>30</y>
+        <width>681</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Question Text</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
