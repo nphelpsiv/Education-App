@@ -60,19 +60,5 @@ bool signup(std::string username, std::string password, bool teacher)
     return true;
 }
 
-bool isTeacher(std::string username)
-{
-    for(std::vector<user>::iterator it = users.begin(); it != users.end(); ++it)
-    {
-        if(it->username == username)
-        {
-            if(it->teacher)
-                return true;
-            else
-                return false;
-        }
-    }
-}
-
 
 #endif // DUMMYSERVER_H

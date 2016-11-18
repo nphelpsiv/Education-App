@@ -8,8 +8,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->stackedWidget->setCurrentIndex(0);
+    QString title = "Login";
+    setWindowTitle(title);
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+
     setupServer();
+    setupConnectAndActions();
 }
 
 MainWindow::~MainWindow()
@@ -17,44 +21,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setupConnectAndActions()
+{
+    connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
+}
+
 void MainWindow::on_signUpButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentWidget(ui->signUpPage);
 }
 
-void MainWindow::on_signup_cancelButton_clicked()
+void MainWindow::on_cancelButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
 }
 
-void MainWindow::on_signup_submitButton_clicked()
+void MainWindow::on_submitButton_clicked()
 {
     //signup is a method from dummyServer.h
     //COMMENT OUT THIS BLOCK IF YOU DON'T WANT DUMMY SERVER STUFF
-    /*if(signup(ui->login_userNameText->text().toStdString(), ui->login_passwordText->text().toStdString(), ui->teacherCheckBox->isChecked()))
-    {
-        if(ui->teacherCheckBox->isChecked())
-        {
-            ui->stackedWidget->setCurrentIndex(3);
-        }
-        else
-        {
-            ui->stackedWidget->setCurrentIndex(2);
-        }
-
-    }*/
-
+    /*if(signup(ui->login_userNameText->text().toStdString(), ui->login_passwordText->text().toStdString()))
+    {*/
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
+    /*}*/
     //UNCOMMENT THIS IF YOU DON'T WANT THE DUMMY SERVER STUFF
-
-    if(ui->teacherCheckBox->isChecked())
-    {
-        ui->stackedWidget->setCurrentIndex(3);
-    }
-    else
-    {
-        ui->stackedWidget->setCurrentIndex(2);
-    }
-
 }
 
 void MainWindow::on_loginButton_clicked()
@@ -72,10 +62,89 @@ void MainWindow::on_loginButton_clicked()
     }*/
 
     //UNCOMMENT THIS LINE IF YOU DON'T WANT DUMMY SERVER STUFF.
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
 void MainWindow::on_playToolButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+    ui->stackedWidget->setCurrentWidget(ui->gamePage);
 }
+
+void MainWindow::on_logOutPushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+}
+
+void MainWindow::on_statsPushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->statsPage);
+}
+
+void MainWindow::on_leaderboardPushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->leaderboardPage);
+}
+
+void MainWindow::on_stats_backToolButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
+}
+
+void MainWindow::on_leaderboard_backToolButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
+}
+
+void MainWindow::on_startScreenPushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
+}
+
+void MainWindow::on_restartPushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->gamePage);
+}
+
+void MainWindow::on_endGamePushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
+}
+
+void MainWindow::pageChanged(int pageIndex)
+{
+    QString windowTitle;
+    switch(pageIndex)
+    {
+        case 0: //loginPage
+            setWindowTitle(windowTitle = "Login");
+        break;
+
+        case 1: //signUpPage:
+            setWindowTitle(windowTitle = "Sign Up");
+        break;
+
+        case 2: //startPage
+            setWindowTitle(windowTitle = "Start Menu");
+        break;
+
+        case 3: //statsPage
+            setWindowTitle(windowTitle = "Stats");
+        break;
+
+        case 4: //leaderboardPage
+            setWindowTitle(windowTitle = "Leaderboards");
+        break;
+
+        case 5: //gamePage
+            setWindowTitle(windowTitle = "Game");
+        break;
+
+        case 6: //gameOverPage
+            setWindowTitle(windowTitle = "Game Over");
+        break;
+    }
+}
+
+
+
+

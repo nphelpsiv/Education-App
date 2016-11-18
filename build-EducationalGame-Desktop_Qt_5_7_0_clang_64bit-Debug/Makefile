@@ -207,7 +207,8 @@ DIST          = /Users/John/Qt/5.7/clang_64/mkspecs/features/spec_pre.prf \
 		/Users/John/Qt/5.7/clang_64/mkspecs/features/exceptions.prf \
 		/Users/John/Qt/5.7/clang_64/mkspecs/features/yacc.prf \
 		/Users/John/Qt/5.7/clang_64/mkspecs/features/lex.prf \
-		../EducationalGame/EducationalGame.pro ../EducationalGame/mainwindow.h ../EducationalGame/main.cpp \
+		../EducationalGame/EducationalGame.pro ../EducationalGame/mainwindow.h \
+		../EducationalGame/dummyserver.h ../EducationalGame/main.cpp \
 		../EducationalGame/mainwindow.cpp
 QMAKE_TARGET  = EducationalGame
 DESTDIR       = 
@@ -567,7 +568,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../EducationalGame/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../EducationalGame/mainwindow.h ../EducationalGame/dummyserver.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../EducationalGame/main.cpp ../EducationalGame/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../EducationalGame/mainwindow.ui $(DISTDIR)/
 
@@ -635,7 +636,8 @@ main.o: ../EducationalGame/main.cpp ../EducationalGame/mainwindow.h \
 mainwindow.o: ../EducationalGame/mainwindow.cpp ../EducationalGame/mainwindow.h \
 		/Users/John/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/John/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../EducationalGame/dummyserver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../EducationalGame/mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
