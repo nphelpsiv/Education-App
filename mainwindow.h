@@ -41,7 +41,7 @@ private slots:
     void on_restartPushButton_clicked();
 
     void on_endGamePushButton_clicked();
-
+    //This method is called everytime a page is changed.
     void pageChanged(int);
 
 private:
