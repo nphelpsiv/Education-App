@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Monish/Desktop/Classes/CS 3505/edu-app-qt_pies-1/SFML-master/include/SFML/Config.hpp
+TargetConditionals.h
+C:/Users/Monish/Desktop/Classes/CS 3505/edu-app-qt_pies-1/SFML-master/include/SFML/TargetConditionals.h
+
+C:/Users/Monish/Desktop/Classes/CS 3505/edu-app-qt_pies-1/SFML-master/src/SFML/Main/MainWin32.cpp
+SFML/Config.hpp
+-
+windows.h
+-
+
