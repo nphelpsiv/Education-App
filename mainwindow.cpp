@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupServer();
     setupConnectAndActions();
+
+
 }
 
 MainWindow::~MainWindow()
@@ -103,6 +105,7 @@ void MainWindow::on_startScreenPushButton_clicked()
 void MainWindow::on_restartPushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->gamePage);
+    startGame();
 }
 
 void MainWindow::on_endGamePushButton_clicked()
@@ -143,6 +146,80 @@ void MainWindow::pageChanged(int pageIndex)
             setWindowTitle(windowTitle = "Game Over");
         break;
     }
+}
+
+/*void MainWindow::paintEvent(QPaintEvent *event)
+{
+
+}*/
+
+void MainWindow::drawEllipse(QPainter *painter, const Ball &ball)
+{
+    float32 x = ball.body->GetPosition().x;
+    float32 y = ball.body->GetPosition().y;
+    float32 r = ball.fixture->GetShape()->m_radius;
+    painter->drawEllipse(QPointF(x, y), r, r);
+}
+
+void MainWindow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    QPen pen(Qt::red, 5);
+    painter->setPen(pen);
+    drawEllipse(painter, balls[0]);
+
+}
+
+void MainWindow::startGame()
+{
+    b2Vec2 gravity(0.0f, -10.0f);
+    world = new b2World(gravity);
+
+    worldObjects.push_back(createBall(b2Vec2(20.0f, 20.0f), 2.0f));
+
+    worldObjects.push_back(createWall(0.0f, 0.0f, 400.0f, 20.0f));
+}
+
+Object MainWindow::createBall(const b2Vec2 &pos, float32 radius)
+{
+    Object obj;
+
+    b2BodyDef bd;
+    bd.type = b2_dynamicBody;
+    bd.position = pos;
+    obj.body = world->CreateBody(&bd);
+
+    b2CircleShape shape;
+    shape.m_radius = radius;
+
+    b2FixtureDef fd;
+    fd.shape = &shape;
+    fd.density = 1.0f;
+    fd.friction = 1.0f;
+    fd.restitution = 0.6f;
+    obj.fixture = obj.body->CreateFixture(&fd);
+    obj.type = BallObject;
+    return obj;
+}
+
+Object MainWindow::createWall(float32 x, float32 y, float32 w, float32 h)
+{
+    Object obj;
+
+    b2BodyDef bd;
+    bd.type = b2_staticBody;
+    bd.position = b2Vec2(x+w/2.0f, y+h/2.0f);
+    obj.body = world->CreateBody(&bd);
+
+    b2PolygonShape shape;
+    shape.SetAsBox(w/2.0f, h/2.0f);
+
+    b2FixtureDef fd;
+    fd.shape = &shape;
+    fd.density = 0.1f;
+    fd.friction = 0.3f;
+    obj.fixture = obj.body->CreateFixture(&fd);
+    obj.type = WallObject;
+    return obj;
 }
 
 
