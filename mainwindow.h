@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ballscene.h"
 
 namespace Ui {
 class MainWindow;
@@ -48,6 +49,9 @@ private:
     Ui::MainWindow *ui;
 
     void setupConnectAndActions();
+
+    QGraphicsScene *scene;
+    BallScene *ball;
 };
 
 #endif // MAINWINDOW_H

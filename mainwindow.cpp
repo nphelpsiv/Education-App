@@ -63,6 +63,18 @@ void MainWindow::on_loginButton_clicked()
 
     //UNCOMMENT THIS LINE IF YOU DON'T WANT DUMMY SERVER STUFF.
     ui->stackedWidget->setCurrentWidget(ui->startPage);
+    scene = new QGraphicsScene(this);
+    scene->setSceneRect(QRect(-10, -10, 600, 400));
+
+    ui->gameGraphicsView->setScene(scene);
+    ui->gameGraphicsView->setGeometry(QRect(10, 10, 600, 400));
+
+    ball = new BallScene();
+    scene->addItem(ball);
+    ball->start();
+
+    ui->gameGraphicsView->show();
+
 }
 
 void MainWindow::on_playToolButton_clicked()
