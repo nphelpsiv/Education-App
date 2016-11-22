@@ -11,8 +11,35 @@ BallScene::BallScene()
     world = new b2World(gravity);
     //world = new b2World(gravity, worldAABB, true);
     //world->SetGravity();
-    balls.append(createBall(b2Vec2(0.0f, 2.0f), 1.0f));
-    balls[0].body->ApplyForce(b2Vec2(1000.0f, 1000.0f), b2Vec2(20.0f, 20.0f), false);
+    balls.append(createBall(b2Vec2(-8.0f, 6.0f), 1.0f));
+    balls[0].body->ApplyForce(b2Vec2(1000.0f, -500.0f), b2Vec2(0.0, 0.0f), false);
+
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_staticBody;
+    bodyDef.position.Set(0, -9);
+    b2Body* boxBody = world->CreateBody(&bodyDef);
+
+    b2PolygonShape boxShape;
+    boxShape.SetAsBox(20,1);
+
+    b2FixtureDef boxFixtureDef;
+    boxFixtureDef.shape = &boxShape;
+    boxFixtureDef.density = 1;
+    boxBody->CreateFixture(&boxFixtureDef);
+
+    //boxBody->CreateFixture(&boxFixtureDef);
+
+    ///tower box
+    bodyDef.position.Set(0, -5);
+    boxBody = world->CreateBody(&bodyDef);
+
+    boxShape.SetAsBox(3, 7);
+
+    boxFixtureDef.shape = &boxShape;
+    boxBody->CreateFixture(&boxFixtureDef);
+
+
+
 }
 
 BallScene::~BallScene()
@@ -36,7 +63,7 @@ Ball BallScene::createBall(const b2Vec2 &pos, float32 radius)
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
     fixtureDef.density = 1.0f;
-    fixtureDef.friction = 1.0;
+    fixtureDef.friction = 0.0f;
     fixtureDef.restitution = 0.6f;
     b.fixture = b.body->CreateFixture(&fixtureDef);
 
@@ -46,11 +73,12 @@ Ball BallScene::createBall(const b2Vec2 &pos, float32 radius)
 
 QRectF BallScene::boundingRect() const
 {
-    return QRectF(0,0,100,100);
+    return QRectF(0,0,20,20);
 }
 
 void BallScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+
     QPen pen(Qt::red, 5);
     painter->setPen(pen);
     painter->drawEllipse(10, 10, 10, 10);
@@ -88,7 +116,7 @@ void BallScene::timerEvent(QTimerEvent *event)
 
 void BallScene::timeupdated()
 {
-    QPainter *painter = new QPainter();
+    //QPainter *painter = new QPainter();
     world->Step(1.0f/60.0f, 8, 3);
     setPos(balls[0].body->GetPosition().x * 30, -balls[0].body->GetPosition().y * 30);
     update();

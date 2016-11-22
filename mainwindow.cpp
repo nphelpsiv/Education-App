@@ -82,7 +82,13 @@ void MainWindow::on_playToolButton_clicked()
     scene->addItem(ball);
     ball->start();
 
+    tower = new Tower();
+    tower->setPos(-95, -68);
+    scene->addItem(tower);
+
+
     ui->gameGraphicsView->show();
+
 }
 
 void MainWindow::on_logOutPushButton_clicked()

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ballscene.h"
+#include "tower.h"
 
 namespace Ui {
 class MainWindow;
@@ -52,6 +53,7 @@ private:
 
     QGraphicsScene *scene;
     BallScene *ball;
+    Tower *tower;
 };
 
 #endif // MAINWINDOW_H
