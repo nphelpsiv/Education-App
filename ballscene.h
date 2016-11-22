@@ -46,6 +46,7 @@ private:
     int time;
     QTimer *timer;
     QPainter *painterObj;
+    b2AABB worldAABB;
 
 };
 
