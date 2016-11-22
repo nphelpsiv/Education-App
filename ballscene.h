@@ -6,6 +6,8 @@
 #include <Box2D/Box2D.h>
 #include <QTimerEvent>
 #include <QTimer>
+#include <QObject>
+#include <QStyleOptionGraphicsItem>
 
 struct Ball
 {
@@ -15,6 +17,7 @@ struct Ball
 
 class BallScene : public QObject, public QGraphicsItem
 {
+    Q_OBJECT
 public:
     BallScene();
     ~BallScene();
@@ -37,13 +40,12 @@ protected:
 public slots:
     void timeupdated();
 
-    void timeDidStuff();
-
 private:
     b2World *world;
     QVector<Ball> balls;
     int time;
     QTimer *timer;
+    QPainter *painterObj;
 
 };
 

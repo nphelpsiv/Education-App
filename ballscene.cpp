@@ -7,7 +7,7 @@ BallScene::BallScene()
     time = 0;
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
-    balls.append(createBall(b2Vec2(18.0f, 62.0f), 1.0f));
+    balls.append(createBall(b2Vec2(18.0f, 10.0f), 1.0f));
 }
 
 BallScene::~BallScene()
@@ -22,6 +22,7 @@ Ball BallScene::createBall(const b2Vec2 &pos, float32 radius)
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position = pos;
+    bodyDef.awake = true;
     b.body = world->CreateBody(&bodyDef);
 
     b2CircleShape shape;
@@ -56,7 +57,7 @@ void BallScene::drawEllipse(QPainter *painter, const Ball &ball)
     float32 x = ball.body->GetPosition().x;
     float32 y = ball.body->GetPosition().y;
     float32 r = ball.fixture->GetShape()->m_radius;
-    painter->drawEllipse(QPointF(x, y), r, r);
+    painter->drawEllipse(QPointF(x, -y), r, r);
 }
 
 void BallScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -68,8 +69,9 @@ void BallScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void BallScene::start()
 {
         timer = new QTimer(this);
+        timer->start(1000/60);
         //QTimer::singleShot(100, this, SLOT(BallScene::timeDidStuff()));
-        QObject::connect(timer, SIGNAL(timeout()), this, SLOT(BallScene::timeDidStuff()));
+        QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));
 }
 
 void BallScene::timerEvent(QTimerEvent *event)
@@ -79,14 +81,12 @@ void BallScene::timerEvent(QTimerEvent *event)
     update();
 }
 
-void BallScene::timeDidStuff()
-{
-
-    std::cout << "DID STUFF" << std::endl;
-}
-
 void BallScene::timeupdated()
 {
+    QPainter *painter = new QPainter();
+    std::cout << "TimeUpdated Called" << std::endl;
     world->Step(1.0f/60.0f, 8, 3);
+    this->drawEllipse(painter, balls[0]);
+    std::cout << "Ball X: " << balls[0].body->GetPosition().x  << "Ball Y: " << balls[0].body->GetPosition().y << std::endl;
     update();
 }
