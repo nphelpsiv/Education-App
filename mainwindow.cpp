@@ -70,25 +70,6 @@ void MainWindow::on_loginButton_clicked()
 void MainWindow::on_playToolButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->gamePage);
-
-    scene = new QGraphicsScene(this);
-    scene->setSceneRect(QRect(0, 0, ui->gameWidget->x(), ui->gameWidget->y()));
-
-    ui->gameGraphicsView->setScene(scene);
-    ui->gameGraphicsView->setGeometry(QRect(0, 0, 600, 400));
-
-    ball = new BallScene();
-    ball->setPos(0, 0);
-    scene->addItem(ball);
-    ball->start();
-
-    tower = new Tower();
-    tower->setPos(-95, -68);
-    scene->addItem(tower);
-
-
-    ui->gameGraphicsView->show();
-
 }
 
 void MainWindow::on_logOutPushButton_clicked()
@@ -157,9 +138,27 @@ void MainWindow::pageChanged(int pageIndex)
         break;
 
         case 5: //gamePage
-            setWindowTitle(windowTitle = "Game");
-        break;
+        {
+                setWindowTitle(windowTitle = "Game");
+                scene = new QGraphicsScene(this);
+                scene->setSceneRect(QRect(0, 0, ui->gameWidget->x(), ui->gameWidget->y()));
 
+                ui->gameGraphicsView->setScene(scene);
+                ui->gameGraphicsView->setGeometry(QRect(0, 0, 600, 400));
+
+                ball = new BallScene();
+                ball->setPos(0, 0);
+                scene->addItem(ball);
+                ball->start();
+
+                tower = new Tower();
+                tower->setPos(-95, -68);
+                scene->addItem(tower);
+
+
+                ui->gameGraphicsView->show();
+                break;
+        }
         case 6: //gameOverPage
             setWindowTitle(windowTitle = "Game Over");
         break;
