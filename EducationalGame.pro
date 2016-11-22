@@ -41,8 +41,8 @@ else:macx: PRE_TARGETDEPS += $$PWD/Box2D-master/osx/libBox2D.a
 else:unix: PRE_TARGETDEPS += $$PWD/Box2D-master/Box2D/Build/libBox2D.a
 
 win32:INCLUDEPATH += $$PWD/SFML-2.4.1/include
-else:unix:INCLUDEPATH += $$PWD/SFML-2.4.1-Linux/include
 else:macx:INCLUDEPATH += $$PWD/SFML-2.4.1-osx/include
+else:unix:INCLUDEPATH += $$PWD/SFML-2.4.1-Linux/include
 win32:DEPENDPATH += $$PWD/SFML-2.4.1/include
 else:macx:INCLUDEPATH += $$/PWD/SFML-2.4.1-osx/include
 else:unix:INCLUDEPATH += $$/PWD/SFML-2.4.1-Linux/include
