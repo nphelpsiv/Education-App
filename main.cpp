@@ -3,6 +3,7 @@
 
 #include "Box2D/Box2D.h"
 
+//SFML Stuff
 #include <SFML/System.hpp>
 #include <SFML/Main.hpp>
 #include <SFML/Graphics.hpp>
