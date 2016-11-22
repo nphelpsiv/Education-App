@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     ballscene.cpp \
-    ball.cpp
+    ball.cpp \
+    tower.cpp
 
 HEADERS  += mainwindow.h \
     dummyserver.h \
     ballscene.h \
-    ball.h
+    ball.h \
+    tower.h
 
 FORMS    += mainwindow.ui
 
