@@ -22,7 +22,7 @@ public:
     BallScene();
     ~BallScene();
 
-    QRectF boundingRect() const;
+    QRectF boundingRect() const Q_DECL_OVERRIDE;
 
     Ball createBall(const b2Vec2& pos, float32 radius);
 
@@ -35,7 +35,7 @@ public:
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void timeupdated();
