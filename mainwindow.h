@@ -51,6 +51,8 @@ private:
 
     void setupConnectAndActions();
 
+    void resizeEvent(QResizeEvent*);
+
     QGraphicsScene *scene;
     BallScene *ball;
     Tower *tower;

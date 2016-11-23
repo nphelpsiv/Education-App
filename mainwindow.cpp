@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dummyserver.h"
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -12,8 +13,12 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(title);
     ui->stackedWidget->setCurrentWidget(ui->loginPage);
 
+    scene = new QGraphicsScene(this);
+    scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
+
     setupServer();
     setupConnectAndActions();
+
 }
 
 MainWindow::~MainWindow()
@@ -142,10 +147,8 @@ void MainWindow::pageChanged(int pageIndex)
                 setWindowTitle(windowTitle = "Game");
 
                 scene = new QGraphicsScene(this);
-                scene->setSceneRect(QRect(0, 0, ui->gameWidget->x(), ui->gameWidget->y()));
-
+                scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
                 ui->gameGraphicsView->setScene(scene);
-                ui->gameGraphicsView->setGeometry(QRect(0, 0, 600, 400));
 
                 ball = new BallScene();
                 ball->setPos(0, 0);
@@ -156,6 +159,7 @@ void MainWindow::pageChanged(int pageIndex)
                 tower->setPos(-95, -68);
                 scene->addItem(tower);
 
+                ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
                 ui->gameGraphicsView->show();
                 break;
         }
@@ -165,6 +169,8 @@ void MainWindow::pageChanged(int pageIndex)
     }
 }
 
-
-
-
+void MainWindow::resizeEvent(QResizeEvent*)
+{
+    ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+    std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
+}

@@ -37,9 +37,6 @@ BallScene::BallScene()
 
     boxFixtureDef.shape = &boxShape;
     boxBody->CreateFixture(&boxFixtureDef);
-
-
-
 }
 
 BallScene::~BallScene()

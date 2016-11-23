@@ -6,7 +6,6 @@ Tower::Tower()
     QPen pen(Qt::red, 5);
     painter->setPen(pen);
     painter->drawRect(0, 0, 90, 60);
-
 }
 
 void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
