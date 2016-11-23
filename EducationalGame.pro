@@ -65,3 +65,12 @@ win32-g++:CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -
 else:win32-g++:CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 else:macx:LIBS += -lsfml-audio -lsfml-graphics -lsfml-system -lsfml-network -lsfml-window
 else:unix: LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
+
+#-------------------------------------------------
+# MySQL
+#-------------------------------------------------
+
+win32:LIBS += -L$$PWD/../mysql-5.7.16-winx64/lib
+
+win32:DEPENDPATH += $$PWD/../mysql-5.7.16-winx64
+win32:INCLUDEPATH += $$PWD/../mysql-5.7.16-winx64/include
