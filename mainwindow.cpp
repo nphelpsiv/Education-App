@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
+#include <QtConcurrent/QtConcurrent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,53 +57,9 @@ void MainWindow::on_submitButton_clicked()
 
 void MainWindow::on_loginButton_clicked()
 {
-    //login is dummyServer.h method
-    //COMMENT OUT THIS BLOCK IF YOU WANT TO USE DUMMY SERVER STUFF.
-    //use username = "justin" and password = "bush" for student login
-    //use username = "john" and password = "young" for teacher login
-    /*if(login(ui->login_userNameText->text().toStdString(), ui->login_passwordText->text().toStdString()))
-    {
-        if(isTeacher(ui->login_userNameText->text().toStdString()))
-            ui->stackedWidget->setCurrentIndex(3);
-        else
-            ui->stackedWidget->setCurrentIndex(2);
-    }*/
-
-    sf::TcpSocket socket;
-    sf::Socket::Status status = socket.connect("127.0.0.1", 5001);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Couldn't connect" << std::endl;
-    }
-
-    QString user = ui->login_userNameText->text();
-    QString pass = ui->login_passwordText->text();
-    std::string s = "[" + user.toStdString() + ", " + pass.toStdString() + "]";
-
-    sf::Packet sendPacket;
-    sendPacket << s.c_str();
-    status = socket.send(sendPacket);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Couldn't send message to server" << std::endl;
-    }
-
-    sf::Packet recPacket;
-    status = socket.receive(recPacket);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Didn't receive anything from server" << std::endl;
-    }
-    else
-    {
-        std::string s;
-        recPacket >> s;
-        std::cout << s << std::endl;
-    }
-    //UNCOMMENT THIS LINE IF YOU DON'T WANT DUMMY SERVER STUFF.
-    ui->stackedWidget->setCurrentWidget(ui->startPage);
-
-
+    //Start loginToServer() method on a new thread using a singleShot from QTimer
+    //This keeps GUI responsive.
+    QTimer::singleShot(0, this, SLOT(loginToServer()));
 }
 
 void MainWindow::on_playToolButton_clicked()
@@ -206,4 +163,42 @@ void MainWindow::resizeEvent(QResizeEvent*)
 {
     ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
+}
+
+void MainWindow::loginToServer()
+{
+    sf::TcpSocket socket;
+    sf::Socket::Status status = socket.connect("127.0.0.1", 5001);
+    if(status != sf::Socket::Done)
+    {
+        std::cout << "Couldn't connect" << std::endl;
+    }
+
+    QString user = ui->login_userNameText->text();
+    QString pass = ui->login_passwordText->text();
+    std::string s = "[" + user.toStdString() + ", " + pass.toStdString() + "]";
+
+    sf::Packet sendPacket;
+    sendPacket << s.c_str();
+    status = socket.send(sendPacket);
+    if(status != sf::Socket::Done)
+    {
+        std::cout << "Couldn't send message to server" << std::endl;
+    }
+
+    sf::Packet recPacket;
+    status = socket.receive(recPacket);
+    if(status != sf::Socket::Done)
+    {
+        std::cout << "Didn't receive anything from server" << std::endl;
+    }
+    else
+    {
+        std::string s;
+        recPacket >> s;
+        std::cout << s << std::endl;
+        ui->stackedWidget->setCurrentWidget(ui->startPage);
+    }
+    //UNCOMMENT THIS LINE IF YOU DON'T WANT DUMMY SERVER STUFF.
+    //ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
