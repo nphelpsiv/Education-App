@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "dummyserver.h"
 #include <iostream>
+#include <SFML/Network.hpp>
+#include <SFML/System.hpp>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -66,6 +68,37 @@ void MainWindow::on_loginButton_clicked()
             ui->stackedWidget->setCurrentIndex(2);
     }*/
 
+    sf::TcpSocket socket;
+    sf::Socket::Status status = socket.connect("127.0.0.1", 5001);
+    if(status != sf::Socket::Done)
+    {
+        std::cout << "Couldn't connect" << std::endl;
+    }
+
+    QString user = ui->login_userNameText->text();
+    QString pass = ui->login_passwordText->text();
+    std::string s = "[" + user.toStdString() + ", " + pass.toStdString() + "]";
+
+    sf::Packet sendPacket;
+    sendPacket << s.c_str();
+    status = socket.send(sendPacket);
+    if(status != sf::Socket::Done)
+    {
+        std::cout << "Couldn't send message to server" << std::endl;
+    }
+
+    sf::Packet recPacket;
+    status = socket.receive(recPacket);
+    if(status != sf::Socket::Done)
+    {
+        std::cout << "Didn't receive anything from server" << std::endl;
+    }
+    else
+    {
+        std::string s;
+        recPacket >> s;
+        std::cout << s << std::endl;
+    }
     //UNCOMMENT THIS LINE IF YOU DON'T WANT DUMMY SERVER STUFF.
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 
