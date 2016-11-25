@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     tower.cpp
 
 HEADERS  += mainwindow.h \
-    dummyserver.h \
     ballscene.h \
     ball.h \
     tower.h
