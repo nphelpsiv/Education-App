@@ -165,8 +165,10 @@ void MainWindow::resizeEvent(QResizeEvent*)
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
 }
 
+//This method attempts to login to the server.
 void MainWindow::loginToServer()
 {
+    //establish connection on the socket.
     sf::TcpSocket socket;
     sf::Socket::Status status = socket.connect("127.0.0.1", 5001);
     if(status != sf::Socket::Done)
@@ -174,10 +176,13 @@ void MainWindow::loginToServer()
         std::cout << "Couldn't connect" << std::endl;
     }
 
+    //Build string to send.
     QString user = ui->login_userNameText->text();
     QString pass = ui->login_passwordText->text();
     std::string s = "[" + user.toStdString() + ", " + pass.toStdString() + "]";
 
+    //Use Packets to send to the server.
+    //That way we don't have to worry about collecting a full packet.
     sf::Packet sendPacket;
     sendPacket << s.c_str();
     status = socket.send(sendPacket);
@@ -186,6 +191,7 @@ void MainWindow::loginToServer()
         std::cout << "Couldn't send message to server" << std::endl;
     }
 
+    //Receive a packet.
     sf::Packet recPacket;
     status = socket.receive(recPacket);
     if(status != sf::Socket::Done)
@@ -194,11 +200,10 @@ void MainWindow::loginToServer()
     }
     else
     {
+        //This means that the connection was successfull and we received data back from server.
         std::string s;
         recPacket >> s;
         std::cout << s << std::endl;
         ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
-    //UNCOMMENT THIS LINE IF YOU DON'T WANT DUMMY SERVER STUFF.
-    //ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
