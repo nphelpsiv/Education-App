@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "dummyserver.h"
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
@@ -19,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     scene = new QGraphicsScene(this);
     scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
 
-    setupServer();
+
     setupConnectAndActions();
 
 }
