@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     tower.cpp
 
 HEADERS  += mainwindow.h \
-    dummyserver.h \
     ballscene.h \
     ball.h \
     tower.h
@@ -51,21 +50,20 @@ else:unix: PRE_TARGETDEPS += $$PWD/Box2D-master/Box2D/Build/libBox2D.a
 #-------------------------------------------------
 win32:INCLUDEPATH += $$PWD/SFML-2.4.1/include
 else:macx:INCLUDEPATH += "/usr/local/include"
-else:unix:INCLUDEPATH += $$PWD/SFML-2.4.1-Linux/include
+else:unix:INCLUDEPATH += "/usr/include"
 
 win32:DEPENDPATH += $$PWD/SFML-2.4.1
 else:macx:DEPENDPATH += "/usr/local/include"
-else:unix:DEPENDPATH += $$PWD/SFML-2.4.1-Linux
+else:unix:DEPENDPATH += "/usr/include"
 
 win32:LIBS += -L$$PWD/SFML-2.4.1/lib
 else:macx:LIBS += -L"/usr/local/lib"
-else:unix:LIBS += -L$$PWD/SFML-2.4.1-Linux/lib
+else:unix:LIBS += -L"/usr/lib/x86_64-linux-gnu"
 
 win32-g++:CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-main -lsfml-network -lsfml-window -lsfml-system
 else:win32-g++:CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 else:macx:LIBS += -lsfml-audio -lsfml-graphics -lsfml-system -lsfml-network -lsfml-window
 else:unix: LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
-
 #-------------------------------------------------
 # MySQL
 #-------------------------------------------------
@@ -74,3 +72,5 @@ win32:LIBS += -L$$PWD/../mysql-5.7.16-winx64/lib
 
 win32:DEPENDPATH += $$PWD/../mysql-5.7.16-winx64
 win32:INCLUDEPATH += $$PWD/../mysql-5.7.16-winx64/include
+
+

@@ -46,12 +46,16 @@ private slots:
     //This method is called everytime a page is changed.
     void pageChanged(int);
 
+    void loginToServer();
+
 private:
     Ui::MainWindow *ui;
 
     void setupConnectAndActions();
 
     void resizeEvent(QResizeEvent*);
+
+
 
     QGraphicsScene *scene;
     BallScene *ball;
