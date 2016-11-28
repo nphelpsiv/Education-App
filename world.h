@@ -9,6 +9,8 @@
 #include <QObject>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
+#include <QDebug>
+#include <iostream>
 #include "tower.h"
 #include "ball.h"
 

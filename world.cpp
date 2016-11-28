@@ -1,5 +1,3 @@
-#include <QDebug>
-#include <iostream>
 #include "world.h"
 
 World::World(QGraphicsScene* scene)
@@ -8,10 +6,10 @@ World::World(QGraphicsScene* scene)
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
     tower = new Tower(0, 0, 100, 200, world);
-    ball = new Ball(0, 6, 1, world);
+    //ball = new Ball(0, 6, 1, world);
 
     scene->addItem(tower);
-    scene->addItem(ball);
+    //scene->addItem(ball);
 
     createGroundBox2D();
 

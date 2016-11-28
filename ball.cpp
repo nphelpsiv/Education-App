@@ -10,7 +10,10 @@ Ball::Ball(int x, int y, int r, b2World* worldb2)
     createBallBox2D();
 }
 
+Ball::~Ball()
+{
 
+}
 
 QRectF Ball::boundingRect() const
 {
@@ -61,7 +64,7 @@ void Ball::createBallBox2D()
 
 void Ball::move()
 {
-    //setPos(body->GetPosition().x, -body->GetPosition().y);
+    setPos(body->GetPosition().x, -body->GetPosition().y);
 }
 
 

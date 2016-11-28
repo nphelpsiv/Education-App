@@ -11,6 +11,7 @@ class Tower : public QObject, public QGraphicsItem
     Q_OBJECT
 public:
     Tower(int x, int y, int w, int h, b2World* worldb2);
+
     ~Tower();
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
