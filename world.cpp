@@ -4,54 +4,29 @@
 
 World::World(QGraphicsScene* scene)
 {
-    worldAABB.lowerBound.Set(-400, -400);
-    worldAABB.upperBound.Set(400, 400);
     time = 0;
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
-
     tower = new Tower(0,0,100,200, world);
+    ball = new Ball(0, 6, 1, world);
+
     scene->addItem(tower);
+    scene->addItem(ball);
 
-    balls.append(createBall(b2Vec2(-8.0f, 6.0f), 1.0f));
-    balls[0].body->ApplyForce(b2Vec2(1000.0f, -500.0f), b2Vec2(0.0, 0.0f), false);
+    createGroundBox2D();
 
-    createGround();
 }
 
 World::~World()
 {
     delete world;
     delete tower;
-}
-
-Ball World::createBall(const b2Vec2 &pos, float32 radius)
-{
-    Ball b;
-
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position = pos;
-    bodyDef.awake = true;
-    b.body = world->CreateBody(&bodyDef);
-
-    b2CircleShape shape;
-    shape.m_radius = radius;
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &shape;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = 0.6f;
-    b.fixture = b.body->CreateFixture(&fixtureDef);
-
-    return b;
-
+    delete ball;
 }
 
 QRectF World::boundingRect() const
 {
-    return QRectF(0,0,20,20);
+    return QRectF(0,0,200,1);
 }
 
 void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -62,14 +37,11 @@ void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     painter->drawEllipse(10, 10, 10, 10);
 }
 
-void World::drawEllipse(QPainter *painter, const Ball &ball)
+void World::start()
 {
-    float32 x = ball.body->GetPosition().x;
-    float32 graphX = x * 2;
-    float32 y = ball.body->GetPosition().y;
-    float graphY = y * 2;
-    float32 r = ball.fixture->GetShape()->m_radius;
-    painter->drawEllipse(QPointF(graphX, -graphY), r, r);
+    timer = new QTimer(this);
+    timer->start(1000/60);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));
 }
 
 void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -78,29 +50,15 @@ void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mousePressEvent(event);
 }
 
-void World::start()
-{
-        timer = new QTimer(this);
-        timer->start(1000/60);
-        QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));
-}
-
-void World::timerEvent(QTimerEvent *event)
-{
-    qDebug() << "Timer ID:" << event->timerId();
-    world->Step(1.0f/60.0f, 8, 3);
-    update();
-}
-
 void World::timeupdated()
 {
-    //QPainter *painter = new QPainter();
     world->Step(1.0f/60.0f, 8, 3);
-    setPos(balls[0].body->GetPosition().x * 30, -balls[0].body->GetPosition().y * 30);
+    ball->move();
     update();
 }
 
-void World::createGround()
+
+void World::createGroundBox2D()
 {
     //Ground position
     b2BodyDef groundBodyDef;

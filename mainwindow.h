@@ -55,8 +55,6 @@ private:
 
     void resizeEvent(QResizeEvent*);
 
-
-
     QGraphicsScene *scene;
     World *world;
 };

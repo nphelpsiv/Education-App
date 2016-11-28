@@ -10,7 +10,7 @@ class Tower : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    Tower(int x, int y, int w, int h, b2World* world);
+    Tower(int x, int y, int w, int h, b2World* worldb2);
     ~Tower();
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
@@ -27,6 +27,9 @@ private:
     int yPos;
     int width;
     int height;
+    b2World* world;
+
+    void createTowerBox2D();
 };
 
 #endif // TOWER_H
