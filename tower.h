@@ -5,11 +5,13 @@
 #include <QGraphicsItem>
 #include <Box2D/Box2D.h>
 
+
 class Tower : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    Tower();
+    Tower(int x, int y, int w, int h, b2World* world);
+    ~Tower();
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
@@ -19,6 +21,12 @@ public:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+
+private:
+    int xPos;
+    int yPos;
+    int width;
+    int height;
 };
 
 #endif // TOWER_H

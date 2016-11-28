@@ -1,5 +1,5 @@
-#ifndef BALLSCENE_H
-#define BALLSCENE_H
+#ifndef WORLD_H
+#define WORLD_H
 
 #include <QPainter>
 #include <QGraphicsItem>
@@ -8,6 +8,8 @@
 #include <QTimer>
 #include <QObject>
 #include <QStyleOptionGraphicsItem>
+#include <QGraphicsScene>
+#include "tower.h"
 
 struct Ball
 {
@@ -15,12 +17,12 @@ struct Ball
     b2Fixture *fixture;
 };
 
-class BallScene : public QObject, public QGraphicsItem
+class World : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    BallScene();
-    ~BallScene();
+    World(QGraphicsScene* scene);
+    ~World();
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
@@ -41,14 +43,18 @@ public slots:
     void timeupdated();
 
 private:
+
+    void createGround();
+
     b2World *world;
     QVector<Ball> balls;
     int time;
     QTimer *timer;
     QPainter *painterObj;
     b2AABB worldAABB;
+    Tower *tower;
 
 };
 
 
-#endif // BALLSCENE_H
+#endif // WORLD_H

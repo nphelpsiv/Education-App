@@ -1,50 +1,31 @@
-#include "ballscene.h"
 #include <QDebug>
 #include <iostream>
+#include "world.h"
 
-BallScene::BallScene()
+World::World(QGraphicsScene* scene)
 {
     worldAABB.lowerBound.Set(-400, -400);
     worldAABB.upperBound.Set(400, 400);
     time = 0;
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
-    //world = new b2World(gravity, worldAABB, true);
-    //world->SetGravity();
+
+    tower = new Tower(0,0,100,200, world);
+    scene->addItem(tower);
+
     balls.append(createBall(b2Vec2(-8.0f, 6.0f), 1.0f));
     balls[0].body->ApplyForce(b2Vec2(1000.0f, -500.0f), b2Vec2(0.0, 0.0f), false);
 
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_staticBody;
-    bodyDef.position.Set(0, -9);
-    b2Body* boxBody = world->CreateBody(&bodyDef);
-
-    b2PolygonShape boxShape;
-    boxShape.SetAsBox(20,1);
-
-    b2FixtureDef boxFixtureDef;
-    boxFixtureDef.shape = &boxShape;
-    boxFixtureDef.density = 1;
-    boxBody->CreateFixture(&boxFixtureDef);
-
-    //boxBody->CreateFixture(&boxFixtureDef);
-
-    ///tower box
-    bodyDef.position.Set(0, -5);
-    boxBody = world->CreateBody(&bodyDef);
-
-    boxShape.SetAsBox(3, 7);
-
-    boxFixtureDef.shape = &boxShape;
-    boxBody->CreateFixture(&boxFixtureDef);
+    createGround();
 }
 
-BallScene::~BallScene()
+World::~World()
 {
     delete world;
+    delete tower;
 }
 
-Ball BallScene::createBall(const b2Vec2 &pos, float32 radius)
+Ball World::createBall(const b2Vec2 &pos, float32 radius)
 {
     Ball b;
 
@@ -68,12 +49,12 @@ Ball BallScene::createBall(const b2Vec2 &pos, float32 radius)
 
 }
 
-QRectF BallScene::boundingRect() const
+QRectF World::boundingRect() const
 {
     return QRectF(0,0,20,20);
 }
 
-void BallScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
     QPen pen(Qt::red, 5);
@@ -81,7 +62,7 @@ void BallScene::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawEllipse(10, 10, 10, 10);
 }
 
-void BallScene::drawEllipse(QPainter *painter, const Ball &ball)
+void World::drawEllipse(QPainter *painter, const Ball &ball)
 {
     float32 x = ball.body->GetPosition().x;
     float32 graphX = x * 2;
@@ -91,30 +72,49 @@ void BallScene::drawEllipse(QPainter *painter, const Ball &ball)
     painter->drawEllipse(QPointF(graphX, -graphY), r, r);
 }
 
-void BallScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     update();
     QGraphicsItem::mousePressEvent(event);
 }
 
-void BallScene::start()
+void World::start()
 {
         timer = new QTimer(this);
         timer->start(1000/60);
         QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));
 }
 
-void BallScene::timerEvent(QTimerEvent *event)
+void World::timerEvent(QTimerEvent *event)
 {
     qDebug() << "Timer ID:" << event->timerId();
     world->Step(1.0f/60.0f, 8, 3);
     update();
 }
 
-void BallScene::timeupdated()
+void World::timeupdated()
 {
     //QPainter *painter = new QPainter();
     world->Step(1.0f/60.0f, 8, 3);
     setPos(balls[0].body->GetPosition().x * 30, -balls[0].body->GetPosition().y * 30);
     update();
+}
+
+void World::createGround()
+{
+    //Ground position
+    b2BodyDef groundBodyDef;
+    groundBodyDef.type = b2_staticBody;
+    groundBodyDef.position.Set(0, -9);
+    b2Body* groundBody = world->CreateBody(&groundBodyDef);
+
+    //Ground Shape
+    b2PolygonShape groundShape;
+    groundShape.SetAsBox(200,1);
+
+    //Ground Fixture
+    b2FixtureDef groundFixtureDef;
+    groundFixtureDef.shape = &groundShape;
+    groundFixtureDef.density = 1;
+    groundBody->CreateFixture(&groundFixtureDef);
 }
