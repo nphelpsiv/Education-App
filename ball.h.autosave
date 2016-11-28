@@ -12,6 +12,7 @@ class Ball : public QObject, public QGraphicsEllipseItem
 public:
     Ball(int x, int y, int r, b2World* worldb2);
 
+    ~Ball();
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 

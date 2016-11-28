@@ -7,7 +7,7 @@ World::World(QGraphicsScene* scene)
     time = 0;
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
-    tower = new Tower(0,0,100,200, world);
+    tower = new Tower(0, 0, 100, 200, world);
     ball = new Ball(0, 6, 1, world);
 
     scene->addItem(tower);
