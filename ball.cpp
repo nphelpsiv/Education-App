@@ -1,5 +1,9 @@
 #include "ball.h"
 
+/*!
+ * Create a new ball
+ * with (xPosition, yPostion, radius, worldReference)
+*/
 Ball::Ball(int x, int y, int r, b2World* worldb2)
 {
     xPos = x;
@@ -22,7 +26,7 @@ QRectF Ball::boundingRect() const
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QPen pen(Qt::blue, 5);
+    QPen pen(Qt::blue);
     painter->setPen(pen);
     painter->drawEllipse(xPos, yPos, rad, rad);
 }

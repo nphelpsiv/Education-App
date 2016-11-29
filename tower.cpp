@@ -41,12 +41,12 @@ void Tower::createTowerBox2D()
     //Tower Position
     b2BodyDef towerBodyDef;
     towerBodyDef.type = b2_staticBody;
-    towerBodyDef.position.Set(0, -5);
+    towerBodyDef.position.Set(xPos, yPos);
     b2Body* towerBody = world->CreateBody(&towerBodyDef);
 
     //Tower Shape
     b2PolygonShape towerShape;
-    towerShape.SetAsBox(3, 7);
+    towerShape.SetAsBox(width, height);
 
     //Tower Fixture
     b2FixtureDef towerFixtureDef;

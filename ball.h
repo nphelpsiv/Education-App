@@ -10,6 +10,10 @@ class Ball : public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
 public:
+    /*!
+     * Create a new ball
+     * with (xPosition, yPostion, radius, worldReference)
+    */
     Ball(int x, int y, int r, b2World* worldb2);
 
     ~Ball();

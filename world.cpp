@@ -5,11 +5,11 @@ World::World(QGraphicsScene* scene)
     time = 0;
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
-    tower = new Tower(0, 0, 100, 200, world);
-    //ball = new Ball(0, 6, 1, world);
+    tower = new Tower(0, -10, 80, 100, world);
+    ball = new Ball(0, 10, 5, world);
 
     scene->addItem(tower);
-    //scene->addItem(ball);
+    scene->addItem(ball);
 
     createGroundBox2D();
 
@@ -32,7 +32,8 @@ void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
     QPen pen(Qt::red, 5);
     painter->setPen(pen);
-    painter->drawEllipse(10, 10, 10, 10);
+//    painter->drawEllipse(ball->pos().x(), ball->pos().y(), 10, 10);
+    //painter->drawEllipse(ball->pos().x(), ball->pos().y(), 10, 10);
 }
 
 void World::start()
@@ -61,7 +62,7 @@ void World::createGroundBox2D()
     //Ground position
     b2BodyDef groundBodyDef;
     groundBodyDef.type = b2_staticBody;
-    groundBodyDef.position.Set(0, -9);
+    groundBodyDef.position.Set(0, -100);
     b2Body* groundBody = world->CreateBody(&groundBodyDef);
 
     //Ground Shape
