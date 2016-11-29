@@ -6,9 +6,9 @@ World::World(QGraphicsScene* scene)
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
     tower = new Tower(0, 0, 80, 100, world);
-    ball = new Ball(20, 20, 10, world);
+    //ball = new Ball(20, 20, 10, world);
     scene->addItem(tower);
-    scene->addItem(ball);
+    //scene->addItem(ball);
 
     createGroundBox2D();
 
@@ -23,7 +23,7 @@ World::~World()
 
 QRectF World::boundingRect() const
 {
-    return QRectF(0,0,500,500);
+    return QRectF(0,0,3000,3000);
 }
 
 void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -31,6 +31,7 @@ void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
     QPen pen(Qt::red, 5);
     painter->setPen(pen);
+    painter->drawLine(-100, -groundBodyDef.position.y, 100, -groundBodyDef.position.y);
 //    painter->drawEllipse(ball->pos().x(), ball->pos().y(), 10, 10);
     //painter->drawEllipse(ball->pos().x(), ball->pos().y(), 10, 10);
 }
@@ -44,7 +45,7 @@ void World::start()
 
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
-    spawnTimer->start(1000);
+    spawnTimer->start(5000);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
 
@@ -58,8 +59,8 @@ void World::ballSpawnCall()
         randBallSpawn = -randBallSpawn;
     }
     std::cout << "new ball position " << randBallSpawn << std::endl;
-    ball = new Ball(randBallSpawn, 50, 10, world);
-    scene()->addItem(ball);
+    balls.push_back(new Ball(randBallSpawn, 20, 10, world));
+    scene()->addItem(balls[balls.size() - 1]);
 
     update();
 }
@@ -73,7 +74,10 @@ void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void World::timeupdated()
 {
     world->Step(1.0f/60.0f, 8, 3);
-    ball->move();
+    for(int i = 0; i<balls.size(); i++)
+    {
+        balls[i]->move();
+    }
     update();
 }
 
@@ -81,13 +85,11 @@ void World::timeupdated()
 void World::createGroundBox2D()
 {
     //Ground position
-    b2BodyDef groundBodyDef;
     groundBodyDef.type = b2_staticBody;
     groundBodyDef.position.Set(0, -100);
     b2Body* groundBody = world->CreateBody(&groundBodyDef);
 
     //Ground Shape
-    b2PolygonShape groundShape;
     groundShape.SetAsBox(200,1);
 
     //Ground Fixture

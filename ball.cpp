@@ -21,7 +21,7 @@ Ball::~Ball()
 
 QRectF Ball::boundingRect() const
 {
-     return QRectF(0,0,500,500);
+     return QRectF(xPos,yPos,rad,rad);
 }
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -62,13 +62,16 @@ void Ball::createBallBox2D()
     ballFixtureDef.restitution = 0.6f;
     body->CreateFixture(&ballFixtureDef);
 
+    //std::cout << "Will Apply Force" << std::endl;
     //Apply a force
     body->ApplyForce(b2Vec2(1000.0f, -500.0f), b2Vec2(0.0, 0.0f), false);
 }
 
 void Ball::move()
 {
-    setPos(body->GetPosition().x, body->GetPosition().y);
+    std::cout << "X position " << body->GetPosition().x << std::endl;
+    std::cout << "Y position " << body->GetPosition().y << std::endl;
+    setPos(body->GetPosition().x, -body->GetPosition().y);
 }
 
 

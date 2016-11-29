@@ -50,6 +50,9 @@ private:
     QPainter *painterObj;
     Tower *tower;
     Ball *ball;
+
+    b2BodyDef groundBodyDef;
+    b2PolygonShape groundShape;
 };
 
 

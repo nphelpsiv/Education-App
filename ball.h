@@ -5,6 +5,7 @@
 #include <QGraphicsItem>
 #include <Box2D/Box2D.h>
 #include <QGraphicsEllipseItem>
+#include <iostream>
 
 class Ball : public QObject, public QGraphicsEllipseItem
 {
