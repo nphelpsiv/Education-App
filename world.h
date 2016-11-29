@@ -13,6 +13,7 @@
 #include <iostream>
 #include "tower.h"
 #include "ball.h"
+#include <stdlib.h>
 
 class World : public QObject, public QGraphicsItem
 {
@@ -33,14 +34,19 @@ protected:
 
 public slots:
     void timeupdated();
+    void ballSpawnCall();
 
 private:
     void createGroundBox2D();
+
+    int randBallSpawn;
 
     b2World *world;
     QVector<Ball*> balls;
     int time;
     QTimer *timer;
+
+    QTimer *spawnTimer;
     QPainter *painterObj;
     Tower *tower;
     Ball *ball;

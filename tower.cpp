@@ -18,7 +18,7 @@ Tower::~Tower()
 
 QRectF Tower::boundingRect() const
 {
-     return QRectF(0,0,50,10);
+     return QRectF(0,0,width,height);
 }
 
 void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

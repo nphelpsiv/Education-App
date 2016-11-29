@@ -5,9 +5,8 @@ World::World(QGraphicsScene* scene)
     time = 0;
     b2Vec2 gravity(0.0f, -10.0f);
     world = new b2World(gravity);
-    tower = new Tower(0, -10, 80, 100, world);
-    ball = new Ball(0, 10, 5, world);
-
+    tower = new Tower(0, 0, 80, 100, world);
+    ball = new Ball(20, 20, 10, world);
     scene->addItem(tower);
     scene->addItem(ball);
 
@@ -24,7 +23,7 @@ World::~World()
 
 QRectF World::boundingRect() const
 {
-    return QRectF(0,0,200,1);
+    return QRectF(0,0,500,500);
 }
 
 void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -40,13 +39,35 @@ void World::start()
 {
     timer = new QTimer(this);
     timer->start(1000/60);
+
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));
+
+    //Timer to spawn a new ball
+    spawnTimer = new QTimer(this);
+    spawnTimer->start(1000);
+
+    QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
+
+}
+
+void World::ballSpawnCall()
+{
+    //spawn new ball at random x-axis location
+    randBallSpawn = rand() % 20 + 1;
+    if (randBallSpawn % 2 == 0){
+        randBallSpawn = -randBallSpawn;
+    }
+    std::cout << "new ball position " << randBallSpawn << std::endl;
+    ball = new Ball(randBallSpawn, 50, 10, world);
+    scene()->addItem(ball);
+
+    update();
 }
 
 void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    update();
     QGraphicsItem::mousePressEvent(event);
+    update();
 }
 
 void World::timeupdated()
