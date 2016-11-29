@@ -197,7 +197,7 @@ void MainWindow::loginToServer()
     {
         //This means that the connection was successfull and we received data back from server.
         std::string s;
-        recPacket >> s;
+        //recPacket >> s;
         std::cout << s << std::endl;
         ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
