@@ -18,12 +18,13 @@ Tower::~Tower()
 
 QRectF Tower::boundingRect() const
 {
-     return QRectF(0,0,width,height);
+     return QRectF(0,0,width*30,height*30);
 }
 
 void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->drawRect(xPos, yPos, width, height);
+    painter->drawRect(0, 0, width*2, height*2);
+    painter->drawLine(-220, height*2, width*2+220, height*2);
 }
 
 void Tower::timerEvent(QTimerEvent *event)

@@ -53,6 +53,10 @@ private:
 
     b2BodyDef groundBodyDef;
     b2PolygonShape groundShape;
+
+    //box2d translation variables
+    int towerWidth;
+    int towerHeight;
 };
 
 

@@ -21,14 +21,15 @@ Ball::~Ball()
 
 QRectF Ball::boundingRect() const
 {
-     return QRectF(xPos,yPos,rad,rad);
+     return QRectF(0,0,rad+4,rad+4);
 }
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPen pen(Qt::blue);
     painter->setPen(pen);
-    painter->drawEllipse(xPos, yPos, rad, rad);
+    painter->drawEllipse(2, 2, rad, rad);
+    //painter->drawRect(0, 0, rad+4, rad+4);
 }
 
 void Ball::timerEvent(QTimerEvent *event)
@@ -57,20 +58,21 @@ void Ball::createBallBox2D()
     //Ball Fixture
     b2FixtureDef ballFixtureDef;
     ballFixtureDef.shape = &ballShape;
-    ballFixtureDef.density = 1;
+    ballFixtureDef.density = .1f;
     ballFixtureDef.friction = 0;
     ballFixtureDef.restitution = 0.6f;
     body->CreateFixture(&ballFixtureDef);
 
     //std::cout << "Will Apply Force" << std::endl;
     //Apply a force
-    body->ApplyForce(b2Vec2(1000.0f, -500.0f), b2Vec2(0.0, 0.0f), false);
+    //body->ApplyForce(b2Vec2(2000.0f, 2000.0f), b2Vec2(10.0, 10.0f), false);
+    body->ApplyLinearImpulseToCenter(b2Vec2(-xPos*2000.0f, yPos*1000.0f),true);
 }
 
 void Ball::move()
 {
-    std::cout << "X position " << body->GetPosition().x << std::endl;
-    std::cout << "Y position " << body->GetPosition().y << std::endl;
+    //std::cout << "X position " << body->GetPosition().x << std::endl;
+    //std::cout << "Y position " << body->GetPosition().y << std::endl;
     setPos(body->GetPosition().x, -body->GetPosition().y);
 }
 
