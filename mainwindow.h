@@ -56,6 +56,8 @@ private slots:
 
     void scoreChanged(int);
 
+    void on_muteButton_clicked();
+
 signals:
 
     void answerEntered(QString);

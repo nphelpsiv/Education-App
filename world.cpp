@@ -7,7 +7,7 @@ World::World(QGraphicsScene* scene)
     world = new b2World(gravity);
     towerWidth = 160;
     towerHeight = 300;
-    tower = new Tower(0, -225, towerWidth, towerHeight, world);
+    tower = new Tower(0, -325, towerWidth, towerHeight, world);
     tower->setPos(-towerWidth, -towerHeight+325);
     towers.push_back(tower);
 
@@ -26,7 +26,22 @@ World::World(QGraphicsScene* scene)
     health = 100;
 
     game = true;
+    muted = false;
     score = 0;
+
+    //sfml stuff
+
+    music.setVolume(50);
+    answerSound.setVolume(75);
+    explosionSound.setVolume(75);
+    cannonSound.setVolume(75);
+
+    if(!music.openFromFile("../edu-app-qt_pies-1/Sounds/BackgroundMusic.ogg"))
+    {
+        std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
+    }
+    music.setLoop(true);
+    music.play();
 }
 
 World::~World()
@@ -90,6 +105,11 @@ void World::ballSpawnCall()
     scene()->addItem(balls[balls.size() - 1]);
 
     update();
+    if(!cannonSound.openFromFile("../edu-app-qt_pies-1/Sounds/CannonSound.wav"))
+    {
+        std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
+    }
+    cannonSound.play();
 }
 
 void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -128,6 +148,11 @@ void World::timeupdated()
 
                 //the destructor handles removing itself from world
                 delete b;
+                if(!explosionSound.openFromFile("../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
+                {
+                    std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
+                }
+                explosionSound.play();
 
                 Tower *t = towers[i];
                 if(t[i].destroyed())
@@ -171,9 +196,19 @@ void World::answerEntered(QString s)
     {
         if(s.toInt() == (balls[i]->getValue() * currentOperand))
         {
-            balls[i]->remove();
+            Ball *b = balls[i];
+            balls.remove(i);
+
+            delete b;
             score += 100;
             emit scoreChanged(score);
+
+            if(!answerSound.openFromFile("../edu-app-qt_pies-1/Sounds/AnswerSound.wav"))
+            {
+                std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
+            }
+            answerSound.play();
+
             return;
         }
     }
@@ -201,4 +236,23 @@ void World::gameEnded()
 {
     std::cout << "ended" << std::endl;
     game = false;
+}
+
+void World::toggleSound()
+{
+    muted = !muted;
+    if(muted)
+    {
+        music.setVolume(0);
+        answerSound.setVolume(0);
+        explosionSound.setVolume(0);
+        cannonSound.setVolume(0);
+    }
+    else
+    {
+        music.setVolume(50);
+        answerSound.setVolume(75);
+        explosionSound.setVolume(75);
+        cannonSound.setVolume(75);
+    }
 }

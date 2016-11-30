@@ -271,3 +271,9 @@ void MainWindow::endGame()
     ui->gameOver_HighScoreLabel->setText("High Score: " + QString::number(highScore));
     ui->gameOver_ScoreLabel->setText("Score: " + QString::number(gameScore));
 }
+
+void MainWindow::on_muteButton_clicked()
+{
+    emit world->toggleSound();
+    //ui->muteButton->setChecked(true);
+}
