@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QGraphicsItem>
 #include <Box2D/Box2D.h>
-
+#include <iostream>
 
 class Tower : public QObject, public QGraphicsItem
 {
@@ -20,6 +20,8 @@ public:
 
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 
+    void decreaseHealth();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
@@ -31,6 +33,8 @@ private:
     int width;
     int height;
     b2World* world;
+
+    int health;
 
     void createTowerBox2D();
 };

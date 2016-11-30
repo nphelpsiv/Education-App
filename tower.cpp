@@ -8,6 +8,8 @@ Tower::Tower(int x, int y, int w, int h, b2World* worldb2)
     height = h;
     world = worldb2;
 
+    health = 1000;
+
     createTowerBox2D();
 }
 
@@ -23,7 +25,9 @@ QRectF Tower::boundingRect() const
 
 void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->drawRect(0, 0, width*2, height*2);
+    painter->fillRect(0, 0, width*2, height*2, QBrush(Qt::gray));
+    //painter->drawRect(0, 0, width*2, height*2);
+
     painter->drawLine(-220, height*2, width*2+220, height*2);
 }
 
@@ -56,4 +60,12 @@ void Tower::createTowerBox2D()
     towerFixtureDef.shape = &towerShape;
     towerFixtureDef.density = 1;
     towerBody->CreateFixture(&towerFixtureDef);
+}
+
+void Tower::decreaseHealth()
+{
+    health = health - 100;
+    std::cout << "Health of Tower: " << health << std::endl;
+    QPainter painter;
+    painter.fillRect(0, 0, width*2, height*2, QBrush(Qt::red));
 }

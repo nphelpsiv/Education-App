@@ -10,7 +10,7 @@ void ContactListener::BeginContact(b2Contact *contact)
     void* objB = contact->GetFixtureB()->GetBody()->GetUserData();
     if (objA && objB)
     {
-        handleContact(static_cast<Ball*>(objA),static_cast<Tower*>(objB));
+        handleContact(static_cast<Ball*>(objB),static_cast<Tower*>(objA));
     }
 
 }
@@ -20,4 +20,5 @@ void ContactListener::EndContact(b2Contact *contact)
 }
 void ContactListener::handleContact(Ball* b, Tower* t2) {
     std::cout << "Hit" << std::endl;
+    t2->decreaseHealth();
 }

@@ -14,7 +14,6 @@ public:
     void EndContact(b2Contact* contact);
     void handleContact(Ball* b, Tower* t);
 
-
 private:
     bool contactMade;
 

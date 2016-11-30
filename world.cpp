@@ -49,7 +49,7 @@ void World::start()
 
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
-    spawnTimer->start(1000);
+    spawnTimer->start(3000);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
 
