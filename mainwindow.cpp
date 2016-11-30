@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString title = "Login";
     setWindowTitle(title);
-    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
 
     scene = new QGraphicsScene(this);
     scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
@@ -138,16 +138,12 @@ void MainWindow::pageChanged(int pageIndex)
                 scene = new QGraphicsScene(this);
                 scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
                 ui->gameGraphicsView->setScene(scene);
+                world = new World(scene);
+                world->setPos(0, 0);
+                scene->addItem(world);
+                world->start();
 
-                ball = new BallScene();
-                ball->setPos(0, 0);
-                scene->addItem(ball);
-                ball->start();
-
-                tower = new Tower();
-                tower->setPos(-95, -68);
-                scene->addItem(tower);
-
+                //Helps keep the aspect ratio while resizing.
                 ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
                 ui->gameGraphicsView->show();
                 break;
@@ -157,7 +153,7 @@ void MainWindow::pageChanged(int pageIndex)
         break;
     }
 }
-
+//Helps preserve the aspect ration while the window is resized.
 void MainWindow::resizeEvent(QResizeEvent*)
 {
     ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
@@ -201,8 +197,10 @@ void MainWindow::loginToServer()
     {
         //This means that the connection was successfull and we received data back from server.
         std::string s;
-        recPacket >> s;
+        //recPacket >> s;
         std::cout << s << std::endl;
         ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
 }
+
+

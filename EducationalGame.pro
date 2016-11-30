@@ -15,14 +15,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    ballscene.cpp \
     ball.cpp \
-    tower.cpp
+    tower.cpp \
+    world.cpp \
+    contactlistener.cpp
 
 HEADERS  += mainwindow.h \
-    ballscene.h \
     ball.h \
-    tower.h
+    tower.h \
+    world.h \
+    contactlistener.h
 
 FORMS    += mainwindow.ui
 
@@ -55,7 +57,7 @@ else:unix:INCLUDEPATH += "/usr/include"
 
 win32:DEPENDPATH += $$PWD/SFML-2.4.1/include
 else:macx:DEPENDPATH += "/usr/local/include"
-else:unix:DEPENDPATH += "/usr/include"
+else:unix:DEPENDPATH += "/usr/lib/x86_64-linux-gnu"
 
 win32:LIBS += -L$$PWD/SFML-2.4.1/lib -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 #win32:LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d

@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "ballscene.h"
-#include "tower.h"
+#include "world.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,6 +15,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 
 private slots:
     void on_signUpButton_clicked();
@@ -55,11 +55,8 @@ private:
 
     void resizeEvent(QResizeEvent*);
 
-
-
     QGraphicsScene *scene;
-    BallScene *ball;
-    Tower *tower;
+    World *world;
 };
 
 #endif // MAINWINDOW_H
