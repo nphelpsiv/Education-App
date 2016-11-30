@@ -58,12 +58,20 @@ void World::start()
 void World::ballSpawnCall()
 {
     //spawn new ball at random x-axis location
-    randBallSpawn = rand() % 1000 + 1;
+    /*randBallSpawn = rand() % 1000 + 1;
     if (randBallSpawn % 2 == 0){
         randBallSpawn = -randBallSpawn;
     }
-    std::cout << "new ball position " << randBallSpawn << std::endl;
-    balls.push_back(new Ball(randBallSpawn, 200, 30, world));
+    std::cout << "new ball position " << randBallSpawn << std::endl;*/
+
+    if(rand() % 2 == 0)
+    {
+        balls.push_back(new Ball(-700, 200, 30, world));
+    }
+    else
+    {
+        balls.push_back(new Ball(700, 200, 30, world));
+    }
     balls[balls.size() -1]->setPos(randBallSpawn, 200);
     scene()->addItem(balls[balls.size() - 1]);
 
@@ -81,7 +89,20 @@ void World::timeupdated()
     world->Step(1.0f/60.0f, 8, 3);
     for(int i = 0; i<balls.size(); i++)
     {
-        balls[i]->move();
+        if(balls[i]->hasCollided())
+        {
+            //Since the ball has collided, we can removed the ball.
+            Ball *b = balls[i];
+            balls.remove(i);
+
+            //the destructor handles removing itself from world
+            delete b;
+
+        }
+        else
+        {
+            balls[i]->move();
+        }
     }
     update();
 }
