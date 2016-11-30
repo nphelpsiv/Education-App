@@ -49,10 +49,12 @@ void Ball::createBallBox2D()
     ballBodyDef.position.Set(xPos, yPos);
     ballBodyDef.awake = true;
     body = world->CreateBody(&ballBodyDef);
+    body->SetUserData(this);
 
     //Ball Shape
     b2CircleShape ballShape;
     ballShape.m_radius = rad;
+
 
     //Ball Fixture
     b2FixtureDef ballFixtureDef;
@@ -69,8 +71,8 @@ void Ball::createBallBox2D()
 
 void Ball::move()
 {
-    std::cout << "X position " << body->GetPosition().x << std::endl;
-    std::cout << "Y position " << body->GetPosition().y << std::endl;
+    //std::cout << "X position " << body->GetPosition().x << std::endl;
+    //std::cout << "Y position " << body->GetPosition().y << std::endl;
     setPos(body->GetPosition().x, -body->GetPosition().y);
 }
 

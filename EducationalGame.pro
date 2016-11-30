@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     ball.cpp \
     tower.cpp \
-    world.cpp
+    world.cpp \
+    contactlistener.cpp
 
 HEADERS  += mainwindow.h \
     ball.h \
     tower.h \
-    world.h
+    world.h \
+    contactlistener.h
 
 FORMS    += mainwindow.ui
 
