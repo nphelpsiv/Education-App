@@ -155,6 +155,7 @@ void World::answerEntered(QString s)
         if(s.toInt() == (balls[i]->getValue() * currentOperand))
         {
             balls[i]->remove();
+            return;
         }
     }
 }
