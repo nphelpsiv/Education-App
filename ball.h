@@ -29,6 +29,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
+    bool ballContacting;
+
     int xPos;
     int yPos;
     int rad;

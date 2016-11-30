@@ -50,10 +50,12 @@ void Ball::createBallBox2D()
     ballBodyDef.position.Set(xPos, yPos);
     ballBodyDef.awake = true;
     body = world->CreateBody(&ballBodyDef);
+    body->SetUserData(this);
 
     //Ball Shape
     b2CircleShape ballShape;
     ballShape.m_radius = rad;
+
 
     //Ball Fixture
     b2FixtureDef ballFixtureDef;

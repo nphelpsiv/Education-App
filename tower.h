@@ -24,6 +24,8 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
+    bool hasBeenHit;
+
     int xPos;
     int yPos;
     int width;

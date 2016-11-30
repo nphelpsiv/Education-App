@@ -45,6 +45,8 @@ void Tower::createTowerBox2D()
     towerBodyDef.position.Set(xPos, yPos);
     b2Body* towerBody = world->CreateBody(&towerBodyDef);
 
+    towerBody->SetUserData(this);
+
     //Tower Shape
     b2PolygonShape towerShape;
     towerShape.SetAsBox(width, height);

@@ -14,6 +14,7 @@
 #include "tower.h"
 #include "ball.h"
 #include <stdlib.h>
+#include "contactlistener.h"
 
 class World : public QObject, public QGraphicsItem
 {
@@ -28,6 +29,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
     void start();
+
+    ContactListener contactListenerInstance;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;

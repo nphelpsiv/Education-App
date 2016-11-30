@@ -9,6 +9,7 @@ World::World(QGraphicsScene* scene)
     towerHeight = 300;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
     tower->setPos(-towerWidth, -towerHeight+325);
+    world->SetContactListener(&contactListenerInstance);
     //ball = new Ball(20, 20, 10, world);
     scene->addItem(tower);
     //scene->addItem(ball);
@@ -26,7 +27,7 @@ World::~World()
 
 QRectF World::boundingRect() const
 {
-    return QRectF(0,0,3000,3000);
+    return QRectF(0,0,10000,10000);
 }
 
 void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
