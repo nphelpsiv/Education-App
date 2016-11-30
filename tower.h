@@ -20,7 +20,10 @@ public:
 
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 
-    void decreaseHealth();
+    void wasHit();
+
+    bool destroyed();
+
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
@@ -29,7 +32,7 @@ signals:
     void healthChanged(int);
 
 private:
-    bool hasBeenHit;
+    bool isDestroyed;
 
     int xPos;
     int yPos;

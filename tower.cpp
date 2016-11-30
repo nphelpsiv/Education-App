@@ -7,6 +7,7 @@ Tower::Tower(int x, int y, int w, int h, b2World* worldb2)
     width = w;
     height = h;
     world = worldb2;
+    isDestroyed = false;
 
     health = 100;
 
@@ -63,8 +64,31 @@ void Tower::createTowerBox2D()
     towerBody->CreateFixture(&towerFixtureDef);
 }
 
-void Tower::decreaseHealth()
+void Tower::wasHit()
 {
     health -= 10;
+
+    //Each time this is called "red flash" sprite should be called for maybe 1/2 or 30 frames?
+
+    if(health == 70)
+    {
+        //Change to slightly damaged sprite
+    }
+    else if(health == 40)
+    {
+        //Change to heavy damaged sprite
+    }
+    else if(health == 20)
+    {
+        //Change to ridiculous damaged sprite
+    }
+    if (health <= 0)
+    {
+        isDestroyed = true;
+    }
     emit healthChanged(health);
+}
+bool Tower::destroyed()
+{
+    return isDestroyed;
 }

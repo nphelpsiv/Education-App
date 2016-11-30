@@ -54,6 +54,7 @@ private:
 
     b2World *world;
     QVector<Ball*> balls;
+    QVector<Tower*> towers;
     int time;
     QTimer *timer;
 
@@ -66,6 +67,7 @@ private:
     b2PolygonShape groundShape;
 
     bool game;
+
     //box2d translation variables
     int towerWidth;
     int towerHeight;

@@ -23,5 +23,5 @@ void ContactListener::EndContact(b2Contact *contact)
 void ContactListener::handleContact(Ball* b, Tower* t2) {
     b->remove();
     std::cout << "hit" << std::endl;
-    t2->decreaseHealth();
+    t2->wasHit();
 }

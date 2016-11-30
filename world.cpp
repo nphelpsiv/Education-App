@@ -7,8 +7,9 @@ World::World(QGraphicsScene* scene)
     world = new b2World(gravity);
     towerWidth = 160;
     towerHeight = 300;
-    tower = new Tower(0, -325, towerWidth, towerHeight, world);
+    tower = new Tower(0, -225, towerWidth, towerHeight, world);
     tower->setPos(-towerWidth, -towerHeight+325);
+    towers.push_back(tower);
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
@@ -37,7 +38,14 @@ World::~World()
         //the destructor handles removing itself from world
         delete b;
     }
-    delete tower;
+    for(int i = 0; i < towers.size(); i++)
+    {
+        Tower *t = towers[i];
+        towers.remove(i);
+
+        //the destructor handles removing itself from world
+        delete t;
+    }
 }
 
 QRectF World::boundingRect() const
@@ -120,6 +128,14 @@ void World::timeupdated()
                 //the destructor handles removing itself from world
                 delete b;
 
+                Tower *t = towers[i];
+                if(t[i].destroyed())
+                {
+                    std::cout << "Tower Was destroyed" << std::endl;
+                    towers.remove(i);
+                    delete t;
+                }
+
             }
             else
             {
@@ -166,6 +182,7 @@ void World::healthChanged(int h)
     {
         emit outOfHealth();
         game == false;
+
         return;
     }
     else
