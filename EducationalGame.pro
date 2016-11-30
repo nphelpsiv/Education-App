@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,13 +30,13 @@ FORMS    += mainwindow.ui
 # Box2D
 #-------------------------------------------------
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/Box2D-master/build-Box2D-Desktop_Qt_5_7_0_MSVC2013_64bit-Default/Box2D/ -lBox2
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Box2D-master/build-Box2D-Desktop_Qt_5_7_0_MSVC2013_64bit-Default/Box2D/ -lBox2d2015 -lBox2d
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/Box2D-master/build-Box2D-Desktop_Qt_5_7_0_MSVC2013_64bit-Default/Box2D/ -lBox2d2015 #-lBox2d
 else:macx:LIBS += -L$$PWD/Box2D-master/osx -lBox2D
 else:unix: LIBS += -L$$PWD/Box2D-master/Box2D/Build/ -lBox2D
 
 INCLUDEPATH += $$PWD/Box2D-master/Box2D
 
-DEPENDPATH += $$PWD/Box2D-master/Box2D/Box2D/CMakeFiles
+DEPENDPATH += $$PWD/Box2D-master/Box2D/Box2D
 
 win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/Box2D-master/build-Box2D-Desktop_Qt_5_7_0_MSVC2013_64bit-Default/Box2D/libBox2.a
 else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/Box2D-master/build-Box2D-Desktop_Qt_5_7_0_MSVC2013_64bit-Default/Box2D/libBox2d.a
@@ -52,13 +53,16 @@ win32:INCLUDEPATH += $$PWD/SFML-2.4.1/include
 else:macx:INCLUDEPATH += "/usr/local/include"
 else:unix:INCLUDEPATH += "/usr/include"
 
-win32:DEPENDPATH += $$PWD/SFML-2.4.1
+win32:DEPENDPATH += $$PWD/SFML-2.4.1/include
 else:macx:DEPENDPATH += "/usr/local/include"
 else:unix:DEPENDPATH += "/usr/include"
 
-win32:LIBS += -L$$PWD/SFML-2.4.1/lib
+win32:LIBS += -L$$PWD/SFML-2.4.1/lib -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
+#win32:LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 else:macx:LIBS += -L"/usr/local/lib"
 else:unix:LIBS += -L"/usr/lib/x86_64-linux-gnu"
+
+
 
 win32-g++:CONFIG(release, debug|release): LIBS += -lsfml-audio -lsfml-graphics -lsfml-main -lsfml-network -lsfml-window -lsfml-system
 else:win32-g++:CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
