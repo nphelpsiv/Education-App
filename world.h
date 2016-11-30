@@ -15,6 +15,7 @@
 #include "ball.h"
 #include <stdlib.h>
 #include "contactlistener.h"
+#include <SFML/Audio.hpp>
 
 class World : public QObject, public QGraphicsItem
 {
@@ -41,6 +42,7 @@ public slots:
     void answerEntered(QString);
     void healthChanged(int);
     void gameEnded();
+    void toggleSound();
 
 
 signals:
@@ -69,6 +71,8 @@ private:
 
     bool game;
 
+    bool muted;
+
     //box2d translation variables
     int towerWidth;
     int towerHeight;
@@ -77,6 +81,13 @@ private:
 
     int health;
     int score;
+
+    sf::Music music;
+    sf::Music cannonSound;
+    sf::Music explosionSound;
+    sf::Music answerSound;
+
+
 };
 
 

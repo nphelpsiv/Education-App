@@ -79,4 +79,9 @@ win32:LIBS += -L$$PWD/../mysql-5.7.16-winx64/lib
 win32:DEPENDPATH += $$PWD/../mysql-5.7.16-winx64
 win32:INCLUDEPATH += $$PWD/../mysql-5.7.16-winx64/include
 
+RESOURCES += \
+    icons.qrc
+
+DISTFILES +=
+
 
