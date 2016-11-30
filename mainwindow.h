@@ -54,6 +54,8 @@ private slots:
 
     void outOfHealth();
 
+    void scoreChanged(int);
+
 signals:
 
     void answerEntered(QString);
@@ -67,8 +69,13 @@ private:
 
     void resizeEvent(QResizeEvent*);
 
+    void endGame();
+
     QGraphicsScene *scene;
     World *world;
+
+    int gameScore;
+    int highScore;
 };
 
 #endif // MAINWINDOW_H

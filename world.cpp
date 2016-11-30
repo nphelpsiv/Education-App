@@ -26,6 +26,7 @@ World::World(QGraphicsScene* scene)
     health = 100;
 
     game = true;
+    score = 0;
 }
 
 World::~World()
@@ -171,6 +172,8 @@ void World::answerEntered(QString s)
         if(s.toInt() == (balls[i]->getValue() * currentOperand))
         {
             balls[i]->remove();
+            score += 100;
+            emit scoreChanged(score);
             return;
         }
     }

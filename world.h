@@ -46,6 +46,7 @@ public slots:
 signals:
     void healthUpdated(int);
     void outOfHealth();
+    void scoreChanged(int);
 
 private:
     void createGroundBox2D();
@@ -75,6 +76,7 @@ private:
     int currentOperand;
 
     int health;
+    int score;
 };
 
 

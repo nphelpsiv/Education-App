@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setupConnectAndActions();
 
+    gameScore = 0;
+    highScore = 1000;
+
 }
 
 MainWindow::~MainWindow()
@@ -106,6 +109,8 @@ void MainWindow::on_endGamePushButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
     emit gameEnded();
     delete world;
+
+    endGame();
 }
 
 void MainWindow::pageChanged(int pageIndex)
@@ -147,9 +152,13 @@ void MainWindow::pageChanged(int pageIndex)
                 scene->addItem(world);
                 world->start();
 
+                gameScore = 0;
+                ui->scoreLabel->setText("Score: " + QString::number(gameScore));
+
                 QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
                 QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
                 QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
+                QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
                 QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
 
                 //Helps keep the aspect ratio while resizing.
@@ -233,4 +242,32 @@ void MainWindow::outOfHealth()
     emit gameEnded();
     //delete world;
 
+    endGame();
+}
+
+void MainWindow::scoreChanged(int s)
+{
+    gameScore = s;
+    ui->scoreLabel->setText("Score: " + QString::number(s));
+}
+
+void MainWindow::endGame()
+{
+    if(gameScore > highScore)
+    {
+        highScore = gameScore;
+        QPalette palette = ui->gameOver_HighScoreLabel->palette();
+        palette.setColor(ui->gameOver_HighScoreLabel->foregroundRole(), Qt::red);
+        ui->gameOver_HighScoreLabel->setPalette(palette);
+
+    }
+    else
+    {
+        QPalette palette = ui->gameOver_HighScoreLabel->palette();
+        palette.setColor(ui->gameOver_HighScoreLabel->foregroundRole(), Qt::black);
+        ui->gameOver_HighScoreLabel->setPalette(palette);
+    }
+
+    ui->gameOver_HighScoreLabel->setText("High Score: " + QString::number(highScore));
+    ui->gameOver_ScoreLabel->setText("Score: " + QString::number(gameScore));
 }
