@@ -14,11 +14,14 @@ void ContactListener::BeginContact(b2Contact *contact)
     }
 
 }
+
 void ContactListener::EndContact(b2Contact *contact)
 {
 
 }
+
 void ContactListener::handleContact(Ball* b, Tower* t2) {
+    b->remove();
     std::cout << "Hit" << std::endl;
     t2->decreaseHealth();
 }

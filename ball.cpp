@@ -12,11 +12,13 @@ Ball::Ball(int x, int y, int r, b2World* worldb2)
     world = worldb2;
 
     createBallBox2D();
+
+    collided = false;
 }
 
 Ball::~Ball()
 {
-
+    body->GetWorld()->DestroyBody(body);
 }
 
 QRectF Ball::boundingRect() const
@@ -76,5 +78,18 @@ void Ball::move()
     //std::cout << "Y position " << body->GetPosition().y << std::endl;
     setPos(body->GetPosition().x, -body->GetPosition().y);
 }
+
+//sets collided to true when it has collided with the tower.
+void Ball::remove()
+{
+    collided = true;
+}
+
+
+bool Ball::hasCollided()
+{
+    return collided;
+}
+
 
 

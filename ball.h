@@ -25,6 +25,10 @@ public:
 
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 
+    void remove();
+
+    bool hasCollided();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
@@ -38,6 +42,8 @@ private:
     b2Body* body;
 
     void createBallBox2D();
+
+    bool collided;
 
 public:
     void move();

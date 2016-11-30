@@ -39,6 +39,7 @@ public slots:
     void timeupdated();
     void ballSpawnCall();
 
+
 private:
     void createGroundBox2D();
 
@@ -56,6 +57,7 @@ private:
 
     b2BodyDef groundBodyDef;
     b2PolygonShape groundShape;
+
 
     //box2d translation variables
     int towerWidth;
