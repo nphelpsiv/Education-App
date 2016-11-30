@@ -122,6 +122,8 @@ void Server(void)
 
 int main(int argc, char *argv[])
 {
+    std::cout << "lol" << std::endl;
+
     QCoreApplication a(argc, argv);
 
     Server();
