@@ -8,7 +8,7 @@ Tower::Tower(int x, int y, int w, int h, b2World* worldb2)
     height = h;
     world = worldb2;
 
-    health = 1000;
+    health = 100;
 
     createTowerBox2D();
 }
@@ -29,6 +29,7 @@ void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     //painter->drawRect(0, 0, width*2, height*2);
 
     painter->drawLine(-220, height*2, width*2+220, height*2);
+
 }
 
 void Tower::timerEvent(QTimerEvent *event)
@@ -64,8 +65,6 @@ void Tower::createTowerBox2D()
 
 void Tower::decreaseHealth()
 {
-    health = health - 100;
-    std::cout << "Health of Tower: " << health << std::endl;
-    QPainter painter;
-    painter.fillRect(0, 0, width*2, height*2, QBrush(Qt::red));
+    health -= 10;
+    emit healthChanged(health);
 }

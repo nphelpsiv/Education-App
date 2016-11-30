@@ -25,6 +25,9 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
+signals:
+    void healthChanged(int);
+
 private:
     bool hasBeenHit;
 

@@ -14,6 +14,8 @@ Ball::Ball(int x, int y, int r, b2World* worldb2)
     createBallBox2D();
 
     collided = false;
+
+    value = (rand() % 10) + 1;
 }
 
 Ball::~Ball()
@@ -30,7 +32,9 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 {
     painter->setBrush(Qt::black);
     painter->drawEllipse(2, 2, rad, rad);
-    //painter->drawRect(0, 0, rad+4, rad+4);
+    painter->setPen(Qt::red);
+    painter->setFont(QFont("Arial", 20, QFont::Bold));
+    painter->drawText(8, 25, QString::number(value));
 }
 
 void Ball::timerEvent(QTimerEvent *event)
@@ -91,5 +95,9 @@ bool Ball::hasCollided()
     return collided;
 }
 
+int Ball::getValue()
+{
+    return value;
+}
 
 

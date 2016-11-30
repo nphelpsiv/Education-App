@@ -29,6 +29,8 @@ public:
 
     bool hasCollided();
 
+    int getValue();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
@@ -41,9 +43,13 @@ private:
     b2World* world;
     b2Body* body;
 
+    int value;
+
     void createBallBox2D();
 
     bool collided;
+
+
 
 public:
     void move();

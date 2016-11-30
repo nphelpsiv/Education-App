@@ -104,6 +104,8 @@ void MainWindow::on_restartPushButton_clicked()
 void MainWindow::on_endGamePushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
+    emit gameEnded();
+    delete world;
 }
 
 void MainWindow::pageChanged(int pageIndex)
@@ -134,6 +136,8 @@ void MainWindow::pageChanged(int pageIndex)
         case 5: //gamePage
         {
                 setWindowTitle(windowTitle = "Game");
+                ui->operationLabel->setText("Operation: 3 *");
+                ui->healthLabel->setText("Health: " + QString::number(100));
 
                 scene = new QGraphicsScene(this);
                 scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
@@ -142,6 +146,11 @@ void MainWindow::pageChanged(int pageIndex)
                 world->setPos(0, 0);
                 scene->addItem(world);
                 world->start();
+
+                QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
+                QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
+                QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
+                QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
 
                 //Helps keep the aspect ratio while resizing.
                 ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
@@ -204,3 +213,24 @@ void MainWindow::loginToServer()
 }
 
 
+
+void MainWindow::on_answerLineEdit_returnPressed()
+{
+    emit answerEntered(ui->answerLineEdit->text());
+    ui->answerLineEdit->clear();
+}
+
+void MainWindow::healthChanged(int h)
+{
+    ui->healthLabel->setText("Health: " + QString::number(h));
+}
+
+void MainWindow::outOfHealth()
+{
+    //delete scene;
+    ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
+
+    emit gameEnded();
+    //delete world;
+
+}

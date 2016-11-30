@@ -48,6 +48,18 @@ private slots:
 
     void loginToServer();
 
+    void on_answerLineEdit_returnPressed();
+
+    void healthChanged(int);
+
+    void outOfHealth();
+
+signals:
+
+    void answerEntered(QString);
+
+    void gameEnded();
+
 private:
     Ui::MainWindow *ui;
 

@@ -9,6 +9,9 @@ World::World(QGraphicsScene* scene)
     towerHeight = 300;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
     tower->setPos(-towerWidth, -towerHeight+325);
+
+    QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
+
     world->SetContactListener(&contactListenerInstance);
     //ball = new Ball(20, 20, 10, world);
     scene->addItem(tower);
@@ -16,13 +19,25 @@ World::World(QGraphicsScene* scene)
 
     createGroundBox2D();
 
+    //the operand that is shown statically in the GUI
+    currentOperand = 3;
+
+    health = 100;
+
+    game = true;
 }
 
 World::~World()
 {
-    delete world;
+    for(int i = 0; i < balls.size(); i++)
+    {
+        Ball *b = balls[i];
+        balls.remove(i);
+
+        //the destructor handles removing itself from world
+        delete b;
+    }
     delete tower;
-    delete ball;
 }
 
 QRectF World::boundingRect() const
@@ -32,12 +47,9 @@ QRectF World::boundingRect() const
 
 void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-    QPen pen(Qt::red, 5);
-    painter->setPen(pen);
-    //painter->drawLine(-100, -groundBodyDef.position.y, 100, -groundBodyDef.position.y);
-//    painter->drawEllipse(ball->pos().x(), ball->pos().y(), 10, 10);
-    //painter->drawEllipse(ball->pos().x(), ball->pos().y(), 10, 10);
+//    painter->setPen(Qt::red);
+//    painter->setFont(QFont("Arial", 100, QFont::Bold));
+//    painter->drawText(-300, -health, "HEALTH: " + QString::number(health));
 }
 
 void World::start()
@@ -57,13 +69,6 @@ void World::start()
 
 void World::ballSpawnCall()
 {
-    //spawn new ball at random x-axis location
-    /*randBallSpawn = rand() % 1000 + 1;
-    if (randBallSpawn % 2 == 0){
-        randBallSpawn = -randBallSpawn;
-    }
-    std::cout << "new ball position " << randBallSpawn << std::endl;*/
-
     if(rand() % 2 == 0)
     {
         balls.push_back(new Ball(-700, 200, 30, world));
@@ -86,25 +91,43 @@ void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void World::timeupdated()
 {
-    world->Step(1.0f/60.0f, 8, 3);
-    for(int i = 0; i<balls.size(); i++)
+    /*if(!game)
     {
-        if(balls[i]->hasCollided())
+        for(int i = 0; i < balls.size(); i++)
         {
-            //Since the ball has collided, we can removed the ball.
             Ball *b = balls[i];
             balls.remove(i);
 
             //the destructor handles removing itself from world
             delete b;
-
         }
-        else
+        delete tower;
+        timer->stop();
+        spawnTimer->stop();
+        return;
+    }*/
+    if(game)
+    {
+        world->Step(1.0f/60.0f, 8, 3);
+        for(int i = 0; i<balls.size(); i++)
         {
-            balls[i]->move();
+            if(balls[i]->hasCollided())
+            {
+                //Since the ball has collided, we can removed the ball.
+                Ball *b = balls[i];
+                balls.remove(i);
+
+                //the destructor handles removing itself from world
+                delete b;
+
+            }
+            else
+            {
+                balls[i]->move();
+            }
         }
+        update();
     }
-    update();
 }
 
 
@@ -123,4 +146,38 @@ void World::createGroundBox2D()
     groundFixtureDef.shape = &groundShape;
     groundFixtureDef.density = 1;
     groundBody->CreateFixture(&groundFixtureDef);
+}
+
+void World::answerEntered(QString s)
+{
+    for(int i = 0; i < balls.size(); i++)
+    {
+        if(s.toInt() == (balls[i]->getValue() * currentOperand))
+        {
+            balls[i]->remove();
+        }
+    }
+}
+
+void World::healthChanged(int h)
+{
+    if(h <= 0)
+    {
+        emit outOfHealth();
+        game == false;
+        return;
+    }
+    else
+    {
+        health = h;
+        update();
+        emit healthUpdated(h);
+    }
+
+}
+
+void World::gameEnded()
+{
+    std::cout << "ended" << std::endl;
+    game = false;
 }

@@ -48,7 +48,7 @@
        <string/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -598,6 +598,16 @@
               <widget class="QPushButton" name="endGamePushButton">
                <property name="text">
                 <string>End Game</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="healthLabel">
+               <property name="text">
+                <string>Health: 100</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
                </property>
               </widget>
              </item>

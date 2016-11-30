@@ -38,7 +38,14 @@ protected:
 public slots:
     void timeupdated();
     void ballSpawnCall();
+    void answerEntered(QString);
+    void healthChanged(int);
+    void gameEnded();
 
+
+signals:
+    void healthUpdated(int);
+    void outOfHealth();
 
 private:
     void createGroundBox2D();
@@ -58,10 +65,14 @@ private:
     b2BodyDef groundBodyDef;
     b2PolygonShape groundShape;
 
-
+    bool game;
     //box2d translation variables
     int towerWidth;
     int towerHeight;
+
+    int currentOperand;
+
+    int health;
 };
 
 
