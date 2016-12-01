@@ -96,12 +96,14 @@ void World::ballSpawnCall()
     if(rand() % 2 == 0)
     {
         balls.push_back(new Ball(-700, 200, 30, world));
+        balls[balls.size() -1]->setPos(-700, 200);
     }
     else
     {
         balls.push_back(new Ball(700, 200, 30, world));
+        balls[balls.size() -1]->setPos(700, 200);
     }
-    balls[balls.size() -1]->setPos(randBallSpawn, 200);
+
     scene()->addItem(balls[balls.size() - 1]);
 
     update();
