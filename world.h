@@ -46,6 +46,7 @@ public slots:
     void healthChanged(int);
     void gameEnded();
     void toggleSound();
+    void deleteParticleAt(int);
 
 
 signals:

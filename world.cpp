@@ -13,6 +13,7 @@ World::World(QGraphicsScene* scene)
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
+
     world->SetContactListener(&contactListenerInstance);
     //ball = new Ball(20, 20, 10, world);
     scene->addItem(tower);
@@ -138,15 +139,28 @@ void World::timeupdated()
     if(game)
     {
         world->Step(1.0f/60.0f, 8, 3);
+
+        // Move all the debris
+        if (debrisVec.size() > 0)
+        {
+            for(int i = 0; i < debrisVec.size(); i++)
+            {
+                debrisVec[i]->move();
+
+                // delete debris that can be
+                //QObject::connect(debrisVec[i], SIGNAL(deleteParticle()), this, SLOT(deleteParticleAt(i)));
+            }
+        }
+
+        // Move all cannonballs
         for(int i = 0; i<balls.size(); i++)
         {
+            // Handle cannonball collision with tower
             if(balls[i]->hasCollided())
             {
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
-                createExplosion(b->getX(), b->getY());
-                debrisVec[0]->move();
-                std::cout << "debris moved!!" << std::endl;
+                createExplosion(b->getX(), b->getY()); // before removing create an explosion
                 balls.remove(i);
 
                 //the destructor handles removing itself from world
@@ -254,17 +268,37 @@ void World::toggleSound()
     else
     {
         music.setVolume(50);
-        answerSound.setVolume(75);
-        explosionSound.setVolume(75);
-        cannonSound.setVolume(75);
+        answerSound.setVolume(100);
+        explosionSound.setVolume(60);
+        cannonSound.setVolume(60);
     }
 }
 void World::createExplosion(int ballX, int ballY)
 {
+    QTimer *debrisTimer;
+    // Make a random number of little debris
+    int randNumofDebris = rand() % 8 + 2;
+    for(int i = 0; i <= randNumofDebris; i++)
+    {
+        // make a timer for deleting the particle later
+        debrisTimer = new QTimer(this);
+        int randTime = rand() % 1000 + 250;
+        debrisTimer->start(randTime);
+        QObject::connect(debrisTimer, SIGNAL(timeout()), this, SLOT(deleteParticleAt(i)));
 
-    debrisVec.push_back(new Debris(ballX, ballY, 20, world));
+        debrisVec.push_back(new Debris(ballX, ballY, 5, world));
+        debrisVec[debrisVec.size() -1]->setPos(ballX, ballY);
+        scene()->addItem(debrisVec[debrisVec.size() -1]);
+    }
+}
 
-    debrisVec[debrisVec.size() -1]->setPos(ballX, ballY);
-    scene()->addItem(debrisVec[debrisVec.size() -1]);
-    std::cout << "explostion created!!" << std::endl;
+// Trying to delete a debris particle
+void World::deleteParticleAt(int index)
+{
+
+    std::cout << "delete particle" << std::endl;
+    if(!debrisVec.isEmpty())
+    {
+        debrisVec.remove(index);
+    }
 }

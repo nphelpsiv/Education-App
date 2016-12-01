@@ -6,6 +6,7 @@
 #include <Box2D/Box2D.h>
 #include <QGraphicsEllipseItem>
 #include <iostream>
+#include <QTimer>
 
 class Debris : public QObject, public QGraphicsEllipseItem
 {
@@ -20,6 +21,11 @@ public:
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
     void move();
+signals:
+    void deleteParticle();
+
+public slots:
+    void deleteDebrisParticle();
 
 private:
     int xPosD;
@@ -31,6 +37,8 @@ private:
     int value;
 
     void createDebrisBox2D();
+
+    QTimer *timer;
 };
 
 #endif // DEBRIS_H
