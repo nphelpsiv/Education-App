@@ -1,10 +1,8 @@
 #include <QCoreApplication>
-#include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSql>
 #include <vector>
+#include <databasecommunicator.h>
 
 const unsigned short PORT = 5001;
 
@@ -16,6 +14,7 @@ bool quit = false;
 
 sf::SocketSelector selector;
 std::vector<sf::TcpSocket*> clients;
+DatabaseCommunicator dbc("127.0.0.1" , "root" , "password");
 
 //This method waits for input from the terminal to stop the server.
 //Should be called on another thread to prevent blocking.
@@ -33,7 +32,6 @@ void GetInput(void)
 
 void Server(void)
 {
-
     std::cout << "entered server" << std::endl;
 
     //start listening on specific port.
@@ -92,6 +90,10 @@ void Server(void)
                             //extrude packet into string and print (Testing purposes)
                             packet >> s;
                             std::cout << s << std::endl;
+                            StudentInfo testinfo = dbc.getStudentInfo(2);
+
+                            std::cout << testinfo.username.toStdString() << std::endl;
+                            std::cout << testinfo.classCode.toStdString() << std::endl;
                         }
 
                         //send back to client that it was received.
@@ -122,8 +124,6 @@ void Server(void)
 
 int main(int argc, char *argv[])
 {
-    std::cout << "lol" << std::endl;
-
     QCoreApplication a(argc, argv);
 
     Server();
