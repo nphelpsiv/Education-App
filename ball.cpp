@@ -99,5 +99,11 @@ int Ball::getValue()
 {
     return value;
 }
-
-
+int Ball::getX()
+{
+    return xPos;
+}
+int Ball::getY()
+{
+    return yPos;
+}

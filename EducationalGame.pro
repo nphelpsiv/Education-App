@@ -18,13 +18,15 @@ SOURCES += main.cpp\
     ball.cpp \
     tower.cpp \
     world.cpp \
-    contactlistener.cpp
+    contactlistener.cpp \
+    debris.cpp
 
 HEADERS  += mainwindow.h \
     ball.h \
     tower.h \
     world.h \
-    contactlistener.h
+    contactlistener.h \
+    debris.h
 
 FORMS    += mainwindow.ui
 

@@ -31,6 +31,10 @@ public:
 
     int getValue();
 
+    int getX();
+
+    int getY();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 

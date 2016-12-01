@@ -144,6 +144,9 @@ void World::timeupdated()
             {
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
+                createExplosion(b->getX(), b->getY());
+                debrisVec[0]->move();
+                std::cout << "debris moved!!" << std::endl;
                 balls.remove(i);
 
                 //the destructor handles removing itself from world
@@ -255,4 +258,13 @@ void World::toggleSound()
         explosionSound.setVolume(75);
         cannonSound.setVolume(75);
     }
+}
+void World::createExplosion(int ballX, int ballY)
+{
+
+    debrisVec.push_back(new Debris(ballX, ballY, 20, world));
+
+    debrisVec[debrisVec.size() -1]->setPos(ballX, ballY);
+    scene()->addItem(debrisVec[debrisVec.size() -1]);
+    std::cout << "explostion created!!" << std::endl;
 }

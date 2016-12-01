@@ -13,6 +13,7 @@
 #include <iostream>
 #include "tower.h"
 #include "ball.h"
+#include "debris.h"
 #include <stdlib.h>
 #include "contactlistener.h"
 #include <SFML/Audio.hpp>
@@ -30,6 +31,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
     void start();
+
+    void createExplosion(int ballX, int ballY);
 
     ContactListener contactListenerInstance;
 
@@ -58,6 +61,7 @@ private:
     b2World *world;
     QVector<Ball*> balls;
     QVector<Tower*> towers;
+    QVector<Debris*> debrisVec;
     int time;
     QTimer *timer;
 
@@ -65,6 +69,7 @@ private:
     QPainter *painterObj;
     Tower *tower;
     Ball *ball;
+    Debris *debris;
 
     b2BodyDef groundBodyDef;
     b2PolygonShape groundShape;
