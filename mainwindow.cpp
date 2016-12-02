@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "canvas.h"
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
@@ -119,7 +120,17 @@ void MainWindow::pageChanged(int pageIndex)
     switch(pageIndex)
     {
         case 0: //loginPage
+        {
             setWindowTitle(windowTitle = "Login");
+
+            ui->widget->setEnabled(true);
+            ui->widget->resize(400, 400);
+            ui->widget->show();
+
+            Canvas* SFMLView = new Canvas(ui->widget, QPoint(20, 20), QSize(360, 360));
+            SFMLView->show();
+
+        }
         break;
 
         case 1: //signUpPage:
@@ -140,8 +151,10 @@ void MainWindow::pageChanged(int pageIndex)
 
         case 5: //gamePage
         {
+
+
                 setWindowTitle(windowTitle = "Game");
-                ui->operationLabel->setText("Operation: 3 *");
+                /*ui->operationLabel->setText("Operation: 3 *");
                 ui->healthLabel->setText("Health: " + QString::number(100));
 
                 scene = new QGraphicsScene(this);
@@ -163,7 +176,7 @@ void MainWindow::pageChanged(int pageIndex)
 
                 //Helps keep the aspect ratio while resizing.
                 ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
-                ui->gameGraphicsView->show();
+                ui->gameGraphicsView->show();*/
                 break;
         }
         case 6: //gameOverPage
