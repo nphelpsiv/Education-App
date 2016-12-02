@@ -19,16 +19,14 @@ SOURCES += main.cpp\
     tower.cpp \
     world.cpp \
     contactlistener.cpp \
-    qsfmlcanvas.cpp \
-    canvas.cpp
+    qsfmlcanvas.cpp
 
 HEADERS  += mainwindow.h \
     ball.h \
     tower.h \
     world.h \
     contactlistener.h \
-    qsfmlcanvas.h \
-    canvas.h
+    qsfmlcanvas.h
 
 FORMS    += mainwindow.ui
 

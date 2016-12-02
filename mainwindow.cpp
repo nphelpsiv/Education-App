@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "canvas.h"
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
