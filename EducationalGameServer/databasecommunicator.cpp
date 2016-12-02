@@ -81,4 +81,24 @@ StudentInfo DatabaseCommunicator::getStudentInfo(int userID)
   return info;
 }
 
+int DatabaseCommunicator::addGame(int userID, int score, int level)
+{
+  QSqlQuery query;
+  query.prepare("insert into eduapp.games(userid ,score ,level) values(:userID, :score , :level)");
+  query.bindValue(":userID", userID);
+  query.bindValue(":score", score);
+  query.bindValue(":level", level);
+
+  query.exec();
+
+  if(query.size() == 0)
+  {
+      return -1;
+  }
+
+  while (query.next())
+  {
+      return query.value("gameid").toInt();
+  }
+}
 

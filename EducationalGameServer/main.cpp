@@ -92,9 +92,9 @@ void Server(void)
                             packet >> s;
                             std::cout << s << std::endl;
 
-                            int uID = dbc.addStudent("noob25" , "1234" , "JohnnyJohnson" , true , "idk");
+                            int uID = dbc.addStudent(QString(s.c_str()) , "1234" , "JohnnyJohnson" , true , "idk");
 
-                            std::cout << "UID after addStudent" << uID << std::endl;
+                            std::cout << "UID after addStudent " << uID << std::endl;
 
                             StudentInfo info = dbc.getStudentInfo(uID);
 
@@ -104,7 +104,9 @@ void Server(void)
                             std::cout << (info.classCode.toStdString()) << std::endl;
                             std::cout << (info.realName.toStdString()) << std::endl;
                             std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl;
-                            std::cout << "isValid? " <<   (info.isValid ? "True" : "False") << std::endl;
+                            std::cout << "isValid? " <<   (info.isValid ? "True" : "False") << std::endl << std::endl;
+
+                            dbc.addGame(info.userID, 2048 , 42);
                         }
 
                         //send back to client that it was received.
