@@ -155,11 +155,12 @@ void MainWindow::pageChanged(int pageIndex)
 
                 setWindowTitle(windowTitle = "Game");
 
-                ui->gameRenderWidget->setEnabled(true);
-                ui->gameRenderWidget->resize(1800, 1000);
-                ui->gameRenderWidget->show();
+                ui->gameRenderFrame->setLayout(ui->verticalLayout_11);
+                ui->gameRenderFrame->setEnabled(true);
+                ui->gameRenderFrame->resize(ui->gameRenderFrame->sizeHint());
+                ui->gameRenderFrame->show();
 
-                World* world = new World(ui->gameRenderWidget, QPoint(0, 0), QSize(1200, 400));
+                World* world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(1200, 800));
                 world->show();
                 world->start();
 
@@ -175,7 +176,7 @@ void MainWindow::pageChanged(int pageIndex)
                 world->start();
 
                 gameScore = 0;
-                ui->scoreLabel->setText("Score: " + QString::number(gameScore));
+                ui->scoreLabel->setText("Score: " + QString::number(gameScore));*/
 
                 QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
                 QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
@@ -184,8 +185,8 @@ void MainWindow::pageChanged(int pageIndex)
                 QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
 
                 //Helps keep the aspect ratio while resizing.
-                ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
-                ui->gameGraphicsView->show();*/
+                //ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+                //ui->gameGraphicsView->show();
                 break;
         }
         case 6: //gameOverPage
@@ -197,7 +198,7 @@ void MainWindow::pageChanged(int pageIndex)
 void MainWindow::resizeEvent(QResizeEvent*)
 {
     //ui->gameRenderWidget->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
-
+    //ui->gameRenderFrame->resize(ui->gameRenderFrame->sizeHint());
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
 }
 

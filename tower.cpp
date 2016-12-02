@@ -19,29 +19,29 @@ Tower::~Tower()
 
 }
 
-QRectF Tower::boundingRect() const
+/*QRectF Tower::boundingRect() const
 {
      return QRectF(0,0,width*30,height*30);
-}
+}*/
 
-void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+/*void Tower::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->fillRect(0, 0, width*2, height*2, QBrush(Qt::gray));
     //painter->drawRect(0, 0, width*2, height*2);
 
     painter->drawLine(-220, height*2, width*2+220, height*2);
 
-}
+}*/
 
-void Tower::timerEvent(QTimerEvent *event)
+/*void Tower::timerEvent(QTimerEvent *event)
 {
 
-}
+}*/
 
-void Tower::mousePressEvent(QGraphicsSceneMouseEvent *event)
+/*void Tower::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
-}
+}*/
 
 void Tower::createTowerBox2D()
 {

@@ -6,7 +6,7 @@
 #include <Box2D/Box2D.h>
 #include <iostream>
 
-class Tower : public QObject, public QGraphicsItem
+class Tower : public QObject
 {
     Q_OBJECT
 public:
@@ -14,11 +14,11 @@ public:
 
     ~Tower();
 
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
+    //QRectF boundingRect() const Q_DECL_OVERRIDE;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
-    void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
+    //void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 
     void wasHit();
 
@@ -26,7 +26,7 @@ public:
 
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    //void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 signals:
     void healthChanged(int);

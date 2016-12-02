@@ -96,6 +96,8 @@ private:
     sf::Sprite cannonSprite;
     sf::Sprite towerSprite;
 
+    QVector<sf::Texture> textures;
+    QVector<sf::Sprite> sprites;
 };
 
 

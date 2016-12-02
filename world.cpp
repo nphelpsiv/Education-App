@@ -9,7 +9,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     towerWidth = 160;
     towerHeight = 300;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
-    tower->setPos(-towerWidth, -towerHeight+325);
+    //tower->setPos(-towerWidth, -towerHeight+325);
     towers.push_back(tower);
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
@@ -37,7 +37,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     explosionSound.setVolume(75);
     cannonSound.setVolume(75);
 
-    if(!music.openFromFile("../edu-app-qt_pies-1/Sounds/BackgroundMusic.ogg"))
+    if(!music.openFromFile("../../edu-app-qt_pies-1/Sounds/BackgroundMusic.ogg"))
     {
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
@@ -97,18 +97,32 @@ void World::ballSpawnCall()
     if(rand() % 2 == 0)
     {
         balls.push_back(new Ball(-700, 200, 30, world));
-        balls[balls.size() -1]->setPos(-700, 200);
+        //balls[balls.size() -1]->setPos(-700, 200);
     }
     else
     {
         balls.push_back(new Ball(700, 200, 30, world));
-        balls[balls.size() -1]->setPos(700, 200);
+        //balls[balls.size() -1]->setPos(700, 200);
     }
 
     //scene()->addItem(balls[balls.size() - 1]);
 
-    update();
-    if(!cannonSound.openFromFile("../edu-app-qt_pies-1/Sounds/CannonSound.wav"))
+    sf::Texture t;
+    sf::Sprite s;
+    t.loadFromFile("/home/justin/Documents/CS3505/Sprites/SFMLSprite/icon.png");
+    t.setSmooth(true);
+    textures.push_back(t);
+
+    // Setup the sprite
+    s.setTexture(cannonTexture);
+    s.setOrigin(10, 10);
+    s.setPosition(20, 20);
+    s.setScale(0.2, 0.2);
+    sprites.push_back(s);
+
+
+    //update();
+    if(!cannonSound.openFromFile("../../edu-app-qt_pies-1/Sounds/CannonSound.wav"))
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
@@ -151,7 +165,7 @@ void World::timeupdated()
 
                 //the destructor handles removing itself from world
                 delete b;
-                if(!explosionSound.openFromFile("../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
+                if(!explosionSound.openFromFile("../../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
@@ -168,7 +182,7 @@ void World::timeupdated()
             }
             else
             {
-                balls[i]->move();
+                //balls[i]->move();
             }
         }
         update();
@@ -206,7 +220,7 @@ void World::answerEntered(QString s)
             score += 100;
             emit scoreChanged(score);
 
-            if(!answerSound.openFromFile("../edu-app-qt_pies-1/Sounds/AnswerSound.wav"))
+            if(!answerSound.openFromFile("../../edu-app-qt_pies-1/Sounds/AnswerSound.wav"))
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
@@ -222,7 +236,7 @@ void World::healthChanged(int h)
     if(h <= 0)
     {
         emit outOfHealth();
-        game == false;
+        game = false;
 
         return;
     }
@@ -293,10 +307,11 @@ void World::OnUpdate()
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
                 balls.remove(i);
+                sprites.remove(i);
 
                 //the destructor handles removing itself from world
                 delete b;
-                if(!explosionSound.openFromFile("../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
+                if(!explosionSound.openFromFile("../../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
@@ -313,23 +328,25 @@ void World::OnUpdate()
             }
             else
             {
-                balls[i]->move();
+                //balls[i]->move();
             }
         }
-        //update();
+        // Clear screen
+        this->clear(sf::Color(0, 0, 100));
+
+        for(int i = 0; i < balls.size(); i++)
+        {
+            QPoint p = balls[i]->getPosition();
+            sprites[i].setPosition(p.x()+600, p.y() + 150);
+            sf::RenderWindow::draw(sprites[i]);
+        }
+
+
+
+        // Draw it
+
+        sf::RenderWindow::draw(towerSprite);
     }
 
-    // Clear screen
-    this->clear(sf::Color(0, 0, 100));
 
-    if(balls.size() > 0)
-    {
-    QPoint p = balls[0]->getPosition();
-    cannonSprite.setPosition(p.x()+ 600, p.y() + 150);
-    sf::RenderWindow::draw(cannonSprite);
-    }
-
-    // Draw it
-
-    sf::RenderWindow::draw(towerSprite);
 }
