@@ -84,7 +84,7 @@ void World::ballSpawnCall()
     //Setup the texture for the cannon ball.
     sf::Texture t;
     sf::Sprite s;
-    t.loadFromFile("/home/justin/Documents/CS3505/Sprites/SFMLSprite/icon.png");
+    t.loadFromFile("/home/justin/repos/CS3505/A8/edu-app-qt_pies-1/Icons/icon.png");
     t.setSmooth(true);
     textures.push_back(t);
 
