@@ -48,6 +48,7 @@ void Server(void)
     sf::Thread* thread = new sf::Thread(&GetInput);
     thread->launch();
 
+
     while(!quit)
     {
         //Makes selector wait on data coming from any socket.
@@ -90,10 +91,20 @@ void Server(void)
                             //extrude packet into string and print (Testing purposes)
                             packet >> s;
                             std::cout << s << std::endl;
-                            StudentInfo testinfo = dbc.getStudentInfo(2);
 
-                            std::cout << testinfo.username.toStdString() << std::endl;
-                            std::cout << testinfo.classCode.toStdString() << std::endl;
+                            int uID = dbc.addStudent("noob25" , "1234" , "JohnnyJohnson" , true , "idk");
+
+                            std::cout << "UID after addStudent" << uID << std::endl;
+
+                            StudentInfo info = dbc.getStudentInfo(uID);
+
+                            std::cout << (info.username.toStdString()) << std::endl;
+                            std::cout << (info.password.toStdString()) << std::endl;
+                            std::cout << (info.userID) << std::endl;
+                            std::cout << (info.classCode.toStdString()) << std::endl;
+                            std::cout << (info.realName.toStdString()) << std::endl;
+                            std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl;
+                            std::cout << "isValid? " <<   (info.isValid ? "True" : "False") << std::endl;
                         }
 
                         //send back to client that it was received.

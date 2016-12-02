@@ -10,6 +10,8 @@ public:
   QString realName;
   bool isTeacher;
   QString classCode;
+
+  bool isValid;
 };
 
 
