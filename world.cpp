@@ -299,7 +299,7 @@ void World::createExplosion(int ballX, int ballY)
         scene()->addItem(debrisVec[debrisVec.size() -1]);
 
         // Have a timer so that it can be destroyed after a little bit.
-        int randTime = rand() % 1000 + 250;
+        int randTime = rand() % 2000 + 250;
 
         // [debrisVec.size() - 1] should be the last Debris Particle made.
         // Each Debris Particle has it's own timer.
@@ -308,20 +308,46 @@ void World::createExplosion(int ballX, int ballY)
         // But it's telling me there is no such SLOT
         // Even though there definitely is???
         // What am I missing??
-        //debrisVec[debrisVec.size() - 1]->getTimer()->singleShot(randTime, this, SLOT(deleteParticleAt(debrisVec.size() - 1)));
-        debrisVec[debrisVec.size() - 1]->getTimer()->singleShot(randTime, this, SLOT(deleteParticleAt(debrisVec.size() - 1)));
+
+        int temp = debrisVec.size() - 1;
+
+        // use this with the SLOT deleteParticleAt(int index),
+        // but there are indexing issues that need worked out
+        //debrisVec[temp]->getTimer()->singleShot(randTime, [=](){deleteParticleAt(temp);});
+
+
+        debrisVec[temp]->getTimer()->singleShot(randTime, this, SLOT(deleteParticles()));
     }
 }
 
 // Trying to delete a debris particle
+// There are indexing issues with this way.
+// When we remove one then another one might
+// have an index that is higher than the vector now is
 void World::deleteParticleAt(int index)
 {
     std::cout << "delete particle" << std::endl;
     if(!debrisVec.isEmpty())
     {
-        Debris *d = debrisVec[index];
-        debrisVec.remove(index);
+        Debris *d = debrisVec[debrisVec.size() - 1];
+        debrisVec.remove(debrisVec.size() - 1);
         delete d;
 
     }
 }
+
+// This just deletes particles not by any order they were made, just by the size of the vector
+void World::deleteParticles()
+{
+    std::cout << "delete particle" << std::endl;
+    if(!debrisVec.isEmpty())
+    {
+        Debris *d = debrisVec[debrisVec.size() - 1];
+        debrisVec.remove(debrisVec.size() - 1);
+        delete d;
+
+    }
+}
+
+
+

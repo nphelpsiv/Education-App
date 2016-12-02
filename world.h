@@ -36,6 +36,8 @@ public:
 
     ContactListener contactListenerInstance;
 
+    int * particleIndex;
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
@@ -46,7 +48,7 @@ public slots:
     void healthChanged(int);
     void gameEnded();
     void toggleSound();
-    void deleteParticleAt(int);
+
 
 
 signals:
@@ -95,6 +97,11 @@ private:
     sf::Music cannonSound;
     sf::Music explosionSound;
     sf::Music answerSound;
+
+private slots:
+    //void testslot();
+    void deleteParticleAt(int);
+    void deleteParticles();
 
 
 };
