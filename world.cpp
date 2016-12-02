@@ -84,7 +84,7 @@ void World::ballSpawnCall()
     //Setup the texture for the cannon ball.
     sf::Texture t;
     sf::Sprite s;
-    t.loadFromFile("/home/justin/repos/CS3505/A8/edu-app-qt_pies-1/Icons/icon.png");
+    t.loadFromFile("../Icons/icon.png");
     t.setSmooth(true);
     textures.push_back(t);
 
@@ -191,7 +191,7 @@ void World::toggleSound()
 void World::OnInit()
 {
     //Setup Tower Texture.
-    towerTexture.loadFromFile("/home/justin/repos/CS3505/A8/edu-app-qt_pies-1/Icons/Tower.png");
+    towerTexture.loadFromFile("../Icons/Tower.png");
     towerTexture.setSmooth(true);
 
     //Setup Tower Sprite.
