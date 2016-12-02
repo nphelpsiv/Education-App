@@ -31,6 +31,8 @@ public:
 
     int getValue();
 
+    QPoint getPosition();
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 

@@ -100,4 +100,7 @@ int Ball::getValue()
     return value;
 }
 
-
+QPoint Ball::getPosition()
+{
+    return QPoint(body->GetPosition().x * 0.6, -body->GetPosition().y * 0.6);
+}

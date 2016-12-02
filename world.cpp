@@ -1,6 +1,7 @@
 #include "world.h"
 
-World::World(QGraphicsScene* scene)
+World::World(QWidget* parent, const QPoint& position, const QSize& size) :
+    QSFMLCanvas(parent, position, size, 1000/60)
 {
     time = 0;
     b2Vec2 gravity(0.0f, -20.0f);
@@ -15,7 +16,7 @@ World::World(QGraphicsScene* scene)
 
     world->SetContactListener(&contactListenerInstance);
     //ball = new Ball(20, 20, 10, world);
-    scene->addItem(tower);
+    //scene->addItem(tower);
     //scene->addItem(ball);
 
     createGroundBox2D();
@@ -64,24 +65,24 @@ World::~World()
     }
 }
 
-QRectF World::boundingRect() const
+/*QRectF World::boundingRect() const
 {
     return QRectF(0,0,10000,10000);
-}
+}*/
 
-void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+/*void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 //    painter->setPen(Qt::red);
 //    painter->setFont(QFont("Arial", 100, QFont::Bold));
 //    painter->drawText(-300, -health, "HEALTH: " + QString::number(health));
-}
+}*/
 
 void World::start()
 {
-    timer = new QTimer(this);
+    /*timer = new QTimer(this);
     timer->start(1000/60);
 
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));*/
 
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
@@ -104,7 +105,7 @@ void World::ballSpawnCall()
         balls[balls.size() -1]->setPos(700, 200);
     }
 
-    scene()->addItem(balls[balls.size() - 1]);
+    //scene()->addItem(balls[balls.size() - 1]);
 
     update();
     if(!cannonSound.openFromFile("../edu-app-qt_pies-1/Sounds/CannonSound.wav"))
@@ -114,11 +115,11 @@ void World::ballSpawnCall()
     cannonSound.play();
 }
 
-void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
+/*void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mousePressEvent(event);
     update();
-}
+}*/
 
 void World::timeupdated()
 {
@@ -257,4 +258,78 @@ void World::toggleSound()
         explosionSound.setVolume(75);
         cannonSound.setVolume(75);
     }
+}
+
+void World::OnInit()
+{
+    // Load the image
+    cannonTexture.loadFromFile("/home/justin/Documents/CS3505/Sprites/SFMLSprite/icon.png");
+    cannonTexture.setSmooth(true);
+
+    // Setup the sprite
+    cannonSprite.setTexture(cannonTexture);
+    cannonSprite.setOrigin(10, 10);
+    cannonSprite.setPosition(20, 20);
+    cannonSprite.setScale(0.2, 0.2);
+
+    towerTexture.loadFromFile("/home/justin/repos/CS3505/A8/edu-app-qt_pies-1/Icons/Tower.png");
+    towerTexture.setSmooth(true);
+
+    // Setup the sprite
+    towerSprite.setTexture(towerTexture);
+    towerSprite.setOrigin(100, 100);
+    towerSprite.setPosition(600, 200);
+}
+
+void World::OnUpdate()
+{
+    if(game)
+    {
+        world->Step(1.0f/60.0f, 8, 3);
+        for(int i = 0; i<balls.size(); i++)
+        {
+            if(balls[i]->hasCollided())
+            {
+                //Since the ball has collided, we can removed the ball.
+                Ball *b = balls[i];
+                balls.remove(i);
+
+                //the destructor handles removing itself from world
+                delete b;
+                if(!explosionSound.openFromFile("../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
+                {
+                    std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
+                }
+                explosionSound.play();
+
+                Tower *t = towers[i];
+                if(t[i].destroyed())
+                {
+                    std::cout << "Tower Was destroyed" << std::endl;
+                    towers.remove(i);
+                    delete t;
+                }
+
+            }
+            else
+            {
+                balls[i]->move();
+            }
+        }
+        //update();
+    }
+
+    // Clear screen
+    this->clear(sf::Color(0, 0, 100));
+
+    if(balls.size() > 0)
+    {
+    QPoint p = balls[0]->getPosition();
+    cannonSprite.setPosition(p.x()+ 600, p.y() + 150);
+    sf::RenderWindow::draw(cannonSprite);
+    }
+
+    // Draw it
+
+    sf::RenderWindow::draw(towerSprite);
 }

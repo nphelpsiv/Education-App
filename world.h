@@ -16,25 +16,26 @@
 #include <stdlib.h>
 #include "contactlistener.h"
 #include <SFML/Audio.hpp>
+#include "qsfmlcanvas.h"
 
-class World : public QObject, public QGraphicsItem
+class World : public QSFMLCanvas
 {
     Q_OBJECT
 public:
-    World(QGraphicsScene* scene);
+    World(QWidget* Parent, const QPoint& Position, const QSize& Size);
 
     ~World();
 
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
+    //QRectF boundingRect() const Q_DECL_OVERRIDE;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
     void start();
 
     ContactListener contactListenerInstance;
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
+    //void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 public slots:
     void timeupdated();
@@ -87,6 +88,13 @@ private:
     sf::Music explosionSound;
     sf::Music answerSound;
 
+    void OnInit();
+    void OnUpdate();
+
+    sf::Texture cannonTexture;
+    sf::Texture towerTexture;
+    sf::Sprite cannonSprite;
+    sf::Sprite towerSprite;
 
 };
 

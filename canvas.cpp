@@ -15,7 +15,7 @@ void Canvas::OnInit()
 void Canvas::OnUpdate()
 {
     // Clear screen
-    this->clear(sf::Color(100, 0, 0));
+    this->clear(sf::Color(0, 0, 128));
 
     // Rotate the sprite
     mySprite.rotate(1.0f);

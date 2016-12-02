@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(title);
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 
-    scene = new QGraphicsScene(this);
-    scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
+    //scene = new QGraphicsScene(this);
+    //scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
 
 
     setupConnectAndActions();
@@ -123,12 +123,12 @@ void MainWindow::pageChanged(int pageIndex)
         {
             setWindowTitle(windowTitle = "Login");
 
-            ui->widget->setEnabled(true);
-            ui->widget->resize(400, 400);
-            ui->widget->show();
+            //ui->widget->setEnabled(true);
+            //ui->widget->resize(400, 400);
+            //ui->widget->show();
 
-            Canvas* SFMLView = new Canvas(ui->widget, QPoint(20, 20), QSize(360, 360));
-            SFMLView->show();
+            //Canvas* SFMLView = new Canvas(ui->widget, QPoint(20, 20), QSize(360, 360));
+            //SFMLView->show();
 
         }
         break;
@@ -154,6 +154,15 @@ void MainWindow::pageChanged(int pageIndex)
 
 
                 setWindowTitle(windowTitle = "Game");
+
+                ui->gameRenderWidget->setEnabled(true);
+                ui->gameRenderWidget->resize(1800, 1000);
+                ui->gameRenderWidget->show();
+
+                World* world = new World(ui->gameRenderWidget, QPoint(0, 0), QSize(1200, 400));
+                world->show();
+                world->start();
+
                 /*ui->operationLabel->setText("Operation: 3 *");
                 ui->healthLabel->setText("Health: " + QString::number(100));
 
@@ -187,7 +196,8 @@ void MainWindow::pageChanged(int pageIndex)
 //Helps preserve the aspect ration while the window is resized.
 void MainWindow::resizeEvent(QResizeEvent*)
 {
-    ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+    //ui->gameRenderWidget->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
 }
 
