@@ -1,6 +1,10 @@
 #ifndef QSFMLCANVAS_H
 #define QSFMLCANVAS_H
 
+/*
+ * This class is to be inherited by any class that will be a SFML Render Window
+ */
+
 #include <SFML/Graphics.hpp>
 #include <QTimer>
 #include <qwidget.h>
@@ -16,6 +20,7 @@ public :
 
 private :
 
+    //This method initializes the
     virtual void OnInit();
 
     virtual void OnUpdate();

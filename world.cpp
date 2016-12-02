@@ -9,15 +9,11 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     towerWidth = 160;
     towerHeight = 300;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
-    //tower->setPos(-towerWidth, -towerHeight+325);
     towers.push_back(tower);
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
     world->SetContactListener(&contactListenerInstance);
-    //ball = new Ball(20, 20, 10, world);
-    //scene->addItem(tower);
-    //scene->addItem(ball);
 
     createGroundBox2D();
 
@@ -65,31 +61,13 @@ World::~World()
     }
 }
 
-/*QRectF World::boundingRect() const
-{
-    return QRectF(0,0,10000,10000);
-}*/
-
-/*void World::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-//    painter->setPen(Qt::red);
-//    painter->setFont(QFont("Arial", 100, QFont::Bold));
-//    painter->drawText(-300, -health, "HEALTH: " + QString::number(health));
-}*/
-
 void World::start()
 {
-    /*timer = new QTimer(this);
-    timer->start(1000/60);
-
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(timeupdated()));*/
-
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
     spawnTimer->start(3000);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
-
 }
 
 void World::ballSpawnCall()
@@ -97,16 +75,13 @@ void World::ballSpawnCall()
     if(rand() % 2 == 0)
     {
         balls.push_back(new Ball(-700, 200, 30, world));
-        //balls[balls.size() -1]->setPos(-700, 200);
     }
     else
     {
         balls.push_back(new Ball(700, 200, 30, world));
-        //balls[balls.size() -1]->setPos(700, 200);
     }
 
-    //scene()->addItem(balls[balls.size() - 1]);
-
+    //Setup the texture for the cannon ball.
     sf::Texture t;
     sf::Sprite s;
     t.loadFromFile("/home/justin/Documents/CS3505/Sprites/SFMLSprite/icon.png");
@@ -114,7 +89,7 @@ void World::ballSpawnCall()
     textures.push_back(t);
 
     // Setup the sprite
-    s.setTexture(cannonTexture);
+    s.setTexture(t);
     s.setOrigin(10, 10);
     s.setPosition(20, 20);
     s.setScale(0.2, 0.2);
@@ -128,67 +103,6 @@ void World::ballSpawnCall()
     }
     cannonSound.play();
 }
-
-/*void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsItem::mousePressEvent(event);
-    update();
-}*/
-
-void World::timeupdated()
-{
-    /*if(!game)
-    {
-        for(int i = 0; i < balls.size(); i++)
-        {
-            Ball *b = balls[i];
-            balls.remove(i);
-
-            //the destructor handles removing itself from world
-            delete b;
-        }
-        delete tower;
-        timer->stop();
-        spawnTimer->stop();
-        return;
-    }*/
-    if(game)
-    {
-        world->Step(1.0f/60.0f, 8, 3);
-        for(int i = 0; i<balls.size(); i++)
-        {
-            if(balls[i]->hasCollided())
-            {
-                //Since the ball has collided, we can removed the ball.
-                Ball *b = balls[i];
-                balls.remove(i);
-
-                //the destructor handles removing itself from world
-                delete b;
-                if(!explosionSound.openFromFile("../../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
-                {
-                    std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
-                }
-                explosionSound.play();
-
-                Tower *t = towers[i];
-                if(t[i].destroyed())
-                {
-                    std::cout << "Tower Was destroyed" << std::endl;
-                    towers.remove(i);
-                    delete t;
-                }
-
-            }
-            else
-            {
-                //balls[i]->move();
-            }
-        }
-        update();
-    }
-}
-
 
 void World::createGroundBox2D()
 {
@@ -237,7 +151,7 @@ void World::healthChanged(int h)
     {
         emit outOfHealth();
         game = false;
-
+        spawnTimer->stop();
         return;
     }
     else
@@ -276,20 +190,11 @@ void World::toggleSound()
 
 void World::OnInit()
 {
-    // Load the image
-    cannonTexture.loadFromFile("/home/justin/Documents/CS3505/Sprites/SFMLSprite/icon.png");
-    cannonTexture.setSmooth(true);
-
-    // Setup the sprite
-    cannonSprite.setTexture(cannonTexture);
-    cannonSprite.setOrigin(10, 10);
-    cannonSprite.setPosition(20, 20);
-    cannonSprite.setScale(0.2, 0.2);
-
+    //Setup Tower Texture.
     towerTexture.loadFromFile("/home/justin/repos/CS3505/A8/edu-app-qt_pies-1/Icons/Tower.png");
     towerTexture.setSmooth(true);
 
-    // Setup the sprite
+    //Setup Tower Sprite.
     towerSprite.setTexture(towerTexture);
     towerSprite.setOrigin(100, 100);
     towerSprite.setPosition(600, 200);
@@ -326,25 +231,22 @@ void World::OnUpdate()
                 }
 
             }
-            else
-            {
-                //balls[i]->move();
-            }
         }
         // Clear screen
         this->clear(sf::Color(0, 0, 100));
 
+        //Draw all balls.
         for(int i = 0; i < balls.size(); i++)
         {
             QPoint p = balls[i]->getPosition();
+            //The position is only here for the current size of the widget.
+            //Once we can resize the widget, I believe this will change.
             sprites[i].setPosition(p.x()+600, p.y() + 150);
+            sprites[i].setTexture(textures[i]);
             sf::RenderWindow::draw(sprites[i]);
         }
 
-
-
-        // Draw it
-
+        //Draw Tower. This will be replaced by selecting current tower (attributed to health)
         sf::RenderWindow::draw(towerSprite);
     }
 

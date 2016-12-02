@@ -26,19 +26,11 @@ public:
 
     ~World();
 
-    //QRectF boundingRect() const Q_DECL_OVERRIDE;
-
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
-
     void start();
 
     ContactListener contactListenerInstance;
 
-protected:
-    //void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
-
 public slots:
-    void timeupdated();
     void ballSpawnCall();
     void answerEntered(QString);
     void healthChanged(int);
@@ -88,14 +80,17 @@ private:
     sf::Music explosionSound;
     sf::Music answerSound;
 
+    //This method initializes the sprites and textures that is needed when starting
     void OnInit();
+    //This method is where objects will be updated and drawn.
     void OnUpdate();
 
-    sf::Texture cannonTexture;
+    //sf::Texture cannonTexture;
     sf::Texture towerTexture;
-    sf::Sprite cannonSprite;
+    //sf::Sprite cannonSprite;
     sf::Sprite towerSprite;
 
+    //This will how we will store textures and sprites for the cannon balls.
     QVector<sf::Texture> textures;
     QVector<sf::Sprite> sprites;
 };

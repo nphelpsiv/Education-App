@@ -15,10 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(title);
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 
-    //scene = new QGraphicsScene(this);
-    //scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
-
-
     setupConnectAndActions();
 
     gameScore = 0;
@@ -119,17 +115,7 @@ void MainWindow::pageChanged(int pageIndex)
     switch(pageIndex)
     {
         case 0: //loginPage
-        {
             setWindowTitle(windowTitle = "Login");
-
-            //ui->widget->setEnabled(true);
-            //ui->widget->resize(400, 400);
-            //ui->widget->show();
-
-            //Canvas* SFMLView = new Canvas(ui->widget, QPoint(20, 20), QSize(360, 360));
-            //SFMLView->show();
-
-        }
         break;
 
         case 1: //signUpPage:
@@ -150,8 +136,6 @@ void MainWindow::pageChanged(int pageIndex)
 
         case 5: //gamePage
         {
-
-
                 setWindowTitle(windowTitle = "Game");
 
                 ui->gameRenderFrame->setLayout(ui->verticalLayout_11);
@@ -159,23 +143,12 @@ void MainWindow::pageChanged(int pageIndex)
                 ui->gameRenderFrame->resize(ui->gameRenderFrame->sizeHint());
                 ui->gameRenderFrame->show();
 
-                World* world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(1200, 800));
+                world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(1200, 800));
                 world->show();
                 world->start();
 
-                /*ui->operationLabel->setText("Operation: 3 *");
-                ui->healthLabel->setText("Health: " + QString::number(100));
-
-                scene = new QGraphicsScene(this);
-                scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
-                ui->gameGraphicsView->setScene(scene);
-                world = new World(scene);
-                world->setPos(0, 0);
-                scene->addItem(world);
-                world->start();
-
                 gameScore = 0;
-                ui->scoreLabel->setText("Score: " + QString::number(gameScore));*/
+                ui->scoreLabel->setText("Score: " + QString::number(gameScore));
 
                 QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
                 QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
@@ -196,8 +169,9 @@ void MainWindow::pageChanged(int pageIndex)
 //Helps preserve the aspect ration while the window is resized.
 void MainWindow::resizeEvent(QResizeEvent*)
 {
+    /////NOT REALLY SURE HOW TO RESIZE THE QWIDGET////
+
     //ui->gameRenderWidget->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
-    //ui->gameRenderFrame->resize(ui->gameRenderFrame->sizeHint());
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
 }
 
@@ -259,12 +233,8 @@ void MainWindow::healthChanged(int h)
 
 void MainWindow::outOfHealth()
 {
-    //delete scene;
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
-
     emit gameEnded();
-    //delete world;
-
     endGame();
 }
 
