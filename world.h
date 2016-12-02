@@ -66,6 +66,9 @@ private:
     int time;
     QTimer *timer;
 
+    QTimer *debrisTimer;
+    QVector<QTimer*> debrisTimeVec;
+
     QTimer *spawnTimer;
     QPainter *painterObj;
     Tower *tower;

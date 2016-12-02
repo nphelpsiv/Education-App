@@ -34,8 +34,8 @@ void Debris::createDebrisBox2D()
     // Have a timer so that it can be destroyed after a little bit.
     timer = new QTimer(this);
     int randTime = rand() % 1000 + 250;
-    timer->start(randTime);
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(deleteDebrisParticle()));
+    timer->singleShot(randTime, this, SLOT(deleteDebrisParticle()));
+
 
     //Debris Position
     b2BodyDef debrisBodyDef;
@@ -77,6 +77,13 @@ void Debris::move()
 
 void Debris::deleteDebrisParticle()
 {
-    emit deleteParticle();
-    std::cout << "From Debris emitting delete particle" << std::endl;
+    //emit deleteParticle();
+    //std::cout << "From Debris emitting delete particle" << std::endl;
+    //this->~Debris();
+    //delete this;
+}
+
+QTimer* Debris::getTimer()
+{
+    return timer;
 }

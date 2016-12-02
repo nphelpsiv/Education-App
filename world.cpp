@@ -63,6 +63,14 @@ World::~World()
         //the destructor handles removing itself from world
         delete t;
     }
+    for(int i = 0; i < debrisVec.size(); i++)
+    {
+        Debris *d  = debrisVec[i];
+        debrisVec.remove(i);
+
+        //the destructor handles removing itself from world
+        delete d;
+    }
 }
 
 QRectF World::boundingRect() const
@@ -141,16 +149,23 @@ void World::timeupdated()
         world->Step(1.0f/60.0f, 8, 3);
 
         // Move all the debris
-        if (debrisVec.size() > 0)
-        {
+        //if (debrisVec.size() > 0)
+        //{
             for(int i = 0; i < debrisVec.size(); i++)
             {
-                debrisVec[i]->move();
+                if (debrisVec.size() > 0 && debrisVec[i] == NULL)
+                {
+                    debrisVec.remove(i);
+                }
+                if (debrisVec.size() > 0 && debrisVec[i] != NULL)
+                {
+                    debrisVec[i]->move();
 
                 // delete debris that can be
                 //QObject::connect(debrisVec[i], SIGNAL(deleteParticle()), this, SLOT(deleteParticleAt(i)));
+                }
             }
-        }
+        //}
 
         // Move all cannonballs
         for(int i = 0; i<balls.size(); i++)
@@ -160,7 +175,7 @@ void World::timeupdated()
             {
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
-                createExplosion(b->getX(), b->getY()); // before removing create an explosion
+                createExplosion(b->getX(), b->getY()); // before removing create an explosion with these coordinates
                 balls.remove(i);
 
                 //the destructor handles removing itself from world
@@ -275,30 +290,38 @@ void World::toggleSound()
 }
 void World::createExplosion(int ballX, int ballY)
 {
-    QTimer *debrisTimer;
     // Make a random number of little debris
     int randNumofDebris = rand() % 8 + 2;
     for(int i = 0; i <= randNumofDebris; i++)
     {
-        // make a timer for deleting the particle later
-        debrisTimer = new QTimer(this);
-        int randTime = rand() % 1000 + 250;
-        debrisTimer->start(randTime);
-        QObject::connect(debrisTimer, SIGNAL(timeout()), this, SLOT(deleteParticleAt(i)));
-
         debrisVec.push_back(new Debris(ballX, ballY, 5, world));
         debrisVec[debrisVec.size() -1]->setPos(ballX, ballY);
         scene()->addItem(debrisVec[debrisVec.size() -1]);
+
+        // Have a timer so that it can be destroyed after a little bit.
+        int randTime = rand() % 1000 + 250;
+
+        // [debrisVec.size() - 1] should be the last Debris Particle made.
+        // Each Debris Particle has it's own timer.
+        // So get that particles timer and set a singleshot for randTime
+        // Should connect with SLOT deleteParticleAt([debrisVec.size() - 1])
+        // But it's telling me there is no such SLOT
+        // Even though there definitely is???
+        // What am I missing??
+        //debrisVec[debrisVec.size() - 1]->getTimer()->singleShot(randTime, this, SLOT(deleteParticleAt(debrisVec.size() - 1)));
+        debrisVec[debrisVec.size() - 1]->getTimer()->singleShot(randTime, this, SLOT(deleteParticleAt(debrisVec.size() - 1)));
     }
 }
 
 // Trying to delete a debris particle
 void World::deleteParticleAt(int index)
 {
-
     std::cout << "delete particle" << std::endl;
     if(!debrisVec.isEmpty())
     {
+        Debris *d = debrisVec[index];
         debrisVec.remove(index);
+        delete d;
+
     }
 }

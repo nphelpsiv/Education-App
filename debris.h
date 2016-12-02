@@ -20,6 +20,8 @@ public:
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
+    QTimer* getTimer();
+
     void move();
 signals:
     void deleteParticle();
