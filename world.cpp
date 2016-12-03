@@ -113,13 +113,7 @@ void World::ballSpawnCall()
     cannonSound.play();
 }
 
-void World::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsItem::mousePressEvent(event);
-    update();
-}
-
-void World::timeupdated()
+/*void World::timeupdated()
 {
     /*if(!game)
     {
@@ -135,7 +129,7 @@ void World::timeupdated()
         timer->stop();
         spawnTimer->stop();
         return;
-    }*/
+    }
     if(game)
     {
         world->Step(1.0f/60.0f, 8, 3);
@@ -181,7 +175,7 @@ void World::timeupdated()
         }
         update();
     }
-}
+}*/
 
 
 void World::createGroundBox2D()
@@ -208,7 +202,8 @@ void World::answerEntered(QString s)
         if(s.toInt() == (balls[i]->getValue() * currentOperand))
         {
             Ball *b = balls[i];
-            createExplosion(b->getX(), b->getY()); // before removing create an explosion with these coordinates
+            QPoint p = b->getPosition();
+            createExplosion(p.x()/0.6, -p.y()/0.6); // before removing create an explosion with these coordinates
             balls.remove(i);
 
             delete b;
@@ -276,7 +271,34 @@ void World::createExplosion(int ballX, int ballY)
     {
         debrisVec.push_back(new Debris(ballX, ballY, 5, world));
         debrisVec[debrisVec.size() -1]->setPos(ballX, ballY);
-        scene()->addItem(debrisVec[debrisVec.size() -1]);
+        //scene()->addItem(debrisVec[debrisVec.size() -1]);
+
+        //Setup the texture for the cannon ball.
+        /*sf::Texture t;
+
+        t.loadFromFile("../Icons/icon.png");
+        t.setSmooth(true);
+        textures.push_back(t);*/
+
+        // Setup the sprite
+        sf::Sprite s;
+        s.setTexture(debTexture);
+        s.setOrigin(10, 10);
+        s.setPosition(20, 20);
+        s.setScale(0.1, 0.1);
+        debSprites.push_back(s);
+
+        // Have a timer so that it can be destroyed after a little bit.
+        int randTime = rand() % 2000 + 250;
+        int temp = debrisVec.size() - 1;
+
+        // use this with the SLOT deleteParticleAt(int index),
+        // but there are indexing issues that need worked out
+        //QTimer::singleShot(randTime, [=](){deleteParticleAt(temp);});
+
+        QTimer::singleShot(randTime, this, SLOT(deleteParticles()));
+     }
+}
 
 void World::OnInit()
 {
@@ -288,6 +310,12 @@ void World::OnInit()
     towerSprite.setTexture(towerTexture);
     towerSprite.setOrigin(100, 100);
     towerSprite.setPosition(600, 200);
+
+    sf::Texture t;
+
+    debTexture.loadFromFile("../Icons/icon.png");
+    debTexture.setSmooth(true);
+
 }
 
 void World::OnUpdate()
@@ -301,6 +329,8 @@ void World::OnUpdate()
             {
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
+                QPoint p = b->getPosition();
+                createExplosion(p.x()/0.6, -p.y()/0.6); // before removing create an explosion with these coordinates
                 balls.remove(i);
                 sprites.remove(i);
 
@@ -336,23 +366,20 @@ void World::OnUpdate()
             sf::RenderWindow::draw(sprites[i]);
         }
 
+        //Draw Debris
+        for(int i = 0; i < debrisVec.size(); i++)
+        {
+            QPoint p = debrisVec[i]->getPosition();
+            debSprites[i].setPosition(p.x()+600, p.y()+150);
+            debSprites[i].setTexture(debTexture);
+            sf::RenderWindow::draw(debSprites[i]);
+        }
+
         //Draw Tower. This will be replaced by selecting current tower (attributed to health)
         sf::RenderWindow::draw(towerSprite);
     }
 
 
-}
-
-        // Have a timer so that it can be destroyed after a little bit.
-        int randTime = rand() % 2000 + 250;
-        int temp = debrisVec.size() - 1;
-
-        // use this with the SLOT deleteParticleAt(int index),
-        // but there are indexing issues that need worked out
-        //QTimer::singleShot(randTime, [=](){deleteParticleAt(temp);});
-
-        QTimer::singleShot(randTime, this, SLOT(deleteParticles()));
-    }
 }
 
 // Trying to delete a debris particle

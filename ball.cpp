@@ -73,7 +73,7 @@ int Ball::getX()
 }
 int Ball::getY()
 {
-    return (int)body->GetPosition().y;
+    return -(int)body->GetPosition().y;
 }
 
 QPoint Ball::getPosition()

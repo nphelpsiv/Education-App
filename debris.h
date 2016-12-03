@@ -24,6 +24,8 @@ public:
 
     void move();
 
+    QPoint getPosition();
+
 private:
     int xPosD;
     int yPosD;

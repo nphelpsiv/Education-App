@@ -27,6 +27,10 @@ public:
 
     QPoint getPosition();
 
+    int getX();
+
+    int getY();
+
 
 private:
     bool ballContacting;

@@ -63,7 +63,7 @@ void Debris::createDebrisBox2D()
 
 void Debris::move()
 {
-    setPos(body->GetPosition().x, -body->GetPosition().y);
+    setPos(body->GetPosition().x * 0.6, -body->GetPosition().y * 0.6);
 }
 
 // The value of this particle
@@ -71,4 +71,10 @@ void Debris::move()
 int Debris::getValue()
 {
     return value;
+}
+
+QPoint Debris::getPosition()
+{
+    QPoint p(body->GetPosition().x*0.6, -body->GetPosition().y*0.6);
+    return p;
 }

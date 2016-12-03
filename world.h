@@ -96,9 +96,6 @@ private:
     void OnInit();
     //This method is where objects will be updated and drawn.
     void OnUpdate();
-private slots:
-    void deleteParticleAt(int);
-    void deleteParticles();
 
     //sf::Texture cannonTexture;
     sf::Texture towerTexture;
@@ -108,6 +105,15 @@ private slots:
     //This will how we will store textures and sprites for the cannon balls.
     QVector<sf::Texture> textures;
     QVector<sf::Sprite> sprites;
+
+    sf::Texture debTexture;
+    QVector<sf::Sprite> debSprites;
+
+private slots:
+    void deleteParticleAt(int);
+    void deleteParticles();
+
+
 };
 
 

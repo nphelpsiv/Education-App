@@ -19,7 +19,7 @@ SOURCES += main.cpp\
     tower.cpp \
     world.cpp \
     contactlistener.cpp \
-    debris.cpp
+    debris.cpp \
     qsfmlcanvas.cpp
 
 HEADERS  += mainwindow.h \
@@ -27,7 +27,7 @@ HEADERS  += mainwindow.h \
     tower.h \
     world.h \
     contactlistener.h \
-    qsfmlcanvas.h
+    qsfmlcanvas.h \
     debris.h
 
 FORMS    += mainwindow.ui
