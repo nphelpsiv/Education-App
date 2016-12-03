@@ -20,6 +20,7 @@ Ball::Ball(int x, int y, int r, b2World* worldb2)
 
 Ball::~Ball()
 {
+
     body->GetWorld()->DestroyBody(body);
 }
 

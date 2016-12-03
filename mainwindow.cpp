@@ -104,7 +104,7 @@ void MainWindow::on_endGamePushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
     emit gameEnded();
-    delete world;
+    //delete world;
 
     endGame();
 }
@@ -137,7 +137,36 @@ void MainWindow::pageChanged(int pageIndex)
         case 5: //gamePage
         {
                 setWindowTitle(windowTitle = "Game");
-                startGame();
+
+                //ui->gameRenderFrame->setLayout(ui->verticalLayout_11);
+                ui->gameRenderFrame->setEnabled(true);
+                ui->gameRenderFrame->resize(1200, 800);
+                ui->gameRenderFrame->show();
+
+                if(world == nullptr)
+                {
+                world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(1200, 800));
+                world->show();
+                world->start();
+
+                QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
+                QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
+                QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
+                QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
+                QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
+                }
+                else {
+                    world->start();
+                }
+
+                gameScore = 0;
+                ui->scoreLabel->setText("Score: " + QString::number(gameScore));
+                ui->healthLabel->setText("Health: 100");
+
+
+                //Helps keep the aspect ratio while resizing.
+                //ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+                //ui->gameGraphicsView->show();
                 break;
         }
         case 6: //gameOverPage
@@ -237,7 +266,7 @@ void MainWindow::healthChanged(int h)
 void MainWindow::outOfHealth()
 {
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
-    emit gameEnded();
+    //emit gameEnded();
     endGame();
 }
 
