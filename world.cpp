@@ -34,7 +34,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     explosionSound.setVolume(75);
     cannonSound.setVolume(75);
 
-    if(!music.openFromFile("../../edu-app-qt_pies-1/Sounds/BackgroundMusic.ogg"))
+    if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
@@ -106,7 +106,7 @@ void World::ballSpawnCall()
 
 
     //update();
-    if(!cannonSound.openFromFile("../../edu-app-qt_pies-1/Sounds/CannonSound.wav"))
+    if(!cannonSound.openFromFile("Sounds/CannonSound.wav"))
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
@@ -210,7 +210,7 @@ void World::answerEntered(QString s)
             score += 100;
             emit scoreChanged(score);
 
-            if(!answerSound.openFromFile("../../edu-app-qt_pies-1/Sounds/AnswerSound.wav"))
+            if(!answerSound.openFromFile("Sounds/AnswerSound.wav"))
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
@@ -336,7 +336,7 @@ void World::OnUpdate()
 
                 //the destructor handles removing itself from world
                 delete b;
-                if(!explosionSound.openFromFile("../../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
+                if(!explosionSound.openFromFile("Sounds/ExplosionSound.wav"))
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
