@@ -13,6 +13,7 @@
 #include <iostream>
 #include "tower.h"
 #include "ball.h"
+#include "debris.h"
 #include <stdlib.h>
 #include "contactlistener.h"
 #include <SFML/Audio.hpp>
@@ -31,7 +32,11 @@ public:
 
     void start();
 
+    void createExplosion(int ballX, int ballY);
+
     ContactListener contactListenerInstance;
+
+    int * particleIndex;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
@@ -43,6 +48,7 @@ public slots:
     void healthChanged(int);
     void gameEnded();
     void toggleSound();
+
 
 
 signals:
@@ -58,13 +64,18 @@ private:
     b2World *world;
     QVector<Ball*> balls;
     QVector<Tower*> towers;
+    QVector<Debris*> debrisVec;
     int time;
     QTimer *timer;
+
+    QTimer *debrisTimer;
+    QVector<QTimer*> debrisTimeVec;
 
     QTimer *spawnTimer;
     QPainter *painterObj;
     Tower *tower;
     Ball *ball;
+    Debris *debris;
 
     b2BodyDef groundBodyDef;
     b2PolygonShape groundShape;
@@ -86,6 +97,10 @@ private:
     sf::Music cannonSound;
     sf::Music explosionSound;
     sf::Music answerSound;
+
+private slots:
+    void deleteParticleAt(int);
+    void deleteParticles();
 
 
 };

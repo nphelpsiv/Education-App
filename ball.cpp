@@ -70,16 +70,11 @@ void Ball::createBallBox2D()
     ballFixtureDef.restitution = 0.6f;
     body->CreateFixture(&ballFixtureDef);
 
-    //std::cout << "Will Apply Force" << std::endl;
-    //Apply a force
-    //body->ApplyForce(b2Vec2(2000.0f, 2000.0f), b2Vec2(10.0, 10.0f), false);
     body->ApplyLinearImpulseToCenter(b2Vec2(-xPos*2000.0f, yPos*1000.0f),true);
 }
 
 void Ball::move()
 {
-    //std::cout << "X position " << body->GetPosition().x << std::endl;
-    //std::cout << "Y position " << body->GetPosition().y << std::endl;
     setPos(body->GetPosition().x, -body->GetPosition().y);
 }
 
@@ -99,5 +94,11 @@ int Ball::getValue()
 {
     return value;
 }
-
-
+int Ball::getX()
+{
+    return (int)body->GetPosition().x;
+}
+int Ball::getY()
+{
+    return (int)body->GetPosition().y;
+}

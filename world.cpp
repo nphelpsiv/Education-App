@@ -13,6 +13,7 @@ World::World(QGraphicsScene* scene)
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
+
     world->SetContactListener(&contactListenerInstance);
     //ball = new Ball(20, 20, 10, world);
     scene->addItem(tower);
@@ -61,6 +62,14 @@ World::~World()
 
         //the destructor handles removing itself from world
         delete t;
+    }
+    for(int i = 0; i < debrisVec.size(); i++)
+    {
+        Debris *d  = debrisVec[i];
+        debrisVec.remove(i);
+
+        //the destructor handles removing itself from world
+        delete d;
     }
 }
 
@@ -140,12 +149,22 @@ void World::timeupdated()
     if(game)
     {
         world->Step(1.0f/60.0f, 8, 3);
+
+        // Move all the debris
+        for(int i = 0; i < debrisVec.size(); i++)
+        {
+            debrisVec[i]->move();
+        }
+
+        // Move all cannonballs
         for(int i = 0; i<balls.size(); i++)
         {
+            // Handle cannonball collision with tower
             if(balls[i]->hasCollided())
             {
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
+                createExplosion(b->getX(), b->getY()); // before removing create an explosion with these coordinates
                 balls.remove(i);
 
                 //the destructor handles removing itself from world
@@ -199,6 +218,7 @@ void World::answerEntered(QString s)
         if(s.toInt() == (balls[i]->getValue() * currentOperand))
         {
             Ball *b = balls[i];
+            createExplosion(b->getX(), b->getY()); // before removing create an explosion with these coordinates
             balls.remove(i);
 
             delete b;
@@ -253,8 +273,58 @@ void World::toggleSound()
     else
     {
         music.setVolume(50);
-        answerSound.setVolume(75);
-        explosionSound.setVolume(75);
-        cannonSound.setVolume(75);
+        answerSound.setVolume(100);
+        explosionSound.setVolume(60);
+        cannonSound.setVolume(60);
     }
 }
+void World::createExplosion(int ballX, int ballY)
+{
+    // Make a random number of little debris
+    int randNumofDebris = rand() % 8 + 2;
+    for(int i = 0; i <= randNumofDebris; i++)
+    {
+        debrisVec.push_back(new Debris(ballX, ballY, 5, world));
+        debrisVec[debrisVec.size() -1]->setPos(ballX, ballY);
+        scene()->addItem(debrisVec[debrisVec.size() -1]);
+
+        // Have a timer so that it can be destroyed after a little bit.
+        int randTime = rand() % 2000 + 250;
+        int temp = debrisVec.size() - 1;
+
+        // use this with the SLOT deleteParticleAt(int index),
+        // but there are indexing issues that need worked out
+        //QTimer::singleShot(randTime, [=](){deleteParticleAt(temp);});
+
+        QTimer::singleShot(randTime, this, SLOT(deleteParticles()));
+    }
+}
+
+// Trying to delete a debris particle
+// There are indexing issues with this way.
+// When we remove one then another one might
+// have an index that is higher than the vector now is
+void World::deleteParticleAt(int index)
+{
+    if(!debrisVec.isEmpty())
+    {
+        Debris *d = debrisVec[debrisVec.size() - 1];
+        debrisVec.remove(debrisVec.size() - 1);
+        delete d;
+
+    }
+}
+
+// This just deletes particles not by any order they were made, just by the size of the vector
+void World::deleteParticles()
+{
+    if(!debrisVec.isEmpty())
+    {
+        Debris *d = debrisVec[debrisVec.size() - 1];
+        debrisVec.remove(debrisVec.size() - 1);
+        delete d;
+    }
+}
+
+
+
