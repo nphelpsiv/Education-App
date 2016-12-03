@@ -71,6 +71,8 @@ private:
 
     void resizeEvent(QResizeEvent*);
 
+    void startGame();
+
     void endGame();
 
     QGraphicsScene *scene;
