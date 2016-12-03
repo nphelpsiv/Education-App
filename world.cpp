@@ -93,7 +93,7 @@ void World::ballSpawnCall()
     //Setup the texture for the cannon ball.
     sf::Texture t;
     sf::Sprite s;
-    t.loadFromFile("Icons/icon.png");
+    t.loadFromFile("Icons/cannonball.png");
     t.setSmooth(true);
     textures.push_back(t);
 
@@ -101,7 +101,7 @@ void World::ballSpawnCall()
     s.setTexture(t);
     s.setOrigin(10, 10);
     s.setPosition(20, 20);
-    s.setScale(0.2, 0.2);
+    s.setScale(1, 1);
     sprites.push_back(s);
 
 
@@ -276,7 +276,7 @@ void World::createExplosion(int ballX, int ballY)
         //Setup the texture for the cannon ball.
         /*sf::Texture t;
 
-        t.loadFromFile("Icons/icon.png");
+        t.loadFromFile("Icons/cannonball.png");
         t.setSmooth(true);
         textures.push_back(t);*/
 
@@ -285,7 +285,7 @@ void World::createExplosion(int ballX, int ballY)
         s.setTexture(debTexture);
         s.setOrigin(10, 10);
         s.setPosition(20, 20);
-        s.setScale(0.1, 0.1);
+        s.setScale(0.3, 0.3);
         debSprites.push_back(s);
 
         // Have a timer so that it can be destroyed after a little bit.
@@ -313,7 +313,7 @@ void World::OnInit()
 
     sf::Texture t;
 
-    debTexture.loadFromFile("Icons/icon.png");
+    debTexture.loadFromFile("Icons/cannonball.png");
     debTexture.setSmooth(true);
 
 }
