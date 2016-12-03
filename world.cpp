@@ -93,7 +93,7 @@ void World::ballSpawnCall()
     //Setup the texture for the cannon ball.
     sf::Texture t;
     sf::Sprite s;
-    t.loadFromFile("../Icons/icon.png");
+    t.loadFromFile("Icons/icon.png");
     t.setSmooth(true);
     textures.push_back(t);
 
@@ -276,7 +276,7 @@ void World::createExplosion(int ballX, int ballY)
         //Setup the texture for the cannon ball.
         /*sf::Texture t;
 
-        t.loadFromFile("../Icons/icon.png");
+        t.loadFromFile("Icons/icon.png");
         t.setSmooth(true);
         textures.push_back(t);*/
 
@@ -303,7 +303,7 @@ void World::createExplosion(int ballX, int ballY)
 void World::OnInit()
 {
     //Setup Tower Texture.
-    towerTexture.loadFromFile("../Icons/Tower.png");
+    towerTexture.loadFromFile("Icons/Tower.png");
     towerTexture.setSmooth(true);
 
     //Setup Tower Sprite.
@@ -313,7 +313,7 @@ void World::OnInit()
 
     sf::Texture t;
 
-    debTexture.loadFromFile("../Icons/icon.png");
+    debTexture.loadFromFile("Icons/icon.png");
     debTexture.setSmooth(true);
 
 }
