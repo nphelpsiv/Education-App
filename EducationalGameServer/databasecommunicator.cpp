@@ -26,27 +26,29 @@ DatabaseCommunicator::DatabaseCommunicator(QString iHostName, QString iUser , QS
 int DatabaseCommunicator::addStudent(QString username, QString password, QString realName, bool isTeacher, QString classCode)
 {
   QSqlQuery query;
-  query.prepare("insert into eduapp.users(username, password, realname, isteacher, classcode) Values(:username, :password, :realName, :isTeacher, :classCode);");
+  query.prepare("insert into eduapp.users(username, password, realname, isteacher, classcode) Values(:username, :password, :realName, :isTeacher, :classCode)");
       query.bindValue(":username", username);
       query.bindValue(":password", password);
       query.bindValue(":realName", realName);
       query.bindValue(":isTeacher", isTeacher);
       query.bindValue(":classCode", classCode);
 
-  if(!query.exec())
+  if(query.exec() == false)
   {
+    cout << "insert student failed (addStudent)" << endl;
     qDebug() << db.lastError() << endl; return -1;
   }
 
-  if(!query.exec("select last_insert_id();"))
+  if(query.exec("select last_insert_id()") == false)
   {
+    cout << "get last id failed (addStudent)" << endl;
     qDebug() << db.lastError() << endl; return -1;
   }
 
   int uID;
   while (query.next())
   {
-      uID = query.value(0).toInt();
+    uID = query.value(0).toInt();
   }
 
   return uID;
@@ -60,11 +62,10 @@ StudentInfo DatabaseCommunicator::getStudentInfo(int userID)
 
   StudentInfo info;
 
-  query.exec();
-
-  if(query.size() == 0)
+  if(query.exec() == false || query.size() == 0)
   {
       info.isValid = false;
+      return info;
   }
 
   while (query.next())
@@ -89,16 +90,20 @@ int DatabaseCommunicator::addGame(int userID, int score, int level)
   query.bindValue(":score", score);
   query.bindValue(":level", level);
 
-  query.exec();
-
-  if(query.size() == 0)
+  if(query.exec() == false || query.size() == 0)
   {
-      return -1;
+     return -1;
   }
-
-  while (query.next())
+  else if(query.exec("select last_insert_id()") == false || query.size() == 0)
   {
-      return query.value("gameid").toInt();
+     return -1;
+  }
+  else
+  {
+     while (query.next())
+     {
+        return query.value(0).toInt();
+     }
   }
 }
 

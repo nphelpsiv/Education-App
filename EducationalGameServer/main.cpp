@@ -92,21 +92,25 @@ void Server(void)
                             packet >> s;
                             std::cout << s << std::endl;
 
+                            ///TEST CODE
                             int uID = dbc.addStudent(QString(s.c_str()) , "1234" , "JohnnyJohnson" , true , "idk");
-
                             std::cout << "UID after addStudent " << uID << std::endl;
 
                             StudentInfo info = dbc.getStudentInfo(uID);
 
-                            std::cout << (info.username.toStdString()) << std::endl;
-                            std::cout << (info.password.toStdString()) << std::endl;
-                            std::cout << (info.userID) << std::endl;
-                            std::cout << (info.classCode.toStdString()) << std::endl;
-                            std::cout << (info.realName.toStdString()) << std::endl;
-                            std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl;
-                            std::cout << "isValid? " <<   (info.isValid ? "True" : "False") << std::endl << std::endl;
+                            std::cout << "isValid? " << (info.isValid ? "True" : "False") << std::endl << std::endl;
+                            if(info.isValid)
+                            {
+                                std::cout << (info.username.toStdString()) << std::endl;
+                                std::cout << (info.password.toStdString()) << std::endl;
+                                std::cout << (info.userID) << std::endl;
+                                std::cout << (info.classCode.toStdString()) << std::endl;
+                                std::cout << (info.realName.toStdString()) << std::endl;
+                                std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl;
 
-                            dbc.addGame(info.userID, 2048 , 42);
+                                std::cout << dbc.addGame(info.userID, 2048 , 42) << std::endl;
+                            }
+                            ///TEST CODE
                         }
 
                         //send back to client that it was received.
