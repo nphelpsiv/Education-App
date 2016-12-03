@@ -107,3 +107,28 @@ int DatabaseCommunicator::addGame(int userID, int score, int level)
   }
 }
 
+int DatabaseCommunicator::loginUser(QString username, QString password)
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT * FROM eduapp.users where username = :username");
+      query.bindValue(":username", username);
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    return -1;
+  }
+
+  while(query.next())
+  {
+    if(query.value("password").toString() == password)
+    {
+      return query.value("userid").toInt();
+    }
+    else
+    {
+      return -2;
+    }
+  }
+}
+

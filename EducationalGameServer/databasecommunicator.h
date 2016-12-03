@@ -32,6 +32,9 @@ public:
 
   //Adds a game to the database and returns the gameID of that game. If there's a problem or nothing returns, returns -1.
   int addGame(int userID, int score, int level);
+
+  //"Logs in a user" (Retrieves userID given the username and password)
+  int loginUser(QString username, QString password);
 };
 
 

@@ -99,6 +99,7 @@ void Server(void)
                             StudentInfo info = dbc.getStudentInfo(uID);
 
                             std::cout << "isValid? " << (info.isValid ? "True" : "False") << std::endl << std::endl;
+
                             if(info.isValid)
                             {
                                 std::cout << (info.username.toStdString()) << std::endl;
@@ -109,6 +110,15 @@ void Server(void)
                                 std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl;
 
                                 std::cout << dbc.addGame(info.userID, 2048 , 42) << std::endl;
+                            }
+
+                            if(dbc.loginUser(info.username, info.password) >= 0)
+                            {
+                                std::cout << "Logged in as " << info.username.toStdString() << std::endl;
+                            }
+                            else
+                            {
+                                std::cout << "Invalid username or password." << std::endl;
                             }
                             ///TEST CODE
                         }
