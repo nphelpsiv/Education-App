@@ -1260,7 +1260,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1888,10 +1888,6 @@ QProgressBar::chunk {
           </layout>
           <zorder>endGamePushButton</zorder>
           <zorder>muteButton</zorder>
-          <zorder>scoreLabel</zorder>
-          <zorder>healthLabel</zorder>
-          <zorder>healthLabel</zorder>
-          <zorder>scoreLabel</zorder>
           <zorder>horizontalSpacer_18</zorder>
           <zorder>horizontalSpacer_19</zorder>
          </widget>
@@ -1919,8 +1915,6 @@ QProgressBar::chunk {
             <height>0</height>
            </size>
           </property>
-          <zorder>workPlaceGroupBox</zorder>
-          <zorder>groupBox</zorder>
          </widget>
         </item>
         <item>
