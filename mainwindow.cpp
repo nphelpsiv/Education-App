@@ -15,10 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(title);
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 
-    scene = new QGraphicsScene(this);
-    scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
-
-
     setupConnectAndActions();
 
     gameScore = 0;
@@ -141,15 +137,14 @@ void MainWindow::pageChanged(int pageIndex)
         case 5: //gamePage
         {
                 setWindowTitle(windowTitle = "Game");
-                ui->operationLabel->setText("Operation: 3 *");
-                ui->healthLabel->setText("Health: " + QString::number(100));
 
-                scene = new QGraphicsScene(this);
-                scene->setSceneRect(QRect(0, 0, ui->gameGraphicsView->x(), ui->gameGraphicsView->y()));
-                ui->gameGraphicsView->setScene(scene);
-                world = new World(scene);
-                world->setPos(0, 0);
-                scene->addItem(world);
+                ui->gameRenderFrame->setLayout(ui->verticalLayout_11);
+                ui->gameRenderFrame->setEnabled(true);
+                ui->gameRenderFrame->resize(ui->gameRenderFrame->sizeHint());
+                ui->gameRenderFrame->show();
+
+                world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(1200, 800));
+                world->show();
                 world->start();
 
                 gameScore = 0;
@@ -162,8 +157,8 @@ void MainWindow::pageChanged(int pageIndex)
                 QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
 
                 //Helps keep the aspect ratio while resizing.
-                ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
-                ui->gameGraphicsView->show();
+                //ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+                //ui->gameGraphicsView->show();
                 break;
         }
         case 6: //gameOverPage
@@ -174,7 +169,9 @@ void MainWindow::pageChanged(int pageIndex)
 //Helps preserve the aspect ration while the window is resized.
 void MainWindow::resizeEvent(QResizeEvent*)
 {
-    ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+    /////NOT REALLY SURE HOW TO RESIZE THE QWIDGET////
+
+    //ui->gameRenderWidget->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
 }
 
@@ -236,12 +233,8 @@ void MainWindow::healthChanged(int h)
 
 void MainWindow::outOfHealth()
 {
-    //delete scene;
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
-
     emit gameEnded();
-    //delete world;
-
     endGame();
 }
 

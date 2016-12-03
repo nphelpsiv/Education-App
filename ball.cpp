@@ -23,29 +23,6 @@ Ball::~Ball()
     body->GetWorld()->DestroyBody(body);
 }
 
-QRectF Ball::boundingRect() const
-{
-     return QRectF(0,0,rad+4,rad+4);
-}
-
-void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
-{
-    painter->setBrush(Qt::black);
-    painter->drawEllipse(2, 2, rad, rad);
-    painter->setPen(Qt::red);
-    painter->setFont(QFont("Arial", 20, QFont::Bold));
-    painter->drawText(8, 25, QString::number(value));
-}
-
-void Ball::timerEvent(QTimerEvent *event)
-{
-
-}
-
-void Ball::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-
-}
 
 void Ball::createBallBox2D()
 {
@@ -70,12 +47,8 @@ void Ball::createBallBox2D()
     ballFixtureDef.restitution = 0.6f;
     body->CreateFixture(&ballFixtureDef);
 
+    //Apply a force
     body->ApplyLinearImpulseToCenter(b2Vec2(-xPos*2000.0f, yPos*1000.0f),true);
-}
-
-void Ball::move()
-{
-    setPos(body->GetPosition().x, -body->GetPosition().y);
 }
 
 //sets collided to true when it has collided with the tower.
@@ -101,4 +74,9 @@ int Ball::getX()
 int Ball::getY()
 {
     return (int)body->GetPosition().y;
+}
+
+QPoint Ball::getPosition()
+{
+    return QPoint(body->GetPosition().x * 0.6, -body->GetPosition().y * 0.6);
 }

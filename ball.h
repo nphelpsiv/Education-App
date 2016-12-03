@@ -7,7 +7,7 @@
 #include <QGraphicsEllipseItem>
 #include <iostream>
 
-class Ball : public QObject, public QGraphicsEllipseItem
+class Ball : public QObject
 {
     Q_OBJECT
 public:
@@ -19,24 +19,14 @@ public:
 
     ~Ball();
 
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
-
-    void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
-
     void remove();
 
     bool hasCollided();
 
     int getValue();
 
-    int getX();
+    QPoint getPosition();
 
-    int getY();
-
-protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
     bool ballContacting;
@@ -52,12 +42,6 @@ private:
     void createBallBox2D();
 
     bool collided;
-
-
-
-public:
-    void move();
-
 };
 
 #endif // BALL_H
