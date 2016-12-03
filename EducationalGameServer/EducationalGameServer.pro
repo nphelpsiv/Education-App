@@ -32,7 +32,7 @@ win32:CONFIG(debug, debug|release):LIBS += -lsfml-audio-d -lsfml-graphics-d -lsf
 else:macx:LIBS += -L"/usr/local/lib"
 else:unix:LIBS += -L"/usr/lib/x86_64-linux-gnu"
 
-else:win32-g++:CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
+win32-g++:CONFIG(debug, debug|release): LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 else:macx:LIBS += -lsfml-audio -lsfml-graphics -lsfml-system -lsfml-network -lsfml-window
 else:unix: LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -lsfml-system
 
