@@ -99,7 +99,6 @@ private:
     sf::Music answerSound;
 
 private slots:
-    //void testslot();
     void deleteParticleAt(int);
     void deleteParticles();
 

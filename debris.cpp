@@ -8,10 +8,6 @@ Debris::Debris(int x, int y, int r, b2World* worldb2)
     world = worldb2;
 
     createDebrisBox2D();
-
-    value = (rand() % 10) + 1;
-
-
 }
 Debris::~Debris()
 {
@@ -31,12 +27,6 @@ void Debris::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 void Debris::createDebrisBox2D()
 {
-    // Have a timer so that it can be destroyed after a little bit.
-    timer = new QTimer(this);
-    int randTime = rand() % 1000 + 250;
-    timer->singleShot(randTime, this, SLOT(deleteDebrisParticle()));
-
-
     //Debris Position
     b2BodyDef debrisBodyDef;
     debrisBodyDef.type = b2_dynamicBody;
@@ -67,6 +57,7 @@ void Debris::createDebrisBox2D()
     // Give the debris a random direction to go.
     int randX = rand() % 15 + (-15);
     int randY = rand() % 70 + (-70);
+    value = randX + randY;
     body->ApplyLinearImpulseToCenter(b2Vec2(xPosD*randX, yPosD*randY),true);
 }
 
@@ -75,15 +66,9 @@ void Debris::move()
     setPos(body->GetPosition().x, -body->GetPosition().y);
 }
 
-void Debris::deleteDebrisParticle()
+// The value of this particle
+// used for determining if particles are equal to each other
+int Debris::getValue()
 {
-    //emit deleteParticle();
-    //std::cout << "From Debris emitting delete particle" << std::endl;
-    //this->~Debris();
-    //delete this;
-}
-
-QTimer* Debris::getTimer()
-{
-    return timer;
+    return value;
 }

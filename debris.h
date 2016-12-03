@@ -20,14 +20,9 @@ public:
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
-    QTimer* getTimer();
+    int getValue();
 
     void move();
-signals:
-    void deleteParticle();
-
-public slots:
-    void deleteDebrisParticle();
 
 private:
     int xPosD;
@@ -36,11 +31,9 @@ private:
     b2World* world;
     b2Body* body;
 
-    int value;
-
     void createDebrisBox2D();
 
-    QTimer *timer;
+    int value;
 };
 
 #endif // DEBRIS_H

@@ -149,23 +149,10 @@ void World::timeupdated()
         world->Step(1.0f/60.0f, 8, 3);
 
         // Move all the debris
-        //if (debrisVec.size() > 0)
-        //{
-            for(int i = 0; i < debrisVec.size(); i++)
-            {
-                if (debrisVec.size() > 0 && debrisVec[i] == NULL)
-                {
-                    debrisVec.remove(i);
-                }
-                if (debrisVec.size() > 0 && debrisVec[i] != NULL)
-                {
-                    debrisVec[i]->move();
-
-                // delete debris that can be
-                //QObject::connect(debrisVec[i], SIGNAL(deleteParticle()), this, SLOT(deleteParticleAt(i)));
-                }
-            }
-        //}
+        for(int i = 0; i < debrisVec.size(); i++)
+        {
+            debrisVec[i]->move();
+        }
 
         // Move all cannonballs
         for(int i = 0; i<balls.size(); i++)
@@ -229,6 +216,7 @@ void World::answerEntered(QString s)
         if(s.toInt() == (balls[i]->getValue() * currentOperand))
         {
             Ball *b = balls[i];
+            createExplosion(b->getX(), b->getY()); // before removing create an explosion with these coordinates
             balls.remove(i);
 
             delete b;
@@ -300,23 +288,13 @@ void World::createExplosion(int ballX, int ballY)
 
         // Have a timer so that it can be destroyed after a little bit.
         int randTime = rand() % 2000 + 250;
-
-        // [debrisVec.size() - 1] should be the last Debris Particle made.
-        // Each Debris Particle has it's own timer.
-        // So get that particles timer and set a singleshot for randTime
-        // Should connect with SLOT deleteParticleAt([debrisVec.size() - 1])
-        // But it's telling me there is no such SLOT
-        // Even though there definitely is???
-        // What am I missing??
-
         int temp = debrisVec.size() - 1;
 
         // use this with the SLOT deleteParticleAt(int index),
         // but there are indexing issues that need worked out
-        //debrisVec[temp]->getTimer()->singleShot(randTime, [=](){deleteParticleAt(temp);});
+        //QTimer::singleShot(randTime, [=](){deleteParticleAt(temp);});
 
-
-        debrisVec[temp]->getTimer()->singleShot(randTime, this, SLOT(deleteParticles()));
+        QTimer::singleShot(randTime, this, SLOT(deleteParticles()));
     }
 }
 
@@ -326,7 +304,6 @@ void World::createExplosion(int ballX, int ballY)
 // have an index that is higher than the vector now is
 void World::deleteParticleAt(int index)
 {
-    std::cout << "delete particle" << std::endl;
     if(!debrisVec.isEmpty())
     {
         Debris *d = debrisVec[debrisVec.size() - 1];
@@ -339,13 +316,11 @@ void World::deleteParticleAt(int index)
 // This just deletes particles not by any order they were made, just by the size of the vector
 void World::deleteParticles()
 {
-    std::cout << "delete particle" << std::endl;
     if(!debrisVec.isEmpty())
     {
         Debris *d = debrisVec[debrisVec.size() - 1];
         debrisVec.remove(debrisVec.size() - 1);
         delete d;
-
     }
 }
 
