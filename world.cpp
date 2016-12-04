@@ -73,6 +73,8 @@ void World::start()
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
 
+    //tower->setHealth(100);
+
     towerWidth = 160;
     towerHeight = 300;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
@@ -81,6 +83,7 @@ void World::start()
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
     health = 100;
+    score = 0;
     game = true;
 
     music.setLoop(true);
@@ -373,8 +376,6 @@ void World::end()
     {
         Tower *t = towers[towers.size() - 1];
         towers.remove(towers.size() - 1);
-
-        //the destructor handles removing itself from world
         delete t;
     }
 }
