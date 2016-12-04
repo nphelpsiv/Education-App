@@ -25,9 +25,9 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     //sfml stuff
 
     music.setVolume(50);
-    answerSound.setVolume(75);
-    explosionSound.setVolume(75);
-    cannonSound.setVolume(75);
+    answerSound.setVolume(100);
+    explosionSound.setVolume(50);
+    cannonSound.setVolume(50);
 
     if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
@@ -209,8 +209,8 @@ void World::toggleSound()
     {
         music.setVolume(50);
         answerSound.setVolume(100);
-        explosionSound.setVolume(60);
-        cannonSound.setVolume(60);
+        explosionSound.setVolume(50);
+        cannonSound.setVolume(50);
     }
 }
 void World::createExplosion(int ballX, int ballY)
