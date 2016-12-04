@@ -64,6 +64,7 @@ else:macx:DEPENDPATH += "/usr/local/include"
 else:unix:DEPENDPATH += "/usr/lib/x86_64-linux-gnu"
 
 win32:LIBS += -L$$PWD/SFML-2.4.1/lib -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
+win32:LIBS += -L$$PWD/SFML-2.4.1/bin -lsfml-audio-d-2 -lsfml-graphics-d-2 -lsfml-main-d-2 -lsfml-network-d-2 -lsfml-window-d-2 -lsfml-system-d-2
 #win32:LIBS += -lsfml-audio-d -lsfml-graphics-d -lsfml-main-d -lsfml-network-d -lsfml-window-d -lsfml-system-d
 else:macx:LIBS += -L"/usr/local/lib"
 else:unix:LIBS += -L"/usr/lib/x86_64-linux-gnu"

@@ -132,3 +132,83 @@ int DatabaseCommunicator::loginUser(QString username, QString password)
   }
 }
 
+GameInfo DatabaseCommunicator::getHighScore(int userID)
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT * FROM eduapp.games where userid = :userID order by score desc limit 1");
+      query.bindValue(":userID", userID);
+
+  GameInfo info;
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    info.isValid = false;
+    return info;
+  }
+
+  while(query.next())
+  {
+      info.gameID = query.value("gameid").toInt();
+      info.userID = query.value("userid").toInt();
+      info.score = query.value("score").toInt();
+      info.level = query.value("level").toInt();
+      info.isValid = true;
+  }
+
+  return info;
+}
+
+int DatabaseCommunicator::getTotalScore(int userID)
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT sum(score) FROM eduapp.games where userid = :userID");
+      query.bindValue(":userID", userID);
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    return -1;
+  }
+
+  while(query.next())
+  {
+     return query.value("sum(score)").toInt();
+  }
+}
+
+int DatabaseCommunicator::getGamesPlayed(int userID)
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT count(userid) FROM eduapp.games where userid = :userID");
+      query.bindValue(":userID", userID);
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    return -1;
+  }
+
+  while(query.next())
+  {
+     return query.value("count(userid)").toInt();
+  }
+}
+
+int DatabaseCommunicator::getAverageScore(int userID)
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT avg(score) FROM eduapp.games where userid = :userID");
+      query.bindValue(":userID", userID);
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    return -1;
+  }
+
+  while(query.next())
+  {
+     return query.value("avg(score)").toInt();
+  }
+}

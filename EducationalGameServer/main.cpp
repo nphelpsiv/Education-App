@@ -94,10 +94,8 @@ void Server(void)
 
                             ///TEST CODE
                             int uID = dbc.addStudent(QString(s.c_str()) , "1234" , "JohnnyJohnson" , true , "idk");
-                            std::cout << "UID after addStudent " << uID << std::endl;
 
                             StudentInfo info = dbc.getStudentInfo(uID);
-
                             std::cout << "isValid? " << (info.isValid ? "True" : "False") << std::endl << std::endl;
 
                             if(info.isValid)
@@ -107,9 +105,23 @@ void Server(void)
                                 std::cout << (info.userID) << std::endl;
                                 std::cout << (info.classCode.toStdString()) << std::endl;
                                 std::cout << (info.realName.toStdString()) << std::endl;
-                                std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl;
+                                std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl << std::endl;
 
-                                std::cout << dbc.addGame(info.userID, 2048 , 42) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 2056 , 477) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 10000 , 12) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 7944 , 13) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 2500 , 37) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 2500 , 137) << std::endl;
+
+                                std::cout << dbc.getHighScore(info.userID).score << std::endl;
+                                std::cout << dbc.getHighScore(info.userID).level << std::endl;
+
+                                std::cout << "Bad user returns a valid game? " << (dbc.getHighScore(info.userID + 90).isValid ? "True" : "False") << std::endl;
+
+                                std::cout << dbc.getTotalScore(info.userID + 83) << std::endl;
+
+                                std::cout << dbc.getAverageScore(info.userID) << std::endl;
+                                std::cout << dbc.getAverageScore(info.userID + 342) << std::endl;
                             }
 
                             if(dbc.loginUser(info.username, info.password) >= 0)
