@@ -6,12 +6,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     time = 0;
     b2Vec2 gravity(0.0f, -20.0f);
     world = new b2World(gravity);
-    towerWidth = 160;
-    towerHeight = 300;
-    tower = new Tower(0, -325, towerWidth, towerHeight, world);
-    towers.push_back(tower);
 
-    QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
     world->SetContactListener(&contactListenerInstance);
 
@@ -20,7 +15,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     //the operand that is shown statically in the GUI
     currentOperand = 3;
 
-    health = 100;
+
 
     game = true;
     muted = false;
@@ -71,11 +66,25 @@ World::~World()
 
 void World::start()
 {
+
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
     spawnTimer->start(3000);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
+
+    towerWidth = 160;
+    towerHeight = 300;
+    tower = new Tower(0, -325, towerWidth, towerHeight, world);
+    towers.push_back(tower);
+
+    QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
+
+    health = 100;
+    game = true;
+
+    music.setLoop(true);
+    music.play();
 }
 
 void World::ballSpawnCall()
@@ -111,70 +120,6 @@ void World::ballSpawnCall()
     }
     cannonSound.play();
 }
-
-/*void World::timeupdated()
-{
-    /*if(!game)
-    {
-        for(int i = 0; i < balls.size(); i++)
-        {
-            Ball *b = balls[i];
-            balls.remove(i);
-
-            //the destructor handles removing itself from world
-            delete b;
-        }
-        delete tower;
-        timer->stop();
-        spawnTimer->stop();
-        return;
-    }
-    if(game)
-    {
-        world->Step(1.0f/60.0f, 8, 3);
-
-        // Move all the debris
-        for(int i = 0; i < debrisVec.size(); i++)
-        {
-            debrisVec[i]->move();
-        }
-
-        // Move all cannonballs
-        for(int i = 0; i<balls.size(); i++)
-        {
-            // Handle cannonball collision with tower
-            if(balls[i]->hasCollided())
-            {
-                //Since the ball has collided, we can removed the ball.
-                Ball *b = balls[i];
-                createExplosion(b->getX(), b->getY()); // before removing create an explosion with these coordinates
-                balls.remove(i);
-
-                //the destructor handles removing itself from world
-                delete b;
-                if(!explosionSound.openFromFile("../edu-app-qt_pies-1/Sounds/ExplosionSound.wav"))
-                {
-                    std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
-                }
-                explosionSound.play();
-
-                Tower *t = towers[i];
-                if(t[i].destroyed())
-                {
-                    std::cout << "Tower Was destroyed" << std::endl;
-                    towers.remove(i);
-                    delete t;
-                }
-
-            }
-            else
-            {
-                balls[i]->move();
-            }
-        }
-        update();
-    }
-}*/
 
 
 void World::createGroundBox2D()
@@ -226,7 +171,8 @@ void World::healthChanged(int h)
     {
         emit outOfHealth();
         game = false;
-        spawnTimer->stop();
+        //spawnTimer->stop();
+        //end();
         return;
     }
     else
@@ -242,6 +188,7 @@ void World::gameEnded()
 {
     std::cout << "ended" << std::endl;
     game = false;
+    end();
 }
 
 void World::toggleSound()
@@ -270,14 +217,6 @@ void World::createExplosion(int ballX, int ballY)
     {
         debrisVec.push_back(new Debris(ballX, ballY, 5, world));
         debrisVec[debrisVec.size() -1]->setPos(ballX, ballY);
-        //scene()->addItem(debrisVec[debrisVec.size() -1]);
-
-        //Setup the texture for the cannon ball.
-        /*sf::Texture t;
-
-        t.loadFromFile("Icons/cannonball.png");
-        t.setSmooth(true);
-        textures.push_back(t);*/
 
         // Setup the sprite
         sf::Sprite s;
@@ -324,6 +263,13 @@ void World::OnUpdate()
         world->Step(1.0f/60.0f, 8, 3);
         for(int i = 0; i<balls.size(); i++)
         {
+            if(!game)
+            {
+                //I call end here because we have to wait for the Box2D Step thread to end
+                //If we call end() in the healthChanged method, then it will delete the objects before the step is done
+                end();
+                return;
+            }
             if(balls[i]->hasCollided())
             {
                 //Since the ball has collided, we can removed the ball.
@@ -331,7 +277,7 @@ void World::OnUpdate()
                 QPoint p = b->getPosition();
                 createExplosion(p.x()/0.6, -p.y()/0.6); // before removing create an explosion with these coordinates
                 balls.remove(i);
-                sprites.remove(i);
+
 
                 //the destructor handles removing itself from world
                 delete b;
@@ -357,6 +303,7 @@ void World::OnUpdate()
         //Draw all balls.
         for(int i = 0; i < balls.size(); i++)
         {
+
             QPoint p = balls[i]->getPosition();
             //The position is only here for the current size of the widget.
             //Once we can resize the widget, I believe this will change.
@@ -407,6 +354,31 @@ void World::deleteParticles()
     }
 }
 
+void World::end()
+{
+    spawnTimer->stop();
+    music.stop();
+
+
+    while(!balls.isEmpty())
+    {
+        Ball *b = balls[balls.size() - 1];
+        balls.remove(balls.size() - 1);
+
+
+        //the destructor handles removing itself from world
+        delete b;
+    }
+    while(!towers.isEmpty())
+    {
+        Tower *t = towers[towers.size() - 1];
+        towers.remove(towers.size() - 1);
+
+        //the destructor handles removing itself from world
+        delete t;
+    }
+}
+
 bool World::evaluate(int num)
 {
     return true;
@@ -417,5 +389,4 @@ QString World::generateFunction()
     QString function;
     return function;
 }
-
 

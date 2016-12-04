@@ -29,6 +29,8 @@ public:
 
     void start();
 
+    void end();
+
     void createExplosion(int ballX, int ballY);
 
     ContactListener contactListenerInstance;
