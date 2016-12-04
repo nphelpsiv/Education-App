@@ -84,6 +84,7 @@ void World::start()
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
     health = 100;
+    score = 0;
     game = true;
 
     music.setLoop(true);
