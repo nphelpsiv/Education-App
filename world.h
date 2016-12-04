@@ -109,6 +109,11 @@ private:
     sf::Texture debTexture;
     QVector<sf::Sprite> debSprites;
 
+    QString function;
+
+    bool evaluate(int num);
+    QString generateFunction();
+
 private slots:
     void deleteParticleAt(int);
     void deleteParticles();

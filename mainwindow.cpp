@@ -172,10 +172,6 @@ void MainWindow::startGame()
     QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
     QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
     QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
-
-    //Helps keep the aspect ratio while resizing.
-    //ui->gameGraphicsView->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
-    //ui->gameGraphicsView->show();
 }
 
 //This method attempts to login to the server.

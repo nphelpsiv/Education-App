@@ -13,7 +13,6 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
 
-
     world->SetContactListener(&contactListenerInstance);
 
     createGroundBox2D();
@@ -408,5 +407,15 @@ void World::deleteParticles()
     }
 }
 
+bool World::evaluate(int num)
+{
+    return true;
+}
+
+QString World::generateFunction()
+{
+    QString function;
+    return function;
+}
 
 
