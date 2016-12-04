@@ -16,7 +16,7 @@ Tower::Tower(int x, int y, int w, int h, b2World* worldb2)
 
 Tower::~Tower()
 {
-
+    world->DestroyBody(towerBody);
 }
 
 void Tower::createTowerBox2D()
@@ -25,7 +25,7 @@ void Tower::createTowerBox2D()
     b2BodyDef towerBodyDef;
     towerBodyDef.type = b2_staticBody;
     towerBodyDef.position.Set(xPos, yPos);
-    b2Body* towerBody = world->CreateBody(&towerBodyDef);
+    towerBody = world->CreateBody(&towerBodyDef);
 
     towerBody->SetUserData(this);
 
@@ -67,4 +67,9 @@ void Tower::wasHit()
 bool Tower::destroyed()
 {
     return isDestroyed;
+}
+
+void Tower::setHealth(int h)
+{
+    health = h;
 }

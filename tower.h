@@ -18,6 +18,8 @@ public:
 
     bool destroyed();
 
+    void setHealth(int);
+
 signals:
     void healthChanged(int);
 
@@ -29,6 +31,7 @@ private:
     int width;
     int height;
     b2World* world;
+    b2Body* towerBody;
 
     int health;
 
