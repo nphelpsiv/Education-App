@@ -3,6 +3,8 @@
 #include <SFML/System.hpp>
 #include <vector>
 #include <databasecommunicator.h>
+#include <QJsonObject>
+#include <QJsonValue>
 
 const unsigned short PORT = 5001;
 
@@ -86,16 +88,24 @@ void Server(void)
                     {
                         sf::Packet packet;
                         std::string s;
+
+                        QStringList tokens;
+
                         if(client.receive(packet) == sf::Socket::Done)
                         {
                             //extrude packet into string and print (Testing purposes)
                             packet >> s;
+
+                            tokens = QString(s.c_str()).split("|");
+
                             std::cout << s << std::endl;
 
                             ///TEST CODE
 
-                            QString enteredUName = QString(s.c_str());
-                            int uID = dbc.addStudent(enteredUName , "1234" , "JohnnyJohnson" , true , "idk");
+                            QString enteredUName = QString(tokens.at(1));
+                            QString enteredUPass = QString(tokens.at(2));
+
+                            int uID = dbc.addStudent(enteredUName , enteredUPass , "JohnnyJohnson" , true , "idk");
 
                             StudentInfo info = dbc.getStudentInfo(uID);
                             std::cout << "isValid? " << (info.isValid ? "True" : "False") << std::endl << std::endl;
@@ -124,9 +134,10 @@ void Server(void)
 
                                 std::cout << dbc.getAverageScore(info.userID) << std::endl;
                                 std::cout << dbc.getAverageScore(info.userID + 342) << std::endl;
+
                             }
 
-                            if(dbc.loginUser(enteredUName, "1234") >= 0)
+                            if(dbc.loginUser(enteredUName, enteredUPass) >= 0)
                             {
                                 std::cout << "Logged in as " << enteredUName.toStdString() << std::endl;
                             }
@@ -141,7 +152,14 @@ void Server(void)
                         if(s.size() != 0)
                         {
                             sf::Packet sendPacket;
-                            sendPacket << "received";
+
+                            int uid = dbc.loginUser( QString(tokens.at(1)), QString(tokens.at(2)) );
+
+                            sendPacket << "Logged in as : ";
+                            sendPacket << ((QString)tokens.at(1)).toStdString().c_str();
+                            sendPacket << "With userID  : ";
+                            sendPacket << uid;
+
                             if(client.send(sendPacket) != sf::Socket::Done)
                             {
                                 std::cout << "Couldn't send message" << std::endl;

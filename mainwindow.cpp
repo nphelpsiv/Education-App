@@ -4,6 +4,9 @@
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
 #include <QtConcurrent/QtConcurrent>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -201,7 +204,7 @@ void MainWindow::loginToServer()
     //Build string to send.
     QString user = ui->login_userNameText->text();
     QString pass = ui->login_passwordText->text();
-    std::string s = "[" + user.toStdString() + ", " + pass.toStdString() + "]";
+    std::string s = "loginUser|" + user.toStdString() + "|" + pass.toStdString();
 
     //Use Packets to send to the server.
     //That way we don't have to worry about collecting a full packet.
@@ -224,8 +227,9 @@ void MainWindow::loginToServer()
     {
         //This means that the connection was successfull and we received data back from server.
         std::string s;
-        //recPacket >> s;
-        std::cout << s << std::endl;
+
+        QString qs(s.c_str());
+        qDebug() << qs;
         ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
 }
