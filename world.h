@@ -18,6 +18,7 @@
 #include "contactlistener.h"
 #include <SFML/Audio.hpp>
 #include "qsfmlcanvas.h"
+#include <string>
 
 class World : public QSFMLCanvas
 {
@@ -55,7 +56,7 @@ signals:
 private:
     void createGroundBox2D();
 
-    int randBallSpawn;
+    int randomBSpawn;
 
     b2World *world;
     QVector<Ball*> balls;
@@ -77,7 +78,6 @@ private:
     b2PolygonShape groundShape;
 
     bool game;
-
     bool muted;
 
     //box2d translation variables
@@ -105,8 +105,8 @@ private:
     sf::Sprite towerSprite;
 
     //This will how we will store textures and sprites for the cannon balls.
-    QVector<sf::Texture> textures;
-    QVector<sf::Sprite> sprites;
+    QVector<sf::Texture> ballTextures;
+    QVector<sf::Sprite> ballSprites;
 
     sf::Texture debTexture;
     QVector<sf::Sprite> debSprites;

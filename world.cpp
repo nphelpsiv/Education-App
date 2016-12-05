@@ -22,12 +22,23 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     muted = false;
     score = 0;
 
+
     //sfml stuff
 
     music.setVolume(50);
     answerSound.setVolume(100);
     explosionSound.setVolume(50);
     cannonSound.setVolume(50);
+
+    sf::Texture t;
+    for(int i = 0; i < 10; i++)
+    {
+        t.loadFromFile("Icons/cannonball" + std::to_string(i) + ".png");
+        t.setSmooth(true);
+        ballTextures.push_back(t);
+    }
+
+
 
     if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
@@ -73,7 +84,6 @@ void World::start()
     spawnTimer->start(3000);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
-
     //tower->setHealth(100);
 
     towerWidth = 160;
@@ -93,6 +103,8 @@ void World::start()
 
 void World::ballSpawnCall()
 {
+
+    //randomBSpawn = (rand() % 1400) - 700;
     if(rand() % 2 == 0)
     {
         balls.push_back(new Ball(-700, 200, 30, world));
@@ -101,20 +113,14 @@ void World::ballSpawnCall()
     {
         balls.push_back(new Ball(700, 200, 30, world));
     }
-
     //Setup the texture for the cannon ball.
-    sf::Texture t;
-    sf::Sprite s;
-    t.loadFromFile("Icons/cannonball.png");
-    t.setSmooth(true);
-    textures.push_back(t);
 
-    // Setup the sprite
-    s.setTexture(t);
+    sf::Sprite s;
+    s.setTexture(ballTextures[balls[balls.size() - 1]->getValue()]);
     s.setOrigin(10, 10);
     s.setPosition(20, 20);
     s.setScale(1, 1);
-    sprites.push_back(s);
+    ballSprites.push_back(s);
 
 
     //update();
@@ -305,15 +311,16 @@ void World::OnUpdate()
         this->clear(sf::Color(0, 0, 100));
 
         //Draw all balls.
+        sf::RenderWindow::draw(towerSprite);
         for(int i = 0; i < balls.size(); i++)
         {
 
             QPoint p = balls[i]->getPosition();
             //The position is only here for the current size of the widget.
             //Once we can resize the widget, I believe this will change.
-            sprites[i].setPosition(p.x()+600, p.y() + 150);
-            sprites[i].setTexture(textures[i]);
-            sf::RenderWindow::draw(sprites[i]);
+            ballSprites[i].setPosition(p.x()+600, p.y() + 150);
+            ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
+            sf::RenderWindow::draw(ballSprites[i]);
         }
 
         //Draw Debris
@@ -326,7 +333,7 @@ void World::OnUpdate()
         }
 
         //Draw Tower. This will be replaced by selecting current tower (attributed to health)
-        sf::RenderWindow::draw(towerSprite);
+
     }
 
 
@@ -378,6 +385,3 @@ void World::end()
         delete t;
     }
 }
-
-
-

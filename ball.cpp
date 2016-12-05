@@ -15,7 +15,7 @@ Ball::Ball(int x, int y, int r, b2World* worldb2)
 
     collided = false;
 
-    value = (rand() % 10) + 1;
+    value = (rand() % 9) + 0;
 }
 
 Ball::~Ball()
