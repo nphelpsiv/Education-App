@@ -490,7 +490,7 @@ void World::openBrowser()
     else
         std::cout << "Could not write to HTML document :(" << std::endl;
 
-    // Open in browser
+    // Open in browser WORKS
     std::cout << QDir::currentPath().toStdString() << std::endl;
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
 }
