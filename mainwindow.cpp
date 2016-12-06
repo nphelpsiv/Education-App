@@ -23,9 +23,11 @@ MainWindow::MainWindow(QWidget *parent) :
     gameScore = 0;
     highScore = 1000;
 
-    aspectRatio = 1;
+    aspectRatioWidth = 16;
+    aspectRatioHeight = 9;
 
     worldInitialized = false;
+    isTeacher = false;
 }
 
 MainWindow::~MainWindow()
@@ -79,9 +81,6 @@ void MainWindow::on_logOutPushButton_clicked()
 
 void MainWindow::on_statsPushButton_clicked()
 {
-    if(isTeacher)
-        ui->stackedWidget->setCurrentWidget(ui->teacherPage);
-    else
         ui->stackedWidget->setCurrentWidget(ui->statsPage);
 }
 
@@ -93,6 +92,11 @@ void MainWindow::on_leaderboardPushButton_clicked()
 void MainWindow::on_stats_backToolButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->startPage);
+}
+
+void MainWindow::on_managePushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->teacherPage);
 }
 
 void MainWindow::on_teachers_backToolButton_clicked()
@@ -145,10 +149,9 @@ void MainWindow::pageChanged(int pageIndex)
         case pages::startPage: //startPage
         {
             if(isTeacher)
-                ui->statsPushButton->setText("Manage");
+                ui->managePushButton->show();
             else
-                ui->statsPushButton->setText("My Stats");
-
+                ui->managePushButton->hide();
             setWindowTitle(windowTitle = "Start Menu");
             break;
         }
@@ -180,29 +183,16 @@ void MainWindow::pageChanged(int pageIndex)
 //Helps preserve the aspect ration while the window is resized.
 void MainWindow::resizeEvent(QResizeEvent*)
 {
-    //http://stackoverflow.com/questions/7259847/forcing-an-aspect-ratio-when-resizing-a-main-window
-//    int containerWidth = width();
-//        int containerHeight = height();
-
-//        int contentsHeight = containerHeight ;
-//        int contentsWidth = containerHeight * 5;
-//        if (contentsWidth > containerWidth ) {
-//            contentsWidth = containerWidth ;
-//            contentsHeight = containerWidth / 8;
-//        }
-//        ui->gameRenderFrame->size().setWidth(contentsWidth);
-//        ui->gameRenderFrame->size().setHeight(contentsHeight);
-    /////NOT REALLY SURE HOW TO RESIZE THE QWIDGET////
-    //ui->gameRenderFrame->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+//    ui->gameRenderFrame->resize(width()*.94, height()*.66);
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
 }
 
 void MainWindow::startGame()
 {
-    ui->gameLayout->addWidget(ui->gameRenderFrame, 1, 1, Qt::AlignCenter);
-    ui->gameRenderFrame->setEnabled(true);
-    ui->gameRenderFrame->resize(1200, 800);
-    ui->gameRenderFrame->show();
+//    ui->gameLayout->addWidget(ui->gameRenderFrame, 1, 1, Qt::AlignCenter);
+//    ui->gameRenderFrame->setEnabled(true);
+//    ui->gameRenderFrame->resize(1200, 800);
+//    ui->gameRenderFrame->show();
 
     if(!worldInitialized)
     {
@@ -356,3 +346,5 @@ void MainWindow::on_openInBrowserButton_clicked()
 {
     emit world->openBrowser();
 }
+
+

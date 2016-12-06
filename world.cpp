@@ -507,7 +507,7 @@ void World::openBrowser()
     // Setup the document writer
     QTextDocumentWriter documentWriter;
     documentWriter.setFormat("html");
-    documentWriter.setFileName("analytics");
+    documentWriter.setFileName("../analytics");
 
     // Use the textDocument to produce HTML
     QTextDocument document;
