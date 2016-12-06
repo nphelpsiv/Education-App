@@ -30,13 +30,16 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     explosionSound.setVolume(50);
     cannonSound.setVolume(50);
 
-    sf::Texture t;
+
     for(int i = 0; i < 10; i++)
     {
+        sf::Texture t;
         t.loadFromFile("Icons/cannonball" + std::to_string(i) + ".png");
         t.setSmooth(true);
         ballTextures.push_back(t);
     }
+
+    towerTexturesSetUp();
 
 
 
@@ -284,15 +287,67 @@ void World::OnInit()
     towerTexture.setSmooth(true);
 
     //Setup Tower Sprite.
+
     towerSprite.setTexture(towerTexture);
     towerSprite.setOrigin(100, 100);
-    towerSprite.setPosition(600, 200);
+    towerSprite.setPosition(600, 195);
+    towerSprite.scale(.25,.25);
+    towerSprites.push_back(towerSprite);
+
+    groundTexture.loadFromFile("Icons/Ground.png");
+    groundTexture.setSmooth(true);
+
+    groundSprite.setTexture(groundTexture);
+    groundSprite.setOrigin(100, 100);
+    groundSprite.setPosition(200/1.45, 455);
+    groundSprite.scale(1.45, 1);
+
+    skyTexture.loadFromFile("Icons/sky.png");
+    skyTexture.setSmooth(true);
+
+    skySprite.setTexture(skyTexture);
+    skySprite.setOrigin(100, 100);
+    skySprite.setPosition(0, 0);
+    skySprite.scale(1.5, .8);
+
 
     sf::Texture t;
 
     debTexture.loadFromFile("Icons/cannonball.png");
     debTexture.setSmooth(true);
 
+}
+
+void World::towerTexturesSetUp()
+{
+    sf::Texture t;
+    t.loadFromFile("Icons/Tower.png");
+    t.setSmooth(true);
+    towerTextures.push_back(t);
+
+    t.loadFromFile("Icons/RedTower.png");
+    t.setSmooth(true);
+    towerTextures.push_back(t);
+
+    t.loadFromFile("Icons/TowerDamaged.png");
+    t.setSmooth(true);
+    towerTextures.push_back(t);
+
+    t.loadFromFile("Icons/RedTowerDamaged.png");
+    t.setSmooth(true);
+    towerTextures.push_back(t);
+
+    t.loadFromFile("Icons/TowerDamaged2.png");
+    t.setSmooth(true);
+    towerTextures.push_back(t);
+
+    t.loadFromFile("Icons/RedTowerDamaged2.png");
+    t.setSmooth(true);
+    towerTextures.push_back(t);
+
+    t.loadFromFile("Icons/Rubble.png");
+    t.setSmooth(true);
+    towerTextures.push_back(t);
 }
 
 void World::OnUpdate()
@@ -327,6 +382,10 @@ void World::OnUpdate()
                 explosionSound.play();
 
                 Tower *t = towers[i];
+
+                //towerSprites[i].setTexture(towerTextures[1]);
+                towerTexturesUpDate(i);
+
                 if(t[i].destroyed())
                 {
                     std::cout << "Tower Was destroyed" << std::endl;
@@ -340,7 +399,16 @@ void World::OnUpdate()
         this->clear(sf::Color(0, 0, 100));
 
         //Draw all balls.
-        sf::RenderWindow::draw(towerSprite);
+
+        sf::RenderWindow::draw(skySprite);
+        sf::RenderWindow::draw(groundSprite);
+        for(int i = 0; i < towers.size(); i++)
+        {
+            std::cout << "Tower Body X: " << towers[i]->getPosition().x() << std::endl;
+            std::cout << "Tower Body y: " << towers[i]->getPosition().y() << std::endl;
+            sf::RenderWindow::draw(towerSprites[i]);
+
+        }
         for(int i = 0; i < balls.size(); i++)
         {
 
@@ -365,6 +433,23 @@ void World::OnUpdate()
 
     }
 
+
+}
+
+void World::towerTexturesUpDate(int i)
+{
+    if(towers[i]->getHealth() == 80)
+    {
+        towerSprites[i].setTexture(towerTextures[2]);
+    }
+    else if(towers[i]->getHealth() == 40)
+    {
+        towerSprites[i].setTexture(towerTextures[4]);
+    }
+    else if(towers[i]->getHealth() == 10)
+    {
+        towerSprites[i].setTexture(towerTextures[6]);
+    }
 
 }
 

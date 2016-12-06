@@ -90,6 +90,9 @@ private:
     int gameScore;
     int highScore;
 
+    bool worldInitialized;
+
+
     enum pages{loginPage, signUpPage, startPage, statsPage, teacherPage, leaderboardPage, gamePage, gameOverPage};
 };
 

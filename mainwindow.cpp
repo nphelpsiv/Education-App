@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     gameScore = 0;
     highScore = 1000;
 
+    worldInitialized = false;
+
 }
 
 MainWindow::~MainWindow()
@@ -190,7 +192,7 @@ void MainWindow::startGame()
     ui->gameRenderFrame->resize(1200, 800);
     ui->gameRenderFrame->show();
 
-    if(world == nullptr)
+    if(!worldInitialized)
     {
     world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(1200, 800));
     world->show();
