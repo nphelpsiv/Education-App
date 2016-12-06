@@ -12,6 +12,8 @@ Tower::Tower(int x, int y, int w, int h, b2World* worldb2)
     health = 100;
 
     createTowerBox2D();
+
+    textureIndex = 0;
 }
 
 Tower::~Tower()

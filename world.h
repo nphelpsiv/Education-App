@@ -96,6 +96,7 @@ private:
 
     int health;
     int score;
+    int hit;
 
     sf::Music music;
     sf::Music cannonSound;
