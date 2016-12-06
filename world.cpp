@@ -425,7 +425,64 @@ void World::openBrowser()
 
     // Use the textDocument to produce HTML
     QTextDocument document;
-    document.setHtml("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1></body></html>");
+    //document.setHtml("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1></body></html>");
+
+    // Beggining html
+    QString htmlEdit;
+    htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1>");
+
+    // make a table
+    // Students row
+    htmlEdit.append("<center><table bgcolor='red' border='1' width='500' cellpadding='10' align='center'>");
+    htmlEdit.append("<tr>");
+    htmlEdit.append("<td colspan='4'>");
+    htmlEdit.append("<center><h3>Students</h3><center>");
+    htmlEdit.append("</td>");
+    htmlEdit.append("</tr>");
+
+    // Row for data titles
+    htmlEdit.append("<tr>");
+    htmlEdit.append("<td>");
+    htmlEdit.append("<b>Student ID</b>");
+    htmlEdit.append("</td>");
+    htmlEdit.append("<td>");
+    htmlEdit.append("<b>Student Username</b>");
+    htmlEdit.append("</td>");
+    htmlEdit.append("<td>");
+    htmlEdit.append("<b>Games Played</b>");
+    htmlEdit.append("</td>");
+    htmlEdit.append("<td>");
+    htmlEdit.append("<b>Highscore</b>");
+    htmlEdit.append("</td>");
+    htmlEdit.append("</tr>");
+
+
+
+    // Insert data
+    for(int i = 0; i < 10; i++)
+    {
+        htmlEdit.append("<tr>");
+        htmlEdit.append("<td>");
+        htmlEdit.append(QString::number(i));
+        htmlEdit.append("</td>");
+        htmlEdit.append("<td>");
+        htmlEdit.append("name" + QString::number(i));
+        htmlEdit.append("</td>");
+        htmlEdit.append("<td>");
+        htmlEdit.append(QString::number(i + rand() % 100));
+        htmlEdit.append("</td>");
+        htmlEdit.append("<td>");
+        htmlEdit.append(QString::number(rand() % 10000));
+        htmlEdit.append("</td>");
+        htmlEdit.append("</tr>");
+    }
+
+    // end html stuff
+    htmlEdit.append("</table></center>");
+    htmlEdit.append("</body></html>");
+
+    // set the document HTML
+    document.setHtml(htmlEdit);
 
     // Write the document to the documentWriter
     if(documentWriter.write(&document))
@@ -434,6 +491,6 @@ void World::openBrowser()
         std::cout << "Could not write to HTML document :(" << std::endl;
 
     // Open in browser
-    if(QFile::exists("analytics.html"))
-        QDesktopServices::openUrl(QUrl::fromLocalFile("analytics.html"));
+    std::cout << QDir::currentPath().toStdString() << std::endl;
+    QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
 }
