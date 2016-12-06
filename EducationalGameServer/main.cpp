@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QStringList>
+#include <QVector>
 
 
 
@@ -54,7 +55,6 @@ void Server(void)
     //Start thread to accept input from terminal (cin)
     sf::Thread* thread = new sf::Thread(&GetInput);
     thread->launch();
-
 
     while(!quit)
     {
@@ -130,10 +130,10 @@ void Server(void)
                                 std::cout << dbc.addGame(info.userID, 875323 , 37) << std::endl;
                                 std::cout << dbc.addGame(info.userID, 2500 , 137) << std::endl;
 
-                                std::cout << dbc.getHighScore(info.userID).score << std::endl;
-                                std::cout << dbc.getHighScore(info.userID).level << std::endl;
+                                //std::cout << dbc.getHighScore(info.userID).score << std::endl;
+                                //std::cout << dbc.getHighScore(info.userID).level << std::endl;
 
-                                std::cout << "Bad user returns a valid game? " << (dbc.getHighScore(info.userID + 90).isValid ? "True" : "False") << std::endl;
+                                //std::cout << "Bad user returns a valid game? " << (dbc.getHighScore(info.userID + 90).isValid ? "True" : "False") << std::endl;
 
                                 std::cout << dbc.getTotalScore(info.userID + 83) << std::endl;
 
@@ -158,17 +158,19 @@ void Server(void)
                         {      
                             sf::Packet sendPacket;
 
-                            int uid = dbc.loginUser(QString(tokens.at(1)), QString(tokens.at(2)));
+                            QVector<int> gIDs = dbc.getHighScoreGameIDS(500);
+
 
                             QStringList s;
 
-                            s.append(tokens.at(1));
-                            s.append(QString::number(uid));
+                            for (int var = 0; var < gIDs.size(); ++var) {
+                                s.append(QString::number(dbc.getGameInfo(gIDs[var]).score));
+                              }
 
-                            cout << s.join("").toStdString() << endl;
+
+                            cout << s.join("|").toStdString() << endl;
 
                             sendPacket << s.join("|").toStdString();
-
 
 
                             if(client.send(sendPacket) != sf::Socket::Done)

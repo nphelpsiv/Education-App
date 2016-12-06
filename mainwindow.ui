@@ -1260,7 +1260,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1876,7 +1876,7 @@ QProgressBar::chunk {
           </column>
           <column>
            <property name="text">
-            <string>Elapsed Time</string>
+            <string>Level</string>
            </property>
           </column>
          </widget>
@@ -2070,7 +2070,6 @@ QProgressBar::chunk {
               <height>0</height>
              </size>
             </property>
-            <zorder>workPlaceGroupBox</zorder>
            </widget>
           </item>
          </layout>
