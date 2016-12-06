@@ -266,8 +266,9 @@ void MainWindow::loginToServer()
         //This means that the connection was successfull and we received data back from server.
         std::string s;
 
-        QString qs(s.c_str());
-        qDebug() << qs;
+        while(!recPacket.endOfPacket())
+          recPacket >> s; QString qs(s.c_str()); qDebug() << qs;
+
         ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
 }

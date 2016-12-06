@@ -1,10 +1,15 @@
 #include <QCoreApplication>
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
+#include <iostream>
 #include <vector>
+#include <string>
 #include <databasecommunicator.h>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QStringList>
+
+
 
 const unsigned short PORT = 5001;
 
@@ -150,15 +155,21 @@ void Server(void)
 
                         //send back to client that it was received.
                         if(s.size() != 0)
-                        {
+                        {      
                             sf::Packet sendPacket;
 
-                            int uid = dbc.loginUser( QString(tokens.at(1)), QString(tokens.at(2)) );
+                            int uid = dbc.loginUser(QString(tokens.at(1)), QString(tokens.at(2)));
 
-                            sendPacket << "Logged in as : ";
-                            sendPacket << ((QString)tokens.at(1)).toStdString().c_str();
-                            sendPacket << "With userID  : ";
-                            sendPacket << uid;
+                            QStringList s;
+
+                            s.append(tokens.at(1));
+                            s.append(QString::number(uid));
+
+                            cout << s.join("").toStdString() << endl;
+
+                            sendPacket << s.join("|").toStdString();
+
+
 
                             if(client.send(sendPacket) != sf::Socket::Done)
                             {
