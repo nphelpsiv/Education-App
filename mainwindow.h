@@ -58,6 +58,8 @@ private slots:
 
     void on_muteButton_clicked();
 
+    void phaseChanged(int, int);
+
 signals:
 
     void answerEntered(QString);

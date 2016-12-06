@@ -177,6 +177,7 @@ void MainWindow::startGame()
     QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
     QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
     QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
+    QObject::connect(world, SIGNAL(phaseChanged(int,int)), this, SLOT(phaseChanged(int, int)));
     }
     else {
         world->start();
@@ -260,6 +261,32 @@ void MainWindow::scoreChanged(int s)
 {
     gameScore = s;
     ui->scoreLabel->setText("Score: " + QString::number(s));
+}
+
+void MainWindow::phaseChanged(int phase, int operand)
+{
+    std::cout << "got the phase and operand" << std::endl;
+    QString currentOperator;
+    if(phase == 1)
+    {
+        currentOperator = "+";
+    }
+    else if (phase == 2)
+    {
+        currentOperator = "*";
+    }
+    else
+    {
+        currentOperator = "^2";
+    }
+    if (phase >= 3)
+    {
+        ui->operatorLabel->setText(QString("Ball ") + currentOperator);
+    }
+    else
+    {
+        ui->operatorLabel->setText(QString::number(operand) + currentOperator);
+    }
 }
 
 void MainWindow::endGame()

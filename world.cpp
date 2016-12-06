@@ -14,13 +14,14 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     createGroundBox2D();
 
     //the operand that is shown statically in the GUI
-    currentOperand = 3;
+    currentOperand = (rand() % 9) + 0;
 
 
 
     game = true;
     muted = false;
     score = 0;
+    currentPhase = 1;
 
 
     //sfml stuff
@@ -49,6 +50,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     }
     music.setLoop(true);
     music.play();
+    //emit phaseChanged(currentPhase, currentOperand);
 }
 
 World::~World()
@@ -102,11 +104,16 @@ void World::start()
 
     music.setLoop(true);
     music.play();
+
 }
 
 void World::ballSpawnCall()
 {
 
+    if(balls.size() == 0)
+    {
+        emit phaseChanged(currentPhase, currentOperand);
+    }
     //randomBSpawn = (rand() % 1400) - 700;
     if(rand() % 2 == 0)
     {
@@ -156,7 +163,22 @@ void World::answerEntered(QString s)
 {
     for(int i = 0; i < balls.size(); i++)
     {
-        if(s.toInt() == (balls[i]->getValue() * currentOperand))
+        int rightAnswer;
+
+        if (currentPhase == 1)
+        {
+            rightAnswer = (balls[i]->getValue() + currentOperand);
+        }
+        if (currentPhase == 2)
+        {
+            rightAnswer = (balls[i]->getValue() * currentOperand);
+        }
+        if (currentPhase == 3)
+        {
+            rightAnswer = (balls[i]->getValue() * balls[i]->getValue());
+        }
+
+        if(s.toInt() == rightAnswer)
         {
             Ball *b = balls[i];
             QPoint p = b->getPosition();
@@ -166,6 +188,14 @@ void World::answerEntered(QString s)
             delete b;
             score += 100;
             emit scoreChanged(score);
+
+            if (score%1000 == 0 && currentPhase!=3)
+            {
+                currentPhase = currentPhase+1;
+                currentOperand = (rand() % 9) + 0;
+
+                emit phaseChanged(currentPhase, currentOperand);
+            }
 
             if(!answerSound.openFromFile("Sounds/AnswerSound.wav"))
             {
