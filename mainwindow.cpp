@@ -52,14 +52,8 @@ void MainWindow::on_cancelButton_clicked()
 
 void MainWindow::on_submitButton_clicked()
 {
-    //signup is a method from dummyServer.h
-    //COMMENT OUT THIS BLOCK IF YOU DON'T WANT DUMMY SERVER STUFF
-    /*if(signup(ui->login_userNameText->text().toStdString(), ui->login_passwordText->text().toStdString()))
-    {*/
     isTeacher = ui->teacherCheckBox->isChecked();
     ui->stackedWidget->setCurrentWidget(ui->startPage);
-    /*}*/
-    //UNCOMMENT THIS IF YOU DON'T WANT THE DUMMY SERVER STUFF
 }
 
 void MainWindow::on_loginButton_clicked()
@@ -123,7 +117,6 @@ void MainWindow::on_endGamePushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
     emit gameEnded();
-    //delete world;
 
     endGame();
 }
@@ -183,22 +176,23 @@ void MainWindow::pageChanged(int pageIndex)
 //Helps preserve the aspect ration while the window is resized.
 void MainWindow::resizeEvent(QResizeEvent*)
 {
-//    ui->gameRenderFrame->resize(width()*.94, height()*.66);
-    std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
+    //ui->gameRenderFrame->resize(width() - 50, height() - 200);
+    //world->reSize(width() - 50, height() - 200);
+    if(worldInitialized)
+    {
+        world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
+    }
 }
 
 void MainWindow::startGame()
 {
-//    ui->gameLayout->addWidget(ui->gameRenderFrame, 1, 1, Qt::AlignCenter);
-//    ui->gameRenderFrame->setEnabled(true);
-//    ui->gameRenderFrame->resize(1200, 800);
-//    ui->gameRenderFrame->show();
 
     if(!worldInitialized)
     {
-    world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(1200, 800));
+    world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(2000, 800));
     world->show();
     world->start();
+    world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
 
     QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
     QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
@@ -206,6 +200,8 @@ void MainWindow::startGame()
     QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
     QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
     QObject::connect(world, SIGNAL(phaseChanged(int,int)), this, SLOT(phaseChanged(int, int)));
+
+    worldInitialized = true;
     }
     else {
         world->start();

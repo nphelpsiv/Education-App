@@ -299,8 +299,8 @@ void World::OnInit()
 
     groundSprite.setTexture(groundTexture);
     groundSprite.setOrigin(100, 100);
-    groundSprite.setPosition(200/1.45, 455);
-    groundSprite.scale(1.45, 1);
+    groundSprite.setPosition(width()/8, height()/2);
+    groundSprite.scale(2, 1);
 
     skyTexture.loadFromFile("Icons/sky.png");
     skyTexture.setSmooth(true);
@@ -308,7 +308,7 @@ void World::OnInit()
     skySprite.setTexture(skyTexture);
     skySprite.setOrigin(100, 100);
     skySprite.setPosition(0, 0);
-    skySprite.scale(1.5, .8);
+    skySprite.scale(1.75, .8);
 
 
     sf::Texture t;
@@ -400,12 +400,30 @@ void World::OnUpdate()
 
         //Draw all balls.
 
+
+        //Ground and Sky sprites are drawn to be at the right most position of the texture.
+        //That way when it is resized, it appears that the ground and sky are static with the ground.
+        skySprite.setPosition(width()/2 - 900, height());
         sf::RenderWindow::draw(skySprite);
+        groundSprite.setPosition(width()/2 - 900, height()+400);
         sf::RenderWindow::draw(groundSprite);
         for(int i = 0; i < towers.size(); i++)
         {
-            std::cout << "Tower Body X: " << towers[i]->getPosition().x() << std::endl;
-            std::cout << "Tower Body y: " << towers[i]->getPosition().y() << std::endl;
+            QPoint p = towers[i]->getPosition();
+            sf::Sprite s = towerSprites[i];
+            int w = s.getTexture()->getSize().x;
+            int scaleX = s.getScale().x;
+            if(health <= 10)
+            {
+                //Move position down so the rumble appears on the ground.
+                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) - 50, height()/2 + 500);
+            }
+            else
+            {
+                //X position is Box2d x.pos + (widget width / 2) - (size of texture in pixels)
+                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) - 50, height()/2 + 400);
+            }
+
             sf::RenderWindow::draw(towerSprites[i]);
 
         }
@@ -415,7 +433,7 @@ void World::OnUpdate()
             QPoint p = balls[i]->getPosition();
             //The position is only here for the current size of the widget.
             //Once we can resize the widget, I believe this will change.
-            ballSprites[i].setPosition(p.x()+600, p.y() + 150);
+            ballSprites[i].setPosition(p.x()+ (width()/2), p.y() + height() + 175);
             ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
             sf::RenderWindow::draw(ballSprites[i]);
         }
@@ -424,12 +442,10 @@ void World::OnUpdate()
         for(int i = 0; i < debrisVec.size(); i++)
         {
             QPoint p = debrisVec[i]->getPosition();
-            debSprites[i].setPosition(p.x()+600, p.y()+150);
+            debSprites[i].setPosition(p.x()+ (width()/2), p.y()+ height() + 175);
             debSprites[i].setTexture(debTexture);
             sf::RenderWindow::draw(debSprites[i]);
         }
-
-        //Draw Tower. This will be replaced by selecting current tower (attributed to health)
 
     }
 
