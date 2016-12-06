@@ -1260,7 +1260,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1668,7 +1668,7 @@ QProgressBar::chunk {
             </property>
            </spacer>
           </item>
-          <item row="0" column="3">
+          <item row="0" column="4">
            <spacer name="horizontalSpacer_13">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1692,6 +1692,13 @@ QProgressBar::chunk {
            <widget class="QToolButton" name="stats_backToolButton">
             <property name="text">
              <string>Back</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QPushButton" name="openInBrowserButton">
+            <property name="text">
+             <string>Open in Browser</string>
             </property>
            </widget>
           </item>

@@ -313,3 +313,8 @@ void MainWindow::on_muteButton_clicked()
     emit world->toggleSound();
     //ui->muteButton->setChecked(true);
 }
+
+void MainWindow::on_openInBrowserButton_clicked()
+{
+    emit world->openBrowser();
+}

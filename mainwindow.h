@@ -60,6 +60,8 @@ private slots:
 
     void phaseChanged(int, int);
 
+    void on_openInBrowserButton_clicked();
+
 signals:
 
     void answerEntered(QString);
