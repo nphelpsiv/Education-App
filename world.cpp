@@ -290,8 +290,8 @@ void World::OnInit()
     //Setup Tower Sprite.
 
     towerSprite.setTexture(towerTexture);
-    towerSprite.setOrigin(100, 100);
-    towerSprite.setPosition(600, 195);
+//    towerSprite.setOrigin(100, 100);
+    //towerSprite.setPosition(600, 195);
     //towerSprite.scale(.25,.25);
     towerSprites.push_back(towerSprite);
 
@@ -299,16 +299,16 @@ void World::OnInit()
     groundTexture.setSmooth(true);
 
     groundSprite.setTexture(groundTexture);
-    groundSprite.setOrigin(100, 100);
-    groundSprite.setPosition(width()/8, height()/2);
+//    groundSprite.setOrigin(100, 100);
+    //groundSprite.setPosition(width()/8, height()/2);
     //groundSprite.scale(2, 1);
 
     skyTexture.loadFromFile("Icons/sky.png");
     skyTexture.setSmooth(true);
 
     skySprite.setTexture(skyTexture);
-    skySprite.setOrigin(100, 100);
-    skySprite.setPosition(0, 0);
+//    skySprite.setOrigin(100, 100);
+    //skySprite.setPosition(0, 0);
 //    skySprite.scale(1.75, .8);
 
 
