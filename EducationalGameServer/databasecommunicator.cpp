@@ -132,12 +132,33 @@ int DatabaseCommunicator::loginUser(QString username, QString password)
   }
 }
 
-GameInfo DatabaseCommunicator::getHighScore(int userID)
+QVector<int> DatabaseCommunicator::getHighScoreGameIDS(int topN)
 {
   QSqlQuery query;
 
-  query.prepare("SELECT * FROM eduapp.games where userid = :userID order by score desc limit 1");
-      query.bindValue(":userID", userID);
+  query.prepare("SELECT gameid FROM eduapp.games order by  score desc, level desc limit :topn");
+      query.bindValue(":topn", topN);
+  QVector<int> ret;
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    ret.push_back(-1);
+    return ret;
+  }
+
+  while(query.next())
+  {
+      ret.append(query.value("gameid").toInt());
+  }
+  return ret;
+}
+
+GameInfo DatabaseCommunicator::getGameInfo(int gameID)
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT * FROM eduapp.games where gameid = :gameID");
+      query.bindValue(":gameID", gameID);
 
   GameInfo info;
 
@@ -211,4 +232,66 @@ int DatabaseCommunicator::getAverageScore(int userID)
   {
      return query.value("avg(score)").toInt();
   }
+}
+
+int DatabaseCommunicator::removeStudent(int userID)
+{
+  QSqlQuery query;
+
+  query.prepare("delete FROM eduapp.games where userid = :userID ;delete FROM eduapp.users where userid = :userID;");
+      query.bindValue(":userID", userID);
+
+  if(query.exec() == false)
+  {
+    return -1;
+  }
+
+  while(query.next())
+  {
+     return userID;
+  }
+
+}
+
+QVector<int> DatabaseCommunicator::getGameIDS(int userID)
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT gameid FROM eduapp.games where userid = :userID;");
+      query.bindValue(":userID", userID);
+
+  QVector<int> ret;
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    ret.push_back(-1);
+    return ret;
+  }
+
+  while(query.next())
+  {
+      ret.append(query.value("gameid").toInt());
+  }
+  return ret;
+}
+
+QVector<int> DatabaseCommunicator::getStudentIDS()
+{
+  QSqlQuery query;
+
+  query.prepare("SELECT userid FROM eduapp.users");
+
+  QVector<int> ret;
+
+  if(query.exec() == false || query.size() == 0)
+  {
+    ret.push_back(-1);
+    return ret;
+  }
+
+  while(query.next())
+  {
+      ret.append(query.value("userid").toInt());
+  }
+  return ret;
 }
