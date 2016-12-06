@@ -11,7 +11,8 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 HEADERS += databasecommunicator.h \
-    studentinfo.h
+    studentinfo.h \
+    gameinfo.h
 
 SOURCES += main.cpp \
     databasecommunicator.cpp

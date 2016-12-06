@@ -13,20 +13,32 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     createGroundBox2D();
 
     //the operand that is shown statically in the GUI
-    currentOperand = 3;
+    currentOperand = (rand() % 9) + 0;
 
 
 
     game = true;
     muted = false;
     score = 0;
+    currentPhase = 1;
+
 
     //sfml stuff
 
     music.setVolume(50);
-    answerSound.setVolume(75);
-    explosionSound.setVolume(75);
-    cannonSound.setVolume(75);
+    answerSound.setVolume(100);
+    explosionSound.setVolume(50);
+    cannonSound.setVolume(50);
+
+    sf::Texture t;
+    for(int i = 0; i < 10; i++)
+    {
+        t.loadFromFile("Icons/cannonball" + std::to_string(i) + ".png");
+        t.setSmooth(true);
+        ballTextures.push_back(t);
+    }
+
+
 
     if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
@@ -34,6 +46,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     }
     music.setLoop(true);
     music.play();
+    //emit phaseChanged(currentPhase, currentOperand);
 }
 
 World::~World()
@@ -72,7 +85,6 @@ void World::start()
     spawnTimer->start(3000);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
-
     //tower->setHealth(100);
 
     towerWidth = 160;
@@ -88,10 +100,17 @@ void World::start()
 
     music.setLoop(true);
     music.play();
+
 }
 
 void World::ballSpawnCall()
 {
+
+    if(balls.size() == 0)
+    {
+        emit phaseChanged(currentPhase, currentOperand);
+    }
+    //randomBSpawn = (rand() % 1400) - 700;
     if(rand() % 2 == 0)
     {
         balls.push_back(new Ball(-700, 200, 30, world));
@@ -100,20 +119,14 @@ void World::ballSpawnCall()
     {
         balls.push_back(new Ball(700, 200, 30, world));
     }
-
     //Setup the texture for the cannon ball.
-    sf::Texture t;
-    sf::Sprite s;
-    t.loadFromFile("Icons/cannonball.png");
-    t.setSmooth(true);
-    textures.push_back(t);
 
-    // Setup the sprite
-    s.setTexture(t);
+    sf::Sprite s;
+    s.setTexture(ballTextures[balls[balls.size() - 1]->getValue()]);
     s.setOrigin(10, 10);
     s.setPosition(20, 20);
     s.setScale(1, 1);
-    sprites.push_back(s);
+    ballSprites.push_back(s);
 
 
     //update();
@@ -146,7 +159,22 @@ void World::answerEntered(QString s)
 {
     for(int i = 0; i < balls.size(); i++)
     {
-        if(s.toInt() == (balls[i]->getValue() * currentOperand))
+        int rightAnswer;
+
+        if (currentPhase == 1)
+        {
+            rightAnswer = (balls[i]->getValue() + currentOperand);
+        }
+        if (currentPhase == 2)
+        {
+            rightAnswer = (balls[i]->getValue() * currentOperand);
+        }
+        if (currentPhase == 3)
+        {
+            rightAnswer = (balls[i]->getValue() * balls[i]->getValue());
+        }
+
+        if(s.toInt() == rightAnswer)
         {
             Ball *b = balls[i];
             QPoint p = b->getPosition();
@@ -156,6 +184,14 @@ void World::answerEntered(QString s)
             delete b;
             score += 100;
             emit scoreChanged(score);
+
+            if (score%1000 == 0 && currentPhase!=3)
+            {
+                currentPhase = currentPhase+1;
+                currentOperand = (rand() % 9) + 0;
+
+                emit phaseChanged(currentPhase, currentOperand);
+            }
 
             if(!answerSound.openFromFile("Sounds/AnswerSound.wav"))
             {
@@ -208,8 +244,8 @@ void World::toggleSound()
     {
         music.setVolume(50);
         answerSound.setVolume(100);
-        explosionSound.setVolume(60);
-        cannonSound.setVolume(60);
+        explosionSound.setVolume(50);
+        cannonSound.setVolume(50);
     }
 }
 void World::createExplosion(int ballX, int ballY)
@@ -304,15 +340,16 @@ void World::OnUpdate()
         this->clear(sf::Color(0, 0, 100));
 
         //Draw all balls.
+        sf::RenderWindow::draw(towerSprite);
         for(int i = 0; i < balls.size(); i++)
         {
 
             QPoint p = balls[i]->getPosition();
             //The position is only here for the current size of the widget.
             //Once we can resize the widget, I believe this will change.
-            sprites[i].setPosition(p.x()+600, p.y() + 150);
-            sprites[i].setTexture(textures[i]);
-            sf::RenderWindow::draw(sprites[i]);
+            ballSprites[i].setPosition(p.x()+600, p.y() + 150);
+            ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
+            sf::RenderWindow::draw(ballSprites[i]);
         }
 
         //Draw Debris
@@ -325,7 +362,7 @@ void World::OnUpdate()
         }
 
         //Draw Tower. This will be replaced by selecting current tower (attributed to health)
-        sf::RenderWindow::draw(towerSprite);
+
     }
 
 
@@ -379,15 +416,3 @@ void World::end()
         delete t;
     }
 }
-
-bool World::evaluate(int num)
-{
-    return true;
-}
-
-QString World::generateFunction()
-{
-    QString function;
-    return function;
-}
-

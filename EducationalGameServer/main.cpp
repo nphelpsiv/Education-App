@@ -3,6 +3,8 @@
 #include <SFML/System.hpp>
 #include <vector>
 #include <databasecommunicator.h>
+#include <QJsonObject>
+#include <QJsonValue>
 
 const unsigned short PORT = 5001;
 
@@ -86,18 +88,26 @@ void Server(void)
                     {
                         sf::Packet packet;
                         std::string s;
+
+                        QStringList tokens;
+
                         if(client.receive(packet) == sf::Socket::Done)
                         {
                             //extrude packet into string and print (Testing purposes)
                             packet >> s;
+
+                            tokens = QString(s.c_str()).split("|");
+
                             std::cout << s << std::endl;
 
                             ///TEST CODE
-                            int uID = dbc.addStudent(QString(s.c_str()) , "1234" , "JohnnyJohnson" , true , "idk");
-                            std::cout << "UID after addStudent " << uID << std::endl;
+
+                            QString enteredUName = QString(tokens.at(1));
+                            QString enteredUPass = QString(tokens.at(2));
+
+                            int uID = dbc.addStudent(enteredUName , enteredUPass , "JohnnyJohnson" , true , "idk");
 
                             StudentInfo info = dbc.getStudentInfo(uID);
-
                             std::cout << "isValid? " << (info.isValid ? "True" : "False") << std::endl << std::endl;
 
                             if(info.isValid)
@@ -107,14 +117,29 @@ void Server(void)
                                 std::cout << (info.userID) << std::endl;
                                 std::cout << (info.classCode.toStdString()) << std::endl;
                                 std::cout << (info.realName.toStdString()) << std::endl;
-                                std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl;
+                                std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl << std::endl;
 
-                                std::cout << dbc.addGame(info.userID, 2048 , 42) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 2056 , 477) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 10000 , 12) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 7944 , 13) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 875323 , 37) << std::endl;
+                                std::cout << dbc.addGame(info.userID, 2500 , 137) << std::endl;
+
+                                std::cout << dbc.getHighScore(info.userID).score << std::endl;
+                                std::cout << dbc.getHighScore(info.userID).level << std::endl;
+
+                                std::cout << "Bad user returns a valid game? " << (dbc.getHighScore(info.userID + 90).isValid ? "True" : "False") << std::endl;
+
+                                std::cout << dbc.getTotalScore(info.userID + 83) << std::endl;
+
+                                std::cout << dbc.getAverageScore(info.userID) << std::endl;
+                                std::cout << dbc.getAverageScore(info.userID + 342) << std::endl;
+
                             }
 
-                            if(dbc.loginUser(info.username, info.password) >= 0)
+                            if(dbc.loginUser(enteredUName, enteredUPass) >= 0)
                             {
-                                std::cout << "Logged in as " << info.username.toStdString() << std::endl;
+                                std::cout << "Logged in as " << enteredUName.toStdString() << std::endl;
                             }
                             else
                             {
@@ -127,7 +152,14 @@ void Server(void)
                         if(s.size() != 0)
                         {
                             sf::Packet sendPacket;
-                            sendPacket << "received";
+
+                            int uid = dbc.loginUser( QString(tokens.at(1)), QString(tokens.at(2)) );
+
+                            sendPacket << "Logged in as : ";
+                            sendPacket << ((QString)tokens.at(1)).toStdString().c_str();
+                            sendPacket << "With userID  : ";
+                            sendPacket << uid;
+
                             if(client.send(sendPacket) != sf::Socket::Done)
                             {
                                 std::cout << "Couldn't send message" << std::endl;

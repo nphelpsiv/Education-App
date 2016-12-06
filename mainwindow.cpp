@@ -4,6 +4,9 @@
 #include <SFML/Network.hpp>
 #include <SFML/System.hpp>
 #include <QtConcurrent/QtConcurrent>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -172,6 +175,7 @@ void MainWindow::startGame()
     QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
     QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
     QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
+    QObject::connect(world, SIGNAL(phaseChanged(int,int)), this, SLOT(phaseChanged(int, int)));
     }
     else {
         world->start();
@@ -198,7 +202,7 @@ void MainWindow::loginToServer()
     //Build string to send.
     QString user = ui->login_userNameText->text();
     QString pass = ui->login_passwordText->text();
-    std::string s = "[" + user.toStdString() + ", " + pass.toStdString() + "]";
+    std::string s = "loginUser|" + user.toStdString() + "|" + pass.toStdString();
 
     //Use Packets to send to the server.
     //That way we don't have to worry about collecting a full packet.
@@ -221,8 +225,9 @@ void MainWindow::loginToServer()
     {
         //This means that the connection was successfull and we received data back from server.
         std::string s;
-        //recPacket >> s;
-        std::cout << s << std::endl;
+
+        QString qs(s.c_str());
+        qDebug() << qs;
         ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
 }
@@ -251,6 +256,32 @@ void MainWindow::scoreChanged(int s)
 {
     gameScore = s;
     ui->scoreLabel->setText("Score: " + QString::number(s));
+}
+
+void MainWindow::phaseChanged(int phase, int operand)
+{
+    std::cout << "got the phase and operand" << std::endl;
+    QString currentOperator;
+    if(phase == 1)
+    {
+        currentOperator = "+";
+    }
+    else if (phase == 2)
+    {
+        currentOperator = "*";
+    }
+    else
+    {
+        currentOperator = "^2";
+    }
+    if (phase >= 3)
+    {
+        ui->operatorLabel->setText(QString("Ball ") + currentOperator);
+    }
+    else
+    {
+        ui->operatorLabel->setText(QString::number(operand) + currentOperator);
+    }
 }
 
 void MainWindow::endGame()
