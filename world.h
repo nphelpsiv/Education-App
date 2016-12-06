@@ -22,7 +22,8 @@
 #include <QTextDocument>
 #include <QTextDocumentWriter>
 #include <QDesktopServices>
-#include <QFile>
+#include <QUrl>
+#include <QDir>
 
 class World : public QSFMLCanvas
 {
