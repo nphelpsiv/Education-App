@@ -501,3 +501,25 @@ void World::end()
         delete t;
     }
 }
+
+void World::openBrowser()
+{
+    // Setup the document writer
+    QTextDocumentWriter documentWriter;
+    documentWriter.setFormat("html");
+    documentWriter.setFileName("analytics");
+
+    // Use the textDocument to produce HTML
+    QTextDocument document;
+    document.setHtml("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1></body></html>");
+
+    // Write the document to the documentWriter
+    if(documentWriter.write(&document))
+        std::cout << "HTML document successfully written!" << std::endl;
+    else
+        std::cout << "Could not write to HTML document :(" << std::endl;
+
+    // Open in browser
+    if(QFile::exists("analytics.html"))
+        QDesktopServices::openUrl(QUrl::fromLocalFile("analytics.html"));
+}

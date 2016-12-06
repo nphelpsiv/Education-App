@@ -339,4 +339,7 @@ void MainWindow::on_muteButton_clicked()
     //ui->muteButton->setChecked(true);
 }
 
-
+void MainWindow::on_openInBrowserButton_clicked()
+{
+    emit world->openBrowser();
+}

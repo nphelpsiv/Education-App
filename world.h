@@ -19,6 +19,10 @@
 #include <SFML/Audio.hpp>
 #include "qsfmlcanvas.h"
 #include <string>
+#include <QTextDocument>
+#include <QTextDocumentWriter>
+#include <QDesktopServices>
+#include <QFile>
 
 class World : public QSFMLCanvas
 {
@@ -45,7 +49,7 @@ public slots:
     void healthChanged(int);
     void gameEnded();
     void toggleSound();
-
+    void openBrowser();
 
 
 signals:
