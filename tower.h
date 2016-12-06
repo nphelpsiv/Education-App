@@ -20,6 +20,10 @@ public:
 
     void setHealth(int);
 
+    int getHealth();
+
+    QPoint getPosition();
+
 signals:
     void healthChanged(int);
 

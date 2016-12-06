@@ -80,6 +80,9 @@ private:
 
     int gameScore;
     int highScore;
+
+    bool worldInitialized;
+
 };
 
 #endif // MAINWINDOW_H

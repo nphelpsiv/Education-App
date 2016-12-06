@@ -55,6 +55,8 @@ signals:
 
 private:
     void createGroundBox2D();
+    void towerTexturesSetUp();
+    void towerTexturesUpDate(int i);
 
     int randomBSpawn;
 
@@ -104,12 +106,22 @@ private:
     //sf::Sprite cannonSprite;
     sf::Sprite towerSprite;
 
+    sf::Texture groundTexture;
+    sf::Sprite groundSprite;
+
+    sf::Texture skyTexture;
+    sf::Sprite skySprite;
+
     //This will how we will store textures and sprites for the cannon balls.
     QVector<sf::Texture> ballTextures;
     QVector<sf::Sprite> ballSprites;
 
+    QVector<sf::Texture> towerTextures;
+    QVector<sf::Sprite> towerSprites;
+
     sf::Texture debTexture;
     QVector<sf::Sprite> debSprites;
+
 
 private slots:
     void deleteParticleAt(int);

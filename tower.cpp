@@ -44,20 +44,6 @@ void Tower::wasHit()
 {
     health -= 10;
 
-    //Each time this is called "red flash" sprite should be called for maybe 1/2 or 30 frames?
-
-    if(health == 70)
-    {
-        //Change to slightly damaged sprite
-    }
-    else if(health == 40)
-    {
-        //Change to heavy damaged sprite
-    }
-    else if(health == 20)
-    {
-        //Change to ridiculous damaged sprite
-    }
     if (health <= 0)
     {
         isDestroyed = true;
@@ -72,4 +58,13 @@ bool Tower::destroyed()
 void Tower::setHealth(int h)
 {
     health = h;
+}
+int Tower::getHealth()
+{
+    return health;
+}
+
+QPoint Tower::getPosition()
+{
+    return QPoint(towerBody->GetPosition().x * 0.6, -towerBody->GetPosition().y * 0.6);
 }
