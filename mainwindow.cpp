@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString title = "Login";
     setWindowTitle(title);
-    ui->stackedWidget->setCurrentWidget(ui->startPage);
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
 
     setupConnectAndActions();
 
@@ -51,6 +51,7 @@ void MainWindow::on_submitButton_clicked()
     //COMMENT OUT THIS BLOCK IF YOU DON'T WANT DUMMY SERVER STUFF
     /*if(signup(ui->login_userNameText->text().toStdString(), ui->login_passwordText->text().toStdString()))
     {*/
+    isTeacher = ui->teacherCheckBox->isChecked();
     ui->stackedWidget->setCurrentWidget(ui->startPage);
     /*}*/
     //UNCOMMENT THIS IF YOU DON'T WANT THE DUMMY SERVER STUFF
@@ -75,7 +76,10 @@ void MainWindow::on_logOutPushButton_clicked()
 
 void MainWindow::on_statsPushButton_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(ui->statsPage);
+    if(isTeacher)
+        ui->stackedWidget->setCurrentWidget(ui->teacherPage);
+    else
+        ui->stackedWidget->setCurrentWidget(ui->statsPage);
 }
 
 void MainWindow::on_leaderboardPushButton_clicked()
@@ -84,6 +88,11 @@ void MainWindow::on_leaderboardPushButton_clicked()
 }
 
 void MainWindow::on_stats_backToolButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
+}
+
+void MainWindow::on_teachers_backToolButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
@@ -117,33 +126,50 @@ void MainWindow::pageChanged(int pageIndex)
     QString windowTitle;
     switch(pageIndex)
     {
-        case 0: //loginPage
+        case pages::loginPage: //loginPage
+        {
+            isTeacher = false;
             setWindowTitle(windowTitle = "Login");
-        break;
-
-        case 1: //signUpPage:
+            break;
+        }
+        case pages::signUpPage: //signUpPage:
+        {
+            ui->teacherCheckBox->setChecked(false);
             setWindowTitle(windowTitle = "Sign Up");
-        break;
+            break;
+        }
 
-        case 2: //startPage
+        case pages::startPage: //startPage
+        {
+            if(isTeacher)
+                ui->statsPushButton->setText("Manage");
+            else
+                ui->statsPushButton->setText("My Stats");
+
             setWindowTitle(windowTitle = "Start Menu");
+            break;
+        }
+
+        case pages::teacherPage: //teacherPage
+            setWindowTitle(windowTitle = "Teachers Page");
         break;
 
-        case 3: //statsPage
+        case pages::statsPage: //statsPage
             setWindowTitle(windowTitle = "Stats");
         break;
 
-        case 4: //leaderboardPage
+        case pages::leaderboardPage: //leaderboardPage
             setWindowTitle(windowTitle = "Leaderboards");
         break;
 
-        case 5: //gamePage
+        case pages::gamePage: //gamePage
         {
-                setWindowTitle(windowTitle = "Game");
-                startGame();
-                break;
+            setWindowTitle(windowTitle = "Game");
+            startGame();
+            break;
         }
-        case 6: //gameOverPage
+
+        case pages::gameOverPage: //gameOverPage
             setWindowTitle(windowTitle = "Game Over");
         break;
     }
@@ -310,3 +336,5 @@ void MainWindow::on_muteButton_clicked()
     emit world->toggleSound();
     //ui->muteButton->setChecked(true);
 }
+
+

@@ -85,7 +85,8 @@ win32:DEPENDPATH += $$PWD/../mysql-5.7.16-winx64
 win32:INCLUDEPATH += $$PWD/../mysql-5.7.16-winx64/include
 
 RESOURCES += \
-    icons.qrc
+    icons.qrc \
+    qdarkstyle/style.qrc
 
 DISTFILES +=
 

@@ -36,6 +36,8 @@ private slots:
 
     void on_stats_backToolButton_clicked();
 
+    void on_teachers_backToolButton_clicked();
+
     void on_leaderboard_backToolButton_clicked();
 
     void on_startScreenPushButton_clicked();
@@ -80,8 +82,15 @@ private:
     QGraphicsScene *scene;
     World *world;
 
+    ///
+    /// \brief isTeacher Temp var
+    ///
+    int isTeacher;
+
     int gameScore;
     int highScore;
+
+    enum pages{loginPage, signUpPage, startPage, statsPage, teacherPage, leaderboardPage, gamePage, gameOverPage};
 };
 
 #endif // MAINWINDOW_H
