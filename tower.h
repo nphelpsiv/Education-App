@@ -24,6 +24,8 @@ public:
 
     QPoint getPosition();
 
+    int textureIndex;
+
 signals:
     void healthChanged(int);
 

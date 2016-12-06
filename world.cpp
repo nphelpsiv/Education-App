@@ -100,6 +100,7 @@ void World::start()
     health = 100;
     score = 0;
     game = true;
+    hit = 0;
 
     music.setLoop(true);
     music.play();
@@ -366,6 +367,7 @@ void World::OnUpdate()
             }
             if(balls[i]->hasCollided())
             {
+                hit = 10;
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
                 QPoint p = b->getPosition();
@@ -411,6 +413,16 @@ void World::OnUpdate()
         {
             QPoint p = towers[i]->getPosition();
             sf::Sprite s = towerSprites[i];
+            //sf::Texture* t = s.getTexture();
+            if(hit > 0 && health > 10)
+            {
+                towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex + 1]);
+                --hit;
+            }
+            else
+            {
+                towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
+            }
             int w = s.getTexture()->getSize().x;
             int scaleX = s.getScale().x;
             if(health <= 10)
@@ -425,6 +437,7 @@ void World::OnUpdate()
             }
 
             sf::RenderWindow::draw(towerSprites[i]);
+            //towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
 
         }
         for(int i = 0; i < balls.size(); i++)
@@ -456,15 +469,15 @@ void World::towerTexturesUpDate(int i)
 {
     if(towers[i]->getHealth() == 80)
     {
-        towerSprites[i].setTexture(towerTextures[2]);
+        towers[i]->textureIndex = 2;
     }
     else if(towers[i]->getHealth() == 40)
     {
-        towerSprites[i].setTexture(towerTextures[4]);
+        towers[i]->textureIndex = 4;
     }
     else if(towers[i]->getHealth() == 10)
     {
-        towerSprites[i].setTexture(towerTextures[6]);
+        towers[i]->textureIndex = 6;
     }
 
 }
