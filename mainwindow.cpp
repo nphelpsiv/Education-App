@@ -16,15 +16,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString title = "Login";
     setWindowTitle(title);
-    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
 
     setupConnectAndActions();
 
     gameScore = 0;
     highScore = 1000;
 
-    worldInitialized = false;
+    aspectRatio = 1;
 
+    worldInitialized = false;
 }
 
 MainWindow::~MainWindow()
@@ -179,15 +180,26 @@ void MainWindow::pageChanged(int pageIndex)
 //Helps preserve the aspect ration while the window is resized.
 void MainWindow::resizeEvent(QResizeEvent*)
 {
-    /////NOT REALLY SURE HOW TO RESIZE THE QWIDGET////
+    //http://stackoverflow.com/questions/7259847/forcing-an-aspect-ratio-when-resizing-a-main-window
+//    int containerWidth = width();
+//        int containerHeight = height();
 
-    //ui->gameRenderWidget->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
+//        int contentsHeight = containerHeight ;
+//        int contentsWidth = containerHeight * 5;
+//        if (contentsWidth > containerWidth ) {
+//            contentsWidth = containerWidth ;
+//            contentsHeight = containerWidth / 8;
+//        }
+//        ui->gameRenderFrame->size().setWidth(contentsWidth);
+//        ui->gameRenderFrame->size().setHeight(contentsHeight);
+    /////NOT REALLY SURE HOW TO RESIZE THE QWIDGET////
+    //ui->gameRenderFrame->fitInView(0, 0, 500, 800, Qt::KeepAspectRatio);
     std::cout << "MainWindow: (" << width() << "," << height() << ")" << std::endl;
 }
 
 void MainWindow::startGame()
 {
-    //ui->gameRenderFrame->setLayout(ui->verticalLayout_11);
+    ui->gameLayout->addWidget(ui->gameRenderFrame, 1, 1, Qt::AlignCenter);
     ui->gameRenderFrame->setEnabled(true);
     ui->gameRenderFrame->resize(1200, 800);
     ui->gameRenderFrame->show();

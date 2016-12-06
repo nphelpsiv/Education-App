@@ -92,6 +92,8 @@ private:
     int gameScore;
     int highScore;
 
+    int aspectRatio;
+
     bool worldInitialized;
 
 
