@@ -113,11 +113,11 @@ private:
     //sf::Sprite cannonSprite;
     sf::Sprite towerSprite;
 
-    sf::Texture groundTexture;
-    sf::Sprite groundSprite;
+//    sf::Texture groundTexture;
+//    sf::Sprite groundSprite;
 
-    sf::Texture skyTexture;
-    sf::Sprite skySprite;
+    sf::Texture backGroundTexture;
+    sf::Sprite backGroundSprite;
 
     //This will how we will store textures and sprites for the cannon balls.
     QVector<sf::Texture> ballTextures;

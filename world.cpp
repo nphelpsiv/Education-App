@@ -290,26 +290,26 @@ void World::OnInit()
     //Setup Tower Sprite.
 
     towerSprite.setTexture(towerTexture);
-//    towerSprite.setOrigin(100, 100);
-    //towerSprite.setPosition(600, 195);
-    //towerSprite.scale(.25,.25);
+    towerSprite.setOrigin(100, 100);
+    towerSprite.setPosition(600, 195);
+    towerSprite.scale(.25,.25);
     towerSprites.push_back(towerSprite);
 
-    groundTexture.loadFromFile("Icons/Ground.png");
-    groundTexture.setSmooth(true);
+//    groundTexture.loadFromFile("Icons/Ground.png");
+//    groundTexture.setSmooth(true);
 
-    groundSprite.setTexture(groundTexture);
+//    groundSprite.setTexture(groundTexture);
 //    groundSprite.setOrigin(100, 100);
-    //groundSprite.setPosition(width()/8, height()/2);
-    //groundSprite.scale(2, 1);
+//    groundSprite.setPosition(width()/8, height()/2);
+//    groundSprite.scale(2, 1);
 
-    skyTexture.loadFromFile("Icons/sky.png");
-    skyTexture.setSmooth(true);
+    backGroundTexture.loadFromFile("Icons/Phase1Background.png");
+    backGroundTexture.setSmooth(true);
 
-    skySprite.setTexture(skyTexture);
-//    skySprite.setOrigin(100, 100);
-    //skySprite.setPosition(0, 0);
-//    skySprite.scale(1.75, .8);
+    backGroundSprite.setTexture(backGroundTexture);
+    backGroundSprite.setOrigin(100, 100);
+    backGroundSprite.setPosition(0, 0);
+    backGroundSprite.scale(1.75, .8);
 
 
     sf::Texture t;
@@ -405,10 +405,10 @@ void World::OnUpdate()
 
         //Ground and Sky sprites are drawn to be at the right most position of the texture.
         //That way when it is resized, it appears that the ground and sky are static with the ground.
-        skySprite.setPosition(width()/2 - 900, height());
-        sf::RenderWindow::draw(skySprite);
-        groundSprite.setPosition(width()/2 - 900, height()+400);
-        sf::RenderWindow::draw(groundSprite);
+        backGroundSprite.setPosition(width()/2 - 900, height());
+        sf::RenderWindow::draw(backGroundSprite);
+//        groundSprite.setPosition(width()/2 - 900, height()+400);
+//        sf::RenderWindow::draw(groundSprite);
         for(int i = 0; i < towers.size(); i++)
         {
             QPoint p = towers[i]->getPosition();
