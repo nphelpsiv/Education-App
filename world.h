@@ -52,6 +52,7 @@ signals:
     void healthUpdated(int);
     void outOfHealth();
     void scoreChanged(int);
+    void phaseChanged(int, int);
 
 private:
     void createGroundBox2D();
@@ -85,6 +86,7 @@ private:
     int towerHeight;
 
     int currentOperand;
+    int currentPhase;
 
     int health;
     int score;
@@ -114,7 +116,6 @@ private:
 private slots:
     void deleteParticleAt(int);
     void deleteParticles();
-
 
 };
 
