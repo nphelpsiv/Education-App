@@ -36,6 +36,8 @@ private slots:
 
     void on_stats_backToolButton_clicked();
 
+    void on_managePushButton_clicked();
+
     void on_teachers_backToolButton_clicked();
 
     void on_leaderboard_backToolButton_clicked();
@@ -92,7 +94,8 @@ private:
     int gameScore;
     int highScore;
 
-    int aspectRatio;
+    int aspectRatioWidth;
+    int aspectRatioHeight;
 
     bool worldInitialized;
 
