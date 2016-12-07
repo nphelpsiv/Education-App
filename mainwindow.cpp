@@ -212,6 +212,7 @@ void MainWindow::startGame()
         world->start();
     }
 
+    ui->answerLineEdit->setFocus();
     gameScore = 0;
     ui->scoreLabel->setText("Score: " + QString::number(gameScore));
     ui->healthLabel->setText("Health: 100");

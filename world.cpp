@@ -196,6 +196,7 @@ void World::answerEntered(QString s)
             {
                 currentPhase = currentPhase+1;
                 currentOperand = (rand() % 9) + 0;
+
                 if(currentPhase == 2)
                 {
                     backGroundTexture.loadFromFile("Icons/Phase2Background.png");
@@ -479,11 +480,36 @@ void World::OnUpdate()
         levelText.setPosition(0, 700);
         levelText.setColor(sf::Color::Red);
 
+        //Operator HUD Text
+        sf::Text operationText;
+        operationText.setFont(font);
+        ss.str("");
+        ss << currentOperand;
+        std::string operationString;
+        if(currentPhase == 1)
+        {
+            operationString = "X + " + ss.str();
+        }
+        else if(currentPhase == 2)
+        {
+            operationString = "X * " + ss.str();
+        }
+        else if(currentPhase == 3)
+        {
+            operationString = "X^2";
+        }
+        operationText.setString(operationString);
+
+        operationText.setCharacterSize(100 * widthScale * 1.4);
+        textWidth = operationText.getLocalBounds().width;
+        operationText.setPosition(width() - textWidth - 10, 700);
+        operationText.setColor(sf::Color::Red);
 
         sf::RenderWindow::draw(backGroundSprite);
         sf::RenderWindow::draw(healthText);
         sf::RenderWindow::draw(scoreText);
         sf::RenderWindow::draw(levelText);
+        sf::RenderWindow::draw(operationText);
 
         for(int i = 0; i < towers.size(); i++)
         {
