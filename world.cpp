@@ -308,7 +308,7 @@ void World::OnInit()
 
     backGroundSprite.setTexture(backGroundTexture);
     backGroundSprite.setOrigin(100, 100);
-    backGroundSprite.setPosition(0, 0);
+    backGroundSprite.setPosition(width()/2, 0);
     backGroundSprite.scale(1.75, .8);
 
 
@@ -405,10 +405,17 @@ void World::OnUpdate()
 
         //Ground and Sky sprites are drawn to be at the right most position of the texture.
         //That way when it is resized, it appears that the ground and sky are static with the ground.
-        backGroundSprite.setPosition(width()/2 - 900, height());
+        float backgroundWidth = backGroundSprite.getTexture()->getSize().x;
+        float backgroundHeight = backGroundSprite.getTexture()->getSize().y;
+
+        float widthScale = width()/backgroundWidth;
+        float heightScale = height()/backgroundHeight;
+
+        backGroundSprite.setScale(widthScale*1.1, heightScale*1.1);
+        backGroundSprite.setPosition(25, 800 - (heightScale * backgroundHeight));
+
         sf::RenderWindow::draw(backGroundSprite);
-//        groundSprite.setPosition(width()/2 - 900, height()+400);
-//        sf::RenderWindow::draw(groundSprite);
+
         for(int i = 0; i < towers.size(); i++)
         {
             QPoint p = towers[i]->getPosition();
@@ -424,16 +431,16 @@ void World::OnUpdate()
                 towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
             }
             int w = s.getTexture()->getSize().x;
-            int scaleX = s.getScale().x;
+            int h = s.getTexture()->getSize().y;
+            float scaleX = s.getScale().x;
+            float scaleY = s.getScale().y;
             if(health <= 10)
             {
-                //Move position down so the rumble appears on the ground.
-                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) - 50, height()/2 + 500);
+                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 100, p.y() + (height()/2) - (h*scaleY) + 600);
             }
             else
             {
-                //X position is Box2d x.pos + (widget width / 2) - (size of texture in pixels)
-                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) - 50, height()/2 + 400);
+                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 100, p.y() - (h*scaleY) + 600);
             }
 
             sf::RenderWindow::draw(towerSprites[i]);
@@ -444,10 +451,16 @@ void World::OnUpdate()
         {
 
             QPoint p = balls[i]->getPosition();
-            //The position is only here for the current size of the widget.
-            //Once we can resize the widget, I believe this will change.
-            ballSprites[i].setPosition(p.x()+ (width()/2), p.y() + height() + 175);
+
+            sf::Sprite s = ballSprites[i];
+            int w = s.getTexture()->getSize().x;
+            int h = s.getTexture()->getSize().y;
+            float scaleX = s.getScale().x;
+            float scaleY = s.getScale().y;
+
+            ballSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50,  p.y() - (h*scaleY) + 600);
             ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
+
             sf::RenderWindow::draw(ballSprites[i]);
         }
 
@@ -455,8 +468,16 @@ void World::OnUpdate()
         for(int i = 0; i < debrisVec.size(); i++)
         {
             QPoint p = debrisVec[i]->getPosition();
-            debSprites[i].setPosition(p.x()+ (width()/2), p.y()+ height() + 175);
+
+            sf::Sprite s = debSprites[i];
+            int w = s.getTexture()->getSize().x;
+            int h = s.getTexture()->getSize().y;
+            float scaleX = s.getScale().x;
+            float scaleY = s.getScale().y;
+
+            debSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50, p.y()- (h*scaleY) + 600);
             debSprites[i].setTexture(debTexture);
+
             sf::RenderWindow::draw(debSprites[i]);
         }
 

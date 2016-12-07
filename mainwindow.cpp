@@ -180,6 +180,8 @@ void MainWindow::resizeEvent(QResizeEvent*)
     //world->reSize(width() - 50, height() - 200);
     if(worldInitialized)
     {
+        ui->gameRenderFrame->setMinimumHeight(height() * 0.66);
+        ui->gameRenderFrame->setMinimumWidth(width() * 0.95);
         world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
     }
 }
@@ -192,6 +194,9 @@ void MainWindow::startGame()
     world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(2000, 800));
     world->show();
     world->start();
+    world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
+
+    ui->gameRenderFrame->setMinimumHeight(height() * 0.66);
     world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
 
     QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
