@@ -174,7 +174,6 @@ void World::answerEntered(QString s)
         }
         if (currentPhase == 2)
         {
-            phaseAnimation = 60;
             rightAnswer = (balls[i]->getValue() * currentOperand);
 
         }
@@ -196,6 +195,7 @@ void World::answerEntered(QString s)
 
             if (score%1000 == 0 && currentPhase!=3)
             {
+                phaseAnimation = 120;
                 currentPhase = currentPhase+1;
                 currentOperand = (rand() % 9) + 0;
 
