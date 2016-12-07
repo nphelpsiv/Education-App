@@ -30,6 +30,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     answerSound.setVolume(100);
     explosionSound.setVolume(50);
     cannonSound.setVolume(50);
+    wrongAnswerSound.setVolume(50);
 
 
     for(int i = 0; i < 10; i++)
@@ -219,6 +220,12 @@ void World::answerEntered(QString s)
             return;
         }
     }
+
+    if(!wrongAnswerSound.openFromFile("Sounds/AirHorn.wav"))
+    {
+        std::cout << "Couldn't find wrong answer sound" << std::endl;
+    }
+    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)

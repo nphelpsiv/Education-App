@@ -103,6 +103,7 @@ private:
     sf::Music cannonSound;
     sf::Music explosionSound;
     sf::Music answerSound;
+    sf::Music wrongAnswerSound;
 
     //This method initializes the sprites and textures that is needed when starting
     void OnInit();

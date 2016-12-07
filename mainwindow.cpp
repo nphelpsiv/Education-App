@@ -251,7 +251,7 @@ void MainWindow::loginToServer()
     //Use Packets to send to the server.
     //That way we don't have to worry about collecting a full packet.
     sf::Packet sendPacket;
-    sendPacket << s.c_str();
+    //sendPacket << s.c_str();
     status = socket.send(sendPacket);
     if(status != sf::Socket::Done)
     {
