@@ -233,7 +233,20 @@ void MainWindow::loginToServer()
     //Build string to send.
     QString user = ui->login_userNameText->text();
     QString pass = ui->login_passwordText->text();
-    std::string s = "loginUser|" + user.toStdString() + "|" + pass.toStdString();
+
+    ///TEST CODE
+//    std::string s = "loginUser|" + user.toStdString() + "|" + pass.toStdString();
+//    std::string s = "addStudent|"+ user.toStdString() + "|" + pass.toStdString() + "|" + "Test Names Mc Gee" + "|" + "1" + "|" + "why do we have a class code";
+//    std::string s = "addGame|"+ std::to_string(151) + "|" + std::to_string(3503) + "|" + std::to_string(12);
+//    std::string s = "getGameInfo|"+ std::to_string(298);
+//    std::string s = "getHighScoreGameIDS|"+ std::to_string(20);
+//    std::string s = "getTotalScore|"+ std::to_string(76);
+//    std::string s = "getGamesPlayed|"+ std::to_string(142);
+//    std::string s = "getAverageScore|"+ std::to_string(109);
+//    std::string s = "removeStudent|"+ std::to_string(45);
+//    std::string s = "getGameIDS|"+ std::to_string(109);
+//    std::string s = "getStudentIDS";
+    ///TEST CODE
 
     //Use Packets to send to the server.
     //That way we don't have to worry about collecting a full packet.
