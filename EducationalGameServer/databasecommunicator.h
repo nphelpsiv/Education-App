@@ -40,7 +40,7 @@ public:
   //"Logs in a user" (Retrieves userID given the username and password)
   int loginUser(QString username, QString password);
 
-  //Returns information about the game that the userID scored highest in. isValid data member determines if information is good.
+  //Returns information about the game with the given gameID. isValid data member determines if information is good.
   GameInfo getGameInfo(int gameID);
 
   //Returns topN number of gameIDs representing the games with the highest scores in order. If there was a problem or nothing returns, returns -1.
