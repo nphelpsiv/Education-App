@@ -225,7 +225,7 @@ void World::answerEntered(QString s)
         }
     }
 
-    if(!wrongAnswerSound.openFromFile("Sounds/AirHorn.wav"))
+    if(!wrongAnswerSound.openFromFile("Sounds/bloop.wav"))
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
