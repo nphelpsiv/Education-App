@@ -294,7 +294,6 @@ void MainWindow::healthChanged(int h)
 void MainWindow::outOfHealth()
 {
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
-    //emit gameEnded();
     endGame();
 }
 
@@ -354,7 +353,6 @@ void MainWindow::endGame()
 void MainWindow::on_muteButton_clicked()
 {
     emit world->toggleSound();
-    //ui->muteButton->setChecked(true);
 }
 
 void MainWindow::on_openInBrowserButton_clicked()

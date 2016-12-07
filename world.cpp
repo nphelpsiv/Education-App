@@ -8,7 +8,6 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     b2Vec2 gravity(0.0f, -20.0f);
     world = new b2World(gravity);
 
-
     world->SetContactListener(&contactListenerInstance);
 
     createGroundBox2D();
@@ -16,23 +15,19 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     //the operand that is shown statically in the GUI
     currentOperand = (rand() % 9) + 0;
 
-
-
     game = true;
     muted = false;
     score = 0;
     currentPhase = 1;
     phaseAnimation = 120;
 
-
     //sfml stuff
-
+    //Set audio volume
     music.setVolume(50);
     answerSound.setVolume(100);
     explosionSound.setVolume(50);
     cannonSound.setVolume(50);
     wrongAnswerSound.setVolume(50);
-
 
     for(int i = 0; i < 10; i++)
     {
@@ -44,15 +39,12 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
 
     towerTexturesSetUp();
 
-
-
     if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
     music.play();
-    //emit phaseChanged(currentPhase, currentOperand);
 }
 
 World::~World()
@@ -81,6 +73,7 @@ World::~World()
         //the destructor handles removing itself from world
         delete d;
     }
+    delete world;
 }
 
 void World::start()
@@ -175,7 +168,6 @@ void World::answerEntered(QString s)
         if (currentPhase == 2)
         {
             rightAnswer = (balls[i]->getValue() * currentOperand);
-
         }
         if (currentPhase == 3)
         {
@@ -225,11 +217,11 @@ void World::answerEntered(QString s)
         }
     }
 
-    if(!wrongAnswerSound.openFromFile("Sounds/bloop.wav"))
-    {
-        std::cout << "Couldn't find wrong answer sound" << std::endl;
-    }
-    wrongAnswerSound.play();
+//    if(!wrongAnswerSound.openFromFile("Sounds/bloop.wav"))
+//    {
+//        std::cout << "Couldn't find wrong answer sound" << std::endl;
+//    }
+//    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
