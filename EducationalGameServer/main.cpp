@@ -92,86 +92,157 @@ void Server(void)
                     if(selector.isReady(client))
                     {
                         sf::Packet packet;
-                        std::string s;
+                        std::string inString;
+                        QStringList outString;
 
                         QStringList tokens;
 
                         if(client.receive(packet) == sf::Socket::Done)
                         {
                             //extrude packet into string and print (Testing purposes)
-                            packet >> s;
+                            packet >> inString;
 
-                            tokens = QString(s.c_str()).split("|");
+                            tokens = QString(inString.c_str()).split("|");
 
-                            std::cout << s << std::endl;
 
-                            ///TEST CODE
+                              if(tokens.at(0) == "addStudent")
+                              {
+                                  outString.append(QString::number(dbc.addStudent(tokens.at(1),tokens.at(2),tokens.at(3), tokens.at(4) == "1" ,tokens.at(5))));
+                              }
+                              else if(tokens.at(0) == "addGame")
+                              {
+                                  outString.append(QString::number(dbc.addGame( ((QString)tokens.at(1)).toInt() , ((QString)tokens.at(2)).toInt() , ((QString)tokens.at(3)).toInt() )));
+                              }
+                              else if(tokens.at(0) == "loginUser")
+                              {
+                                  outString.append(QString::number(dbc.loginUser(tokens.at(1),tokens.at(2))));
+                              }
+                              else if(tokens.at(0) == "getGameInfo")
+                              {
+                                 GameInfo info = dbc.getGameInfo( ((QString)tokens.at(1)).toInt() );
 
-                            QString enteredUName = QString(tokens.at(1));
-                            QString enteredUPass = QString(tokens.at(2));
+                                 outString.append(QString::number(info.gameID));
+                                 outString.append(QString::number(info.userID));
+                                 outString.append(QString::number(info.score));
+                                 outString.append(QString::number(info.level));
 
-                            int uID = dbc.addStudent(enteredUName , enteredUPass , "JohnnyJohnson" , true , "idk");
+                                 outString.append(info.isValid ? "1" : "0");
+                              }
+                              else if(tokens.at(0) == "getHighScoreGameIDS")
+                              {
+                                 QVector<int> info = dbc.getHighScoreGameIDS( ((QString)tokens.at(1)).toInt() );
 
-                            StudentInfo info = dbc.getStudentInfo(uID);
-                            std::cout << "isValid? " << (info.isValid ? "True" : "False") << std::endl << std::endl;
+                                 for (int i = 0; i < info.size(); ++i)
+                                 {
+                                    outString.append(QString::number(info[i]));
+                                 }
+                              }
+                              else if(tokens.at(0) == "getTotalScore")
+                              {
+                                 outString.append(QString::number(dbc.getTotalScore( ((QString)tokens.at(1)).toInt() )));
+                              }
+                              else if(tokens.at(0) == "getGamesPlayed")
+                              {
+                                 outString.append(QString::number(dbc.getGamesPlayed( ((QString)tokens.at(1)).toInt() )));
+                              }
+                              else if(tokens.at(0) == "getAverageScore")
+                              {
+                                 outString.append(QString::number(dbc.getAverageScore( ((QString)tokens.at(1)).toInt() )));
+                              }
+                              else if(tokens.at(0) == "removeStudent")
+                              {
+                                 outString.append(QString::number(dbc.removeStudent( ((QString)tokens.at(1)).toInt() )));
+                              }
+                              else if(tokens.at(0) == "getGameIDS")
+                              {
+                                 QVector<int> info = dbc.getGameIDS( ((QString)tokens.at(1)).toInt() );
 
-                            if(info.isValid)
-                            {
-                                std::cout << (info.username.toStdString()) << std::endl;
-                                std::cout << (info.password.toStdString()) << std::endl;
-                                std::cout << (info.userID) << std::endl;
-                                std::cout << (info.classCode.toStdString()) << std::endl;
-                                std::cout << (info.realName.toStdString()) << std::endl;
-                                std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl << std::endl;
+                                 for (int i = 0; i < info.size(); ++i)
+                                 {
+                                    outString.append(QString::number(info[i]));
+                                 }
+                              }
+                              else if(tokens.at(0) == "getStudentIDS")
+                              {
+                                 QVector<int> info = dbc.getStudentIDS();
 
-                                std::cout << dbc.addGame(info.userID, 2056 , 477) << std::endl;
-                                std::cout << dbc.addGame(info.userID, 10000 , 12) << std::endl;
-                                std::cout << dbc.addGame(info.userID, 7944 , 13) << std::endl;
-                                std::cout << dbc.addGame(info.userID, 875323 , 37) << std::endl;
-                                std::cout << dbc.addGame(info.userID, 2500 , 137) << std::endl;
+                                 for (int i = 0; i < info.size(); ++i)
+                                 {
+                                    outString.append(QString::number(info[i]));
+                                 }
+                              }
+                              else
+                              {
+                                 outString.append("INVALID METHOD");
+                              }
 
-                                //std::cout << dbc.getHighScore(info.userID).score << std::endl;
-                                //std::cout << dbc.getHighScore(info.userID).level << std::endl;
+//                            ///TEST CODE
+//                            std::cout << s << std::endl;
+//                            QString enteredUName = QString(tokens.at(1));
+//                            QString enteredUPass = QString(tokens.at(2));
 
-                                //std::cout << "Bad user returns a valid game? " << (dbc.getHighScore(info.userID + 90).isValid ? "True" : "False") << std::endl;
+//                            int uID = dbc.addStudent(enteredUName , enteredUPass , "JohnnyJohnson" , true , "idk");
 
-                                std::cout << dbc.getTotalScore(info.userID + 83) << std::endl;
+//                            StudentInfo info = dbc.getStudentInfo(uID);
+//                            std::cout << "isValid? " << (info.isValid ? "True" : "False") << std::endl << std::endl;
 
-                                std::cout << dbc.getAverageScore(info.userID) << std::endl;
-                                std::cout << dbc.getAverageScore(info.userID + 342) << std::endl;
+//                            if(info.isValid)
+//                            {
+//                                std::cout << (info.username.toStdString()) << std::endl;
+//                                std::cout << (info.password.toStdString()) << std::endl;
+//                                std::cout << (info.userID) << std::endl;
+//                                std::cout << (info.classCode.toStdString()) << std::endl;
+//                                std::cout << (info.realName.toStdString()) << std::endl;
+//                                std::cout << "isTeacher? " << (info.isTeacher ? "True" : "False") << std::endl << std::endl;
 
-                            }
+//                                std::cout << dbc.addGame(info.userID, 2056 , 477) << std::endl;
+//                                std::cout << dbc.addGame(info.userID, 10000 , 12) << std::endl;
+//                                std::cout << dbc.addGame(info.userID, 7944 , 13) << std::endl;
+//                                std::cout << dbc.addGame(info.userID, 875323 , 37) << std::endl;
+//                                std::cout << dbc.addGame(info.userID, 2500 , 137) << std::endl;
 
-                            if(dbc.loginUser(enteredUName, enteredUPass) >= 0)
-                            {
-                                std::cout << "Logged in as " << enteredUName.toStdString() << std::endl;
-                            }
-                            else
-                            {
-                                std::cout << "Invalid username or password." << std::endl;
-                            }
+//                                //std::cout << dbc.getHighScore(info.userID).score << std::endl;
+//                                //std::cout << dbc.getHighScore(info.userID).level << std::endl;
+
+//                                //std::cout << "Bad user returns a valid game? " << (dbc.getHighScore(info.userID + 90).isValid ? "True" : "False") << std::endl;
+
+//                                std::cout << dbc.getTotalScore(info.userID + 83) << std::endl;
+
+//                                std::cout << dbc.getAverageScore(info.userID) << std::endl;
+//                                std::cout << dbc.getAverageScore(info.userID + 342) << std::endl;
+
+//                            }
+
+//                            if(dbc.loginUser(enteredUName, enteredUPass) >= 0)
+//                            {
+//                                std::cout << "Logged in as " << enteredUName.toStdString() << std::endl;
+//                            }
+//                            else
+//                            {
+//                                std::cout << "Invalid username or password." << std::endl;
+//                            }
                             ///TEST CODE
                         }
 
                         //send back to client that it was received.
-                        if(s.size() != 0)
+                        if(inString.size() != 0)
                         {      
                             sf::Packet sendPacket;
 
-                            QVector<int> gIDs = dbc.getHighScoreGameIDS(500);
+
+                            ///TEST CODE
+//                            QVector<int> gIDs = dbc.getHighScoreGameIDS(500);
+
+//                            for (int var = 0; var < gIDs.size(); ++var) {
+//                                outString.append(QString::number(dbc.getGameInfo(gIDs[var]).score));
+//                              }
 
 
-                            QStringList s;
-
-                            for (int var = 0; var < gIDs.size(); ++var) {
-                                s.append(QString::number(dbc.getGameInfo(gIDs[var]).score));
-                              }
+//                            cout << outString.join("|").toStdString() << endl;
 
 
-                            cout << s.join("|").toStdString() << endl;
-
-                            sendPacket << s.join("|").toStdString();
-
+                            ///TEST CODE
+                            sendPacket << outString.join("|").toStdString();
 
                             if(client.send(sendPacket) != sf::Socket::Done)
                             {

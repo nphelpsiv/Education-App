@@ -246,10 +246,7 @@ int DatabaseCommunicator::removeStudent(int userID)
     return -1;
   }
 
-  while(query.next())
-  {
-     return userID;
-  }
+  return userID;
 
 }
 
