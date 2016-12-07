@@ -97,6 +97,10 @@ void World::start()
     score = 0;
     game = true;
     hit = 0;
+    currentPhase = 1;
+    phaseAnimation = 120;
+    backGroundTexture.loadFromFile("Icons/Phase1Background.png");
+    backGroundTexture.setSmooth(true);
 
     music.setLoop(true);
     music.play();
@@ -217,11 +221,11 @@ void World::answerEntered(QString s)
         }
     }
 
-//    if(!wrongAnswerSound.openFromFile("Sounds/bloop.wav"))
-//    {
-//        std::cout << "Couldn't find wrong answer sound" << std::endl;
-//    }
-//    wrongAnswerSound.play();
+    if(!wrongAnswerSound.openFromFile("Sounds/AirHorn.wav"))
+    {
+        std::cout << "Couldn't find wrong answer sound" << std::endl;
+    }
+    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
