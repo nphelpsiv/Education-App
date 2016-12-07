@@ -22,6 +22,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     muted = false;
     score = 0;
     currentPhase = 1;
+    phaseAnimation = 120;
 
 
     //sfml stuff
@@ -173,6 +174,7 @@ void World::answerEntered(QString s)
         }
         if (currentPhase == 2)
         {
+            phaseAnimation = 60;
             rightAnswer = (balls[i]->getValue() * currentOperand);
 
         }
@@ -199,6 +201,7 @@ void World::answerEntered(QString s)
 
                 if(currentPhase == 2)
                 {
+                    phaseAnimation = 120;
                     backGroundTexture.loadFromFile("Icons/Phase2Background.png");
                     backGroundTexture.setSmooth(true);
                 }
@@ -508,6 +511,7 @@ void World::OnUpdate()
         operationText.setPosition(width() - textWidth - 10, 700);
         operationText.setColor(sf::Color::Red);
 
+        //Draw Background and HUD elements
         sf::RenderWindow::draw(backGroundSprite);
         sf::RenderWindow::draw(healthText);
         sf::RenderWindow::draw(scoreText);
@@ -577,6 +581,22 @@ void World::OnUpdate()
             debSprites[i].setTexture(debTexture);
 
             sf::RenderWindow::draw(debSprites[i]);
+        }
+
+        if(phaseAnimation > 0)
+        {
+            sf::Text phaseText;
+            phaseText.setFont(font);
+            ss.str("");
+            ss << currentPhase;
+            std::string phaseString = "PHASE " + ss.str() + "!!!!";
+            phaseText.setString(phaseString);
+
+            phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
+            phaseText.setPosition(width()/2 - phaseText.getLocalBounds().width/2, 500);
+            phaseText.setColor(sf::Color::Red);
+            sf::RenderWindow::draw(phaseText);
+            phaseAnimation--;
         }
 
     }

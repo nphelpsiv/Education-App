@@ -98,6 +98,7 @@ private:
     int health;
     int score;
     int hit;
+    int phaseAnimation;
 
     sf::Music music;
     sf::Music cannonSound;
