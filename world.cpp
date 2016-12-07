@@ -1,4 +1,5 @@
 #include "world.h"
+#include <sstream>
 
 World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     QSFMLCanvas(parent, position, size, 1000/60)
@@ -172,6 +173,7 @@ void World::answerEntered(QString s)
         if (currentPhase == 2)
         {
             rightAnswer = (balls[i]->getValue() * currentOperand);
+
         }
         if (currentPhase == 3)
         {
@@ -193,7 +195,18 @@ void World::answerEntered(QString s)
             {
                 currentPhase = currentPhase+1;
                 currentOperand = (rand() % 9) + 0;
+                if(currentPhase == 2)
+                {
+                    backGroundTexture.loadFromFile("Icons/Phase2Background.png");
+                    backGroundTexture.setSmooth(true);
+                }
+                else if(currentPhase == 3)
+                {
+                    backGroundTexture.loadFromFile("Icons/Phase3Background.png");
+                    backGroundTexture.setSmooth(true);
+                }
 
+                backGroundSprite.setTexture(backGroundTexture);
                 emit phaseChanged(currentPhase, currentOperand);
             }
 
@@ -400,7 +413,12 @@ void World::OnUpdate()
         // Clear screen
         this->clear(sf::Color(0, 0, 100));
 
-        //Draw all balls.
+        sf::Font font;
+        if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
+        {
+            std::cout << "couldn't load font file" << std::endl;
+        }
+
 
 
         //Ground and Sky sprites are drawn to be at the right most position of the texture.
@@ -414,7 +432,51 @@ void World::OnUpdate()
         backGroundSprite.setScale(widthScale*1.1, heightScale*1.1);
         backGroundSprite.setPosition(25, 800 - (heightScale * backgroundHeight));
 
+        //Health HUD Text
+        sf::Text healthText;
+        healthText.setFont(font);
+        std::stringstream ss;
+        ss << health;
+        std::string int2Str = ss.str();
+        std::string healthString = "HEALTH: " + int2Str;
+        healthText.setString(healthString);
+
+        healthText.setCharacterSize(100 * widthScale * 1.4);
+        healthText.setPosition(0,800 - height());
+        healthText.setColor(sf::Color::Red);
+
+        //Score HUD Text
+        sf::Text scoreText;
+        scoreText.setFont(font);
+        ss.str("");
+        ss << score;
+        int2Str = ss.str();
+        std::string scoreString = "SCORE: " + int2Str;
+        scoreText.setString(scoreString);
+
+
+        scoreText.setCharacterSize(100 * widthScale * 1.4);
+        int textWidth = scoreText.getLocalBounds().width;
+        scoreText.setPosition(width() - textWidth - 10, 800 - height());
+        scoreText.setColor(sf::Color::Red);
+
+        //Level HUD Text
+        sf::Text levelText;
+        levelText.setFont(font);
+        ss.str("");
+        ss << currentPhase;
+        std::string levelString = "PHASE: " + ss.str();
+        levelText.setString(levelString);
+
+        levelText.setCharacterSize(100 * widthScale * 1.4);
+        levelText.setPosition(0, 700);
+        levelText.setColor(sf::Color::Red);
+
+
         sf::RenderWindow::draw(backGroundSprite);
+        sf::RenderWindow::draw(healthText);
+        sf::RenderWindow::draw(scoreText);
+        sf::RenderWindow::draw(levelText);
 
         for(int i = 0; i < towers.size(); i++)
         {
