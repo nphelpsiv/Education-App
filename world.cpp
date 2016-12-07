@@ -264,6 +264,7 @@ void World::toggleSound()
         answerSound.setVolume(0);
         explosionSound.setVolume(0);
         cannonSound.setVolume(0);
+        wrongAnswerSound.setVolume(0);
     }
     else
     {
@@ -271,8 +272,10 @@ void World::toggleSound()
         answerSound.setVolume(100);
         explosionSound.setVolume(50);
         cannonSound.setVolume(50);
+        wrongAnswerSound.setVolume(50);
     }
 }
+
 void World::createExplosion(int ballX, int ballY)
 {
     // Make a random number of little debris
