@@ -1260,7 +1260,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1891,13 +1891,6 @@ QProgressBar::chunk {
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLabel" name="leaderboard_HighScoreLabel">
-            <property name="text">
-             <string>High Score:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
            <spacer name="horizontalSpacer_15">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1927,11 +1920,6 @@ QProgressBar::chunk {
           <column>
            <property name="text">
             <string>Level</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Time Spent</string>
            </property>
           </column>
          </widget>

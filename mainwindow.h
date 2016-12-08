@@ -64,6 +64,8 @@ private slots:
 
     void populateStats();
 
+    void populateLeaderboards();
+
     void on_answerLineEdit_returnPressed();
 
     void healthChanged(int);
