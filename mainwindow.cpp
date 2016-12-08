@@ -288,10 +288,11 @@ void MainWindow::signUpToServer()
 
     QString pass = ui->signup_passwordText->text();
     QString confPass = ui->signup_confirmPasswordText->text();
+    bool teacherBool = ui->teacherCheckBox->isChecked();
 
     if(pass == confPass)
     {
-      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + "0" + "|" + "N/A").toInt() > 0)
+      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
         qDebug() << QString::fromStdString("signed up successfully.");
     }
 
