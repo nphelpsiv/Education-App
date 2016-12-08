@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>Icons/Mute.png</file>
         <file>Icons/Play.png</file>
+        <file>Icons/Math_Resource.png</file>
     </qresource>
 </RCC>
