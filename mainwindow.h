@@ -1,7 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <iostream>
 #include <QMainWindow>
+#include <SFML/Network.hpp>
+#include <SFML/System.hpp>
+#include <QtConcurrent/QtConcurrent>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QDebug>
 #include "world.h"
 
 namespace Ui {
@@ -52,6 +59,8 @@ private slots:
 
     void loginToServer();
 
+    void signUpToServer();
+
     void on_answerLineEdit_returnPressed();
 
     void healthChanged(int);
@@ -65,6 +74,8 @@ private slots:
     void phaseChanged(int, int);
 
     void on_openInBrowserButton_clicked();
+
+    QString serverRequest(std::string request);
 
 signals:
 
@@ -99,6 +110,8 @@ private:
 
     bool worldInitialized;
 
+    sf::TcpSocket socket;
+    sf::Socket::Status status;
 
     enum pages{loginPage, signUpPage, startPage, statsPage, teacherPage, leaderboardPage, gamePage, gameOverPage};
 };

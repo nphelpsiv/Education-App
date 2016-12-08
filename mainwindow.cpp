@@ -1,12 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
-#include <SFML/Network.hpp>
-#include <SFML/System.hpp>
-#include <QtConcurrent/QtConcurrent>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -53,6 +46,8 @@ void MainWindow::on_cancelButton_clicked()
 void MainWindow::on_submitButton_clicked()
 {
     isTeacher = ui->teacherCheckBox->isChecked();
+    QTimer::singleShot(0, this, SLOT(signUpToServer()));
+
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
@@ -220,22 +215,16 @@ void MainWindow::startGame()
 
 }
 
-//This method attempts to login to the server.
-void MainWindow::loginToServer()
+QString MainWindow::serverRequest(std::string request)
 {
-    //establish connection on the socket.
-    sf::TcpSocket socket;
-    sf::Socket::Status status = socket.connect("127.0.0.1", 5001);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Couldn't connect" << std::endl;
-    }
+  //establish connection on the socket.
+  status = socket.connect("127.0.0.1", 5001);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Couldn't connect" << std::endl;
+  }
 
-    //Build string to send.
-    QString user = ui->login_userNameText->text();
-    QString pass = ui->login_passwordText->text();
-
-    ///TEST CODE
+  ///TEST CODE
 //    std::string s = "loginUser|" + user.toStdString() + "|" + pass.toStdString();
 //    std::string s = "addStudent|"+ user.toStdString() + "|" + pass.toStdString() + "|" + "Test Names Mc Gee" + "|" + "1" + "|" + "why do we have a class code";
 //    std::string s = "addGame|"+ std::to_string(151) + "|" + std::to_string(3503) + "|" + std::to_string(12);
@@ -247,38 +236,67 @@ void MainWindow::loginToServer()
 //    std::string s = "removeStudent|"+ std::to_string(45);
 //    std::string s = "getGameIDS|"+ std::to_string(109);
 //    std::string s = "getStudentIDS";
-    ///TEST CODE
+  ///TEST CODE
 
-    //Use Packets to send to the server.
-    //That way we don't have to worry about collecting a full packet.
-    sf::Packet sendPacket;
-    //sendPacket << s.c_str();
-    status = socket.send(sendPacket);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Couldn't send message to server" << std::endl;
-    }
+  std::string s = request;
 
-    //Receive a packet.
-    sf::Packet recPacket;
-    status = socket.receive(recPacket);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Didn't receive anything from server" << std::endl;
-    }
-    else
-    {
-        //This means that the connection was successfull and we received data back from server.
-        std::string s;
+  //Use Packets to send to the server.
+  //That way we don't have to worry about collecting a full packet.
+  sf::Packet sendPacket;
 
-        while(!recPacket.endOfPacket())
-          recPacket >> s; QString qs(s.c_str()); qDebug() << qs;
+  sendPacket << s;
+  status = socket.send(sendPacket);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Couldn't send message to server" << std::endl;
+  }
 
-        ui->stackedWidget->setCurrentWidget(ui->startPage);
-    }
+  //Receive a packet.
+  sf::Packet recPacket;
+  status = socket.receive(recPacket);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Didn't receive anything from server" << std::endl;
+  }
+  else
+  {
+      //This means that the connection was successfull and we received data back from server.
+      std::string s;
+
+      while(!recPacket.endOfPacket())
+        recPacket >> s; QString qs(s.c_str()); qDebug() << qs; return qs;
+  }
 }
 
+//This method attempts to login to the server.
+void MainWindow::loginToServer()
+{
+    //Build string to send.
+    QString user = ui->login_userNameText->text();
+    QString pass = ui->login_passwordText->text();
 
+    if(serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString()).toInt() > 0)
+       qDebug() << QString::fromStdString("logged in successfully.");
+
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
+}
+
+void MainWindow::signUpToServer()
+{
+    //Build string to send.
+    QString user = ui->signup_userNameText->text();
+
+    QString pass = ui->signup_passwordText->text();
+    QString confPass = ui->signup_confirmPasswordText->text();
+
+    if(pass == confPass)
+    {
+      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + "0" + "|" + "N/A").toInt() > 0)
+        qDebug() << QString::fromStdString("signed up successfully.");
+    }
+
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+}
 
 void MainWindow::on_answerLineEdit_returnPressed()
 {
