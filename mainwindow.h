@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QDebug>
+#include <QTableWidgetItem>
 #include "world.h"
 
 namespace Ui {
@@ -61,6 +62,8 @@ private slots:
 
     void signUpToServer();
 
+    void populateStats();
+
     void on_answerLineEdit_returnPressed();
 
     void healthChanged(int);
@@ -101,6 +104,8 @@ private:
     /// \brief isTeacher Temp var
     ///
     int isTeacher;
+
+    int userID;
 
     int gameScore;
     int highScore;

@@ -70,7 +70,8 @@ void MainWindow::on_logOutPushButton_clicked()
 
 void MainWindow::on_statsPushButton_clicked()
 {
-        ui->stackedWidget->setCurrentWidget(ui->statsPage);
+    ui->stackedWidget->setCurrentWidget(ui->statsPage);
+    QTimer::singleShot(0, this, SLOT(populateStats()));
 }
 
 void MainWindow::on_leaderboardPushButton_clicked()
@@ -81,6 +82,7 @@ void MainWindow::on_leaderboardPushButton_clicked()
 void MainWindow::on_stats_backToolButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->startPage);
+    ui->statsTableWidget->clear();
 }
 
 void MainWindow::on_managePushButton_clicked()
@@ -275,9 +277,10 @@ void MainWindow::loginToServer()
     QString user = ui->login_userNameText->text();
     QString pass = ui->login_passwordText->text();
 
-    if(serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString()).toInt() > 0)
-       qDebug() << QString::fromStdString("logged in successfully.");
+    QString responseUserID = serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString());
 
+    if(responseUserID > 0)
+       qDebug() << QString::fromStdString("logged in successfully."); userID = responseUserID.toInt(); qDebug() << userID;
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
@@ -297,6 +300,49 @@ void MainWindow::signUpToServer()
     }
 
     ui->stackedWidget->setCurrentWidget(ui->loginPage);
+}
+
+void MainWindow::populateStats()
+{
+
+
+   //Get User's Game ID's to get info on.
+   QString gIDToProcess = serverRequest("getGameIDS|" + QString::number(userID).toStdString());
+   QStringList splitGIDToProcess = gIDToProcess.split("|");
+
+   //List of responses with each game's info played by the user.
+   QStringList gIDInfoList;
+
+   for (int i = 0; i < splitGIDToProcess.size(); ++i)
+   {
+       gIDInfoList.append(serverRequest("getGameInfo|" + ((QString)splitGIDToProcess.at(i)).toStdString() ) );
+       qDebug() << userID;
+   }
+
+   ui->statsTableWidget->setRowCount(gIDInfoList.size());
+
+   QTableWidgetItem* newItem;
+   for (int i = 0; i < gIDInfoList.size(); ++i)
+   {
+       //Split game into info.
+       QStringList info = ((QString)gIDInfoList.at(i)).split("|");
+
+       //Check if info is valid
+       if(info.at(4) == "1")
+       {
+         //Game Number
+         newItem = new QTableWidgetItem(tr("%1").arg(i + 1));
+         ui->statsTableWidget->setItem(i,0, newItem);
+
+         //Score
+         newItem = new QTableWidgetItem(tr("%1").arg(info.at(2)));
+         ui->statsTableWidget->setItem(i,1, newItem);
+
+         //Level
+         newItem = new QTableWidgetItem(tr("%1").arg(info.at(3)));
+         ui->statsTableWidget->setItem(i,2, newItem);
+       }
+   }
 }
 
 void MainWindow::on_answerLineEdit_returnPressed()
