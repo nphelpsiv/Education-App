@@ -1262,7 +1262,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1828,7 +1828,7 @@ background-image : url(:/Icons/Math_Resource.png)
          </layout>
         </item>
         <item>
-         <widget class="QTableWidget" name="statsTableWidget_2">
+         <widget class="QTableWidget" name="teacherTableWidget">
           <property name="sizeIncrement">
            <size>
             <width>0</width>
@@ -1863,7 +1863,7 @@ background-image : url(:/Icons/Math_Resource.png)
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="teacherPageRemoveButton">
           <property name="text">
            <string>Remove Selected User</string>
           </property>
