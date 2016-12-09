@@ -201,6 +201,7 @@ void MainWindow::resizeEvent(QResizeEvent*)
 
 void MainWindow::startGame()
 {
+    ui->operatorLabel->setText("Ready!!!");
 
     if(!worldInitialized)
     {
@@ -210,10 +211,11 @@ void MainWindow::startGame()
     ui->gameRenderFrame->setMinimumHeight(height() * 0.66);
     world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
     QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
-    QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(gameOver()));
+    QObject::connect(world, SIGNAL(gameOver()), this, SLOT(gameOver()));
     QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
     QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
-    QObject::connect(world, SIGNAL(phaseChanged(int,int)), this, SLOT(phaseChanged(int, int)));
+    QObject::connect(world, SIGNAL(functionChanged(QString)), this, SLOT(functionChanged(QString)));
+
 
     worldInitialized = true;
     }
@@ -499,30 +501,10 @@ void MainWindow::scoreChanged(int s)
     gameScore = s;
 }
 
-void MainWindow::phaseChanged(int phase, int operand)
+void MainWindow::functionChanged(QString function)
 {
-    std::cout << "got the phase and operand" << std::endl;
-    QString currentOperator;
-    if(phase == 1)
-    {
-        currentOperator = "+";
-    }
-    else if (phase == 2)
-    {
-        currentOperator = "*";
-    }
-    else
-    {
-        currentOperator = "^2";
-    }
-    if (phase >= 3)
-    {
-        ui->operatorLabel->setText(QString("Ball ") + currentOperator);
-    }
-    else
-    {
-        ui->operatorLabel->setText(QString::number(operand) + currentOperator);
-    }
+    std::cout << "got the function" << std::endl;
+    ui->operatorLabel->setText(function + " =");
 }
 
 void MainWindow::endGame()

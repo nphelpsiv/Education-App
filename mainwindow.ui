@@ -73,7 +73,7 @@ QWidget
 QWidget:item:hover
 {
     background-color: #9C5748;
-    color: #eff0f1;
+    color: #000000;
 }
 
 QWidget:item:selected
@@ -638,13 +638,14 @@ QPushButton:disabled
 }
 
 QPushButton:focus {
-    background-color: #3daee9;
-    color: white;
+    background-color: #ed826a;
+    color: #000000;
 }
+
 
 QPushButton:pressed
 {
-    background-color: #3daee9;
+    background-color: #ed826a;
     padding-top: -15px;
     padding-bottom: -17px;
 }
@@ -663,10 +664,19 @@ QPushButton:checked{
     background-color: #76797C;
     border-color: #6A6969;
 }
-
-QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QLineEdit:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover
+QLineEdit:hover
 {
-    border: 1px solid #3daee9;
+    background-color: #F5F5DC;
+    color: #000000;
+    border: 1px solid #FFC300;
+    color: #000000;
+}
+
+QComboBox:hover,QPushButton:hover,QAbstractSpinBox:hover,QTextEdit:hover,QPlainTextEdit:hover,QAbstractView:hover,QTreeView:hover
+{
+    background-color: #9C5748;
+    color: #000000;
+    border: 1px solid #FFC300;
     color: #eff0f1;
 }
 
@@ -1032,12 +1042,10 @@ QSlider::handle:vertical {
 
 QToolButton {
     background-color:#F5F5DC ;
-    border: 1px;
-    border-radius: 2px;
-    border-color : #9C5748;
-    margin: 3px;
-    padding: 5px;
-color : #000000
+    border: 10px;
+    border-radius: 6px;
+    border-color : #FFC300 ;
+    color : #000000
 }
 
 QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
@@ -1053,16 +1061,17 @@ QToolButton[popupMode=&quot;2&quot;] { /* only for InstantPopup */
 
 
 QToolButton:hover, QToolButton::menu-button:hover {
-    background-color: transparent;
-    border: 1px solid #3daee9;
-    padding: 5px;
+    background-color: #9C5748;
+    border: 2px #9C5748;
+    padding: 1px;
 }
 
 QToolButton:checked, QToolButton:pressed,
         QToolButton::menu-button:pressed {
-    background-color: #3daee9;
-    border: 1px solid #3daee9;
+    background-color: #9C5748;
+    border: 1px solid #FFC300;
     padding: 5px;
+    color : #000000
 }
 
 /* the subcontrol below is used only in the InstantPopup or DelayedPopup mode */
@@ -1597,7 +1606,7 @@ background-image : url(:/Icons/Math_Resource.png)
            </font>
           </property>
           <property name="text">
-           <string>PLAY!</string>
+           <string>PLAY</string>
           </property>
          </widget>
         </item>
@@ -2098,6 +2107,12 @@ background-image : url(:/Icons/Math_Resource.png)
        </layout>
       </widget>
       <widget class="QWidget" name="gameOverPage">
+       <property name="styleSheet">
+        <string notr="true">QLabel
+{
+background-image : url(:/Icons/GameOVER.png)
+}</string>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
          <spacer name="verticalSpacer_8">
@@ -2114,15 +2129,27 @@ background-image : url(:/Icons/Math_Resource.png)
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
            <widget class="QLabel" name="gameOverLabel">
+            <property name="minimumSize">
+             <size>
+              <width>812</width>
+              <height>160</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>812</width>
+              <height>160</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <pointsize>100</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>GAME OVER!</string>
+             <string/>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -2131,32 +2158,12 @@ background-image : url(:/Icons/Math_Resource.png)
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_7">
-            <item row="0" column="3">
-             <widget class="QLabel" name="gameOver_ScoreLabel">
-              <property name="text">
-               <string>Score:</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="1">
              <widget class="QLabel" name="gameOver_HighScoreLabel">
               <property name="text">
                <string>High Score:</string>
               </property>
              </widget>
-            </item>
-            <item row="0" column="0">
-             <spacer name="horizontalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
             <item row="0" column="2">
              <spacer name="horizontalSpacer_11">
@@ -2171,8 +2178,28 @@ background-image : url(:/Icons/Math_Resource.png)
               </property>
              </spacer>
             </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="gameOver_ScoreLabel">
+              <property name="text">
+               <string>Score:</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="4">
              <spacer name="horizontalSpacer_10">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="0" column="0">
+             <spacer name="horizontalSpacer_9">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>

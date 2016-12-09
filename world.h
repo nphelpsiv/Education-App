@@ -56,14 +56,16 @@ public slots:
 
 signals:
     void healthUpdated(int);
-    void outOfHealth();
+    void gameOver();
     void scoreChanged(int);
-    void phaseChanged(int, int);
+    void functionChanged(QString);
 
 private:
     void towerTexturesSetUp();
     void towerTexturesUpDate(int i);
     void drawHUD(float);
+    QString operationToString(int operation);
+    void setFunction();
 
     void healthTexturesSetUp();
 
@@ -75,6 +77,7 @@ private:
     QVector<Debris*> debrisVec;
     int time;
     QTimer *timer;
+    int interval;
 
     QTimer *debrisTimer;
     QVector<QTimer*> debrisTimeVec;
@@ -96,13 +99,18 @@ private:
     int towerHeight;
 
     int currentOperand;
+    int currentOperation;
     int currentPhase;
+
+    enum operations{add,sub,square,multiply};
 
     int health;
     int score;
     int hitAnimationCount;
     int phaseAnimation;
-    int healthVecIndex;
+    int functionAnimation;
+
+    QString currentFunc;
 
     sf::Music music;
     sf::Music cannonSound;
