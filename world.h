@@ -98,7 +98,7 @@ private:
 
     int health;
     int score;
-    int hitFrameCount;
+    int hitAnimationCount;
     int phaseAnimation;
 
     sf::Music music;
@@ -133,7 +133,6 @@ private:
 
 
 private slots:
-    void deleteParticleAt(int);
     void deleteParticles();
 
 };

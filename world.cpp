@@ -97,7 +97,7 @@ void World::start()
     health = 100;
     score = 0;
     game = true;
-    hitFrameCount = 0;
+    hitAnimationCount = 0;
     currentPhase = 1;
     phaseAnimation = 120;
     backGroundTexture.loadFromFile("Icons/Phase1Background.png");
@@ -178,7 +178,7 @@ void World::answerEntered(QString s)
             if (score%1000 == 0 && currentPhase!=3)
             {
                 phaseAnimation = 120;
-                currentPhase = currentPhase+1;
+                currentPhase++;
                 currentOperand = (rand() % 9) + 0;
 
                 if(currentPhase == 2)
@@ -207,7 +207,7 @@ void World::answerEntered(QString s)
         }
     }
 
-    if(!wrongAnswerSound.openFromFile("Sounds/AirHorn.wav"))
+    if(!wrongAnswerSound.openFromFile("Sounds/bloop.wav"))
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
@@ -400,6 +400,7 @@ void World::OnUpdate()
                 delete t;
             }
         }
+
         // Clear screen
         this->clear(sf::Color(0, 0, 100));
 
@@ -441,7 +442,8 @@ void World::OnUpdate()
             float scaleY = s.getScale().y;
             if(health <= 10)
             {
-                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 100, p.y() + (height()/2) - (h*scaleY) + 600);
+                //rubble sprite.
+                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 275, p.y() - (h*scaleY) + 600);
             }
             else
             {
@@ -530,20 +532,6 @@ void World::towerTexturesUpDate(int i)
 
 }
 
-// Trying to delete a debris particle
-// There are indexing issues with this way.
-// When we remove one then another one might
-// have an index that is higher than the vector now is
-void World::deleteParticleAt(int index)
-{
-    if(!debrisVec.isEmpty())
-    {
-        Debris *d = debrisVec[debrisVec.size() - 1];
-        debrisVec.remove(debrisVec.size() - 1);
-        delete d;
-
-    }
-}
 
 // This just deletes particles not by any order they were made, just by the size of the vector
 void World::deleteParticles()

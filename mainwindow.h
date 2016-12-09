@@ -83,6 +83,8 @@ private slots:
 
     QString serverRequest(std::string request);
 
+    void on_teacherPageRemoveButton_clicked();
+
 signals:
 
     void answerEntered(QString);
