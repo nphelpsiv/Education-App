@@ -35,6 +35,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     }
 
     towerTexturesSetUp();
+    healthTexturesSetUp();
 
     if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
@@ -335,6 +336,17 @@ void World::OnInit()
     backGroundSprite.setPosition(width()/2, 0);
     backGroundSprite.scale(1.75, .8);
 
+    if(!healthTexture.loadFromFile("Icons/health10.png"))
+    {
+        std::cout << "cant load health file first" << std::endl;
+    }
+
+    healthTexture.setSmooth(true);
+    healthSprite.setTexture(healthTexture);
+    healthSprite.setOrigin(100, 100);
+    healthSprite.setPosition(600, 195);
+    //healthSprite.scale(5,5);
+
 
     sf::Texture t;
 
@@ -425,6 +437,8 @@ void World::OnUpdate()
             }
         }
     }
+
+    //Draw
     backGroundSprite.setScale(widthScale*1.1, heightScale*1.1);
     backGroundSprite.setPosition(25, 800 - (heightScale * backgroundHeight));
     //Draw Background and HUD elements
@@ -433,6 +447,7 @@ void World::OnUpdate()
     drawHUD(widthScale);
     //Draw World
     drawGame();
+
     if(phaseAnimation > 0)
     {
         spawnTimer->stop();
@@ -610,6 +625,22 @@ void World::openBrowser()
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
 }
 
+void World::healthTexturesSetUp()
+{
+
+    for(int i = 1; i <= 10; i++)
+    {
+        sf::Texture t;
+        //std::string str = std::to_string(i);
+        if(!t.loadFromFile("Icons/health" + std::to_string(i) + ".png")){
+            std::cout << "cant load health file for loop" << std::endl;
+        }
+        t.setSmooth(true);
+
+        healthTextures.push_back(t);
+    }
+}
+
 void World::drawHUD(float widthScale)
 {
     sf::Font font;
@@ -627,9 +658,9 @@ void World::drawHUD(float widthScale)
     std::string healthString = "HEALTH: " + int2Str;
     healthText.setString(healthString);
 
-    healthText.setCharacterSize(100 * widthScale);
-    healthText.setPosition(20,800 - height());
-    healthText.setColor(sf::Color::Red);
+    healthText.setCharacterSize(100 * widthScale * 1.4);
+    healthText.setPosition(0,700);
+    healthText.setColor(sf::Color::Black);
 
     //Score HUD Text
     sf::Text scoreText;
@@ -641,10 +672,10 @@ void World::drawHUD(float widthScale)
     scoreText.setString(scoreString);
 
 
-    scoreText.setCharacterSize(100 * widthScale);
+    scoreText.setCharacterSize(50 * widthScale);
     int textWidth = scoreText.getLocalBounds().width;
     scoreText.setPosition(width() - textWidth + 50, 800 - height());
-    scoreText.setColor(sf::Color::Red);
+    scoreText.setColor(sf::Color::Black);
 
     //Level HUD Text
     sf::Text levelText;
@@ -654,28 +685,40 @@ void World::drawHUD(float widthScale)
     std::string levelString = "PHASE: " + ss.str();
     levelText.setString(levelString);
 
-    levelText.setCharacterSize(100 * widthScale);
+    levelText.setCharacterSize(50 * widthScale);
     levelText.setPosition((width()/2)-(levelText.getLocalBounds().width/2)+20, 800 - height());
-    levelText.setColor(sf::Color::Red);
+    levelText.setColor(sf::Color::Black);
 
 
-    sf::RenderWindow::draw(healthText);
+    //sf::RenderWindow::draw(healthText);
     sf::RenderWindow::draw(scoreText);
     sf::RenderWindow::draw(levelText);
 
 }
 
 void World::drawGame()
-{
+{    
     for(int j = 0; j < towers.size(); j++)
     {
         Tower *t = towers[j];
         QPoint p = towers[j]->getPosition();
         sf::Sprite s = towerSprites[j];
+        int w = s.getTexture()->getSize().x;
+        int h = s.getTexture()->getSize().y;
+        float scaleX = s.getScale().x;
+        float scaleY = s.getScale().y;
+
+        healthSprite.setPosition(p.x() + (width()/2) - (w*scaleX) + 213, p.y() - (h*scaleY) + 585);
 
         if(towers[j]->hasCollided())
+        {
             hitAnimationCount = 10;
+            if((health-10)/10 >= 0){
 
+                std::cout << std::to_string((health - 10)/10) << " " << -healthTextures.size() << std::endl;
+                healthSprite.setTexture(healthTextures[((health-10)/10)]);
+            }
+        }
         //towerSprites[i].setTexture(towerTextures[1]);
         towerTexturesUpDate(j);
 
@@ -689,11 +732,6 @@ void World::drawGame()
         {
             towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex]);
         }
-
-        int w = s.getTexture()->getSize().x;
-        int h = s.getTexture()->getSize().y;
-        float scaleX = s.getScale().x;
-        float scaleY = s.getScale().y;
         if(health <= 0)
         {
             //rubble sprite.
@@ -716,26 +754,8 @@ void World::drawGame()
     }
     if(health > 0)
     {
-        for(int i = 0; i < balls.size(); i++)
-        {
-
-            QPoint p = balls[i]->getPosition();
-
-            sf::Sprite s = ballSprites[i];
-            int w = s.getTexture()->getSize().x;
-            int h = s.getTexture()->getSize().y;
-            float scaleX = s.getScale().x;
-            float scaleY = s.getScale().y;
-
-            ballSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50,  p.y() - (h*scaleY) + 600);
-            ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
-
-            sf::RenderWindow::draw(ballSprites[i]);
-        }
-    }
-
-    if(health > 0)
-    {
+    //Draw healthBar
+        sf::RenderWindow::draw(healthSprite);
     //Draw Debris
         for(int i = 0; i < debrisVec.size(); i++)
         {
@@ -751,6 +771,25 @@ void World::drawGame()
             debSprites[i].setTexture(debTexture);
 
             sf::RenderWindow::draw(debSprites[i]);
+        }
+    }
+    if(health > 0)
+    {
+        for(int i = 0; i < balls.size(); i++)
+        {
+
+            QPoint p = balls[i]->getPosition();
+
+            sf::Sprite s = ballSprites[i];
+            int w = s.getTexture()->getSize().x;
+            int h = s.getTexture()->getSize().y;
+            float scaleX = s.getScale().x;
+            float scaleY = s.getScale().y;
+
+            ballSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50,  p.y() - (h*scaleY) + 600);
+            ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
+
+            sf::RenderWindow::draw(ballSprites[i]);
         }
     }
 }

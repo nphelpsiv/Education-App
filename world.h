@@ -68,6 +68,8 @@ private:
     QString operationToString(int operation);
     void setFunction();
 
+    void healthTexturesSetUp();
+
     int randomBSpawn;
 
     b2World *world;
@@ -131,12 +133,18 @@ private:
     sf::Texture backGroundTexture;
     sf::Sprite backGroundSprite;
 
+    sf::Texture healthTexture;
+    sf::Sprite healthSprite;
+
     //This will how we will store textures and sprites for the cannon balls.
     QVector<sf::Texture> ballTextures;
     QVector<sf::Sprite> ballSprites;
 
     QVector<sf::Texture> towerTextures;
     QVector<sf::Sprite> towerSprites;
+
+    QVector<sf::Texture> healthTextures;
+    QVector<sf::Sprite> healthSprites;
 
     sf::Texture debTexture;
     QVector<sf::Sprite> debSprites;
