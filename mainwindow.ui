@@ -1958,6 +1958,9 @@ QProgressBar::chunk {
             <layout class="QGridLayout" name="gridLayout_9">
              <item row="0" column="4">
               <widget class="QPushButton" name="endGamePushButton">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
                <property name="text">
                 <string>End Game</string>
                </property>
@@ -2007,6 +2010,9 @@ QProgressBar::chunk {
                  <width>100</width>
                  <height>16777215</height>
                 </size>
+               </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
                </property>
                <property name="text">
                 <string/>
@@ -2089,6 +2095,9 @@ QProgressBar::chunk {
              </item>
              <item row="0" column="5">
               <widget class="QLineEdit" name="answerLineEdit">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
                <property name="inputMask">
                 <string/>
                </property>

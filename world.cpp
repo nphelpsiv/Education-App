@@ -10,7 +10,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
 
     world->SetContactListener(&contactListenerInstance);
 
-    createGroundBox2D();
+//    createGroundBox2D();
 
     //the operand that is shown statically in the GUI
     currentOperand = (rand() % 9) + 0;
@@ -117,11 +117,11 @@ void World::ballSpawnCall()
     //randomBSpawn = (rand() % 1400) - 700;
     if(rand() % 2 == 0)
     {
-        balls.push_back(new Ball(-700, 200, 30, world));
+        balls.push_back(new Ball((-rand())%(-200) - 500, 200, 30, world));
     }
     else
     {
-        balls.push_back(new Ball(700, 200, 30, world));
+        balls.push_back(new Ball(rand()%200 + 500, 200, 30, world));
     }
     //Setup the texture for the cannon ball.
 
@@ -142,22 +142,22 @@ void World::ballSpawnCall()
 }
 
 
-void World::createGroundBox2D()
-{
-    //Ground position
-    groundBodyDef.type = b2_staticBody;
-    groundBodyDef.position.Set(0, -425);
-    b2Body* groundBody = world->CreateBody(&groundBodyDef);
+//void World::createGroundBox2D()
+//{
+//    //Ground position
+//    groundBodyDef.type = b2_staticBody;
+//    groundBodyDef.position.Set(0, -425);
+//    b2Body* groundBody = world->CreateBody(&groundBodyDef);
 
-    //Ground Shape
-    groundShape.SetAsBox(2000,1);
+//    //Ground Shape
+//    groundShape.SetAsBox(2000,1);
 
-    //Ground Fixture
-    b2FixtureDef groundFixtureDef;
-    groundFixtureDef.shape = &groundShape;
-    groundFixtureDef.density = 1;
-    groundBody->CreateFixture(&groundFixtureDef);
-}
+//    //Ground Fixture
+//    b2FixtureDef groundFixtureDef;
+//    groundFixtureDef.shape = &groundShape;
+//    groundFixtureDef.density = 1;
+//    groundBody->CreateFixture(&groundFixtureDef);
+//}
 
 void World::answerEntered(QString s)
 {
@@ -311,20 +311,11 @@ void World::OnInit()
     towerTexture.setSmooth(true);
 
     //Setup Tower Sprite.
-
     towerSprite.setTexture(towerTexture);
     towerSprite.setOrigin(100, 100);
     towerSprite.setPosition(600, 195);
     towerSprite.scale(.25,.25);
     towerSprites.push_back(towerSprite);
-
-//    groundTexture.loadFromFile("Icons/Ground.png");
-//    groundTexture.setSmooth(true);
-
-//    groundSprite.setTexture(groundTexture);
-//    groundSprite.setOrigin(100, 100);
-//    groundSprite.setPosition(width()/8, height()/2);
-//    groundSprite.scale(2, 1);
 
     backGroundTexture.loadFromFile("Icons/Phase1Background.png");
     backGroundTexture.setSmooth(true);
@@ -397,7 +388,6 @@ void World::OnUpdate()
                 createExplosion(p.x()/0.6, -p.y()/0.6); // before removing create an explosion with these coordinates
                 balls.remove(i);
 
-
                 //the destructor handles removing itself from world
                 delete b;
                 if(!explosionSound.openFromFile("Sounds/ExplosionSound.wav"))
@@ -405,20 +395,19 @@ void World::OnUpdate()
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
                 explosionSound.play();
-
-                Tower *t = towers[i];
-
-                //towerSprites[i].setTexture(towerTextures[1]);
-                towerTexturesUpDate(i);
-
-                if(t[i].destroyed())
-                {
-                    std::cout << "Tower Was destroyed" << std::endl;
-                    towers.remove(i);
-                    delete t;
-                }
-
             }
+
+        }
+        Tower *t = towers[0];
+
+        //towerSprites[i].setTexture(towerTextures[1]);
+        towerTexturesUpDate(0);
+
+        if(t[0].destroyed())
+        {
+            std::cout << "Tower Was destroyed" << std::endl;
+            towers.remove(0);
+            delete t;
         }
         // Clear screen
         this->clear(sf::Color(0, 0, 100));

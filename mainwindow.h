@@ -83,6 +83,8 @@ private:
 
     void endGame();
 
+    void forceFocus(QWidget* widget);
+
     QGraphicsScene *scene;
     World *world;
 
@@ -98,7 +100,6 @@ private:
     int aspectRatioHeight;
 
     bool worldInitialized;
-
 
     enum pages{loginPage, signUpPage, startPage, statsPage, teacherPage, leaderboardPage, gamePage, gameOverPage};
 };

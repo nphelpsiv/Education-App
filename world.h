@@ -116,8 +116,6 @@ private:
     //sf::Sprite cannonSprite;
     sf::Sprite towerSprite;
 
-//    sf::Texture groundTexture;
-//    sf::Sprite groundSprite;
 
     sf::Texture backGroundTexture;
     sf::Sprite backGroundSprite;

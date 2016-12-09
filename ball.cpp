@@ -48,7 +48,7 @@ void Ball::createBallBox2D()
     body->CreateFixture(&ballFixtureDef);
 
     //Apply a force
-    body->ApplyLinearImpulseToCenter(b2Vec2(-xPos*2000.0f, yPos*1000.0f),true);
+    body->ApplyLinearImpulseToCenter(b2Vec2(-xPos*(rand()%2000), yPos*(rand()%1000)),true);
 }
 
 //sets collided to true when it has collided with the tower.
