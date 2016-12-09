@@ -61,8 +61,8 @@ QToolTip
 QWidget
 {
     color: #eff0f1;
-    background-color: #31363b;
-    selection-background-color:#3daee9;
+    background-color: #556B2F;
+    selection-background-color:#9C5748;
     selection-color: #eff0f1;
     background-clip: border;
     border-image: none;
@@ -72,13 +72,13 @@ QWidget
 
 QWidget:item:hover
 {
-    background-color: #3daee9;
+    background-color: #9C5748;
     color: #eff0f1;
 }
 
 QWidget:item:selected
 {
-    background-color: #3daee9;
+    background-color: #9C5748;
 }
 
 QCheckBox
@@ -352,12 +352,12 @@ QTabWidget:focus, QCheckBox:focus, QRadioButton:focus, QSlider:focus
 
 QLineEdit
 {
-    background-color: #232629;
+    background-color: #F5F5DC;
     padding: 5px;
     border-style: solid;
-    border: 1px solid #76797C;
+    border: 1px solid #9C5748;
     border-radius: 2px;
-    color: #eff0f1;
+    color: #000000;
 }
 
 QGroupBox {
@@ -613,13 +613,13 @@ QToolBar::separator:vertical {
 
 QPushButton
 {
-    color: #eff0f1;
-    background-color: #31363b;
-    border-width: 1px;
-    border-color: #76797C;
+    color: #000000;
+    background-color: #F5F5DC;
+    border-width: 3px;
+    border-color: #9C5748;
     border-style: solid;
     padding: 5px;
-    border-radius: 2px;
+    border-radius: 4px;
     outline: none;
 }
 
@@ -1031,11 +1031,13 @@ QSlider::handle:vertical {
 }
 
 QToolButton {
-    background-color: transparent;
-    border: 1px transparent #76797C;
+    background-color:#F5F5DC ;
+    border: 1px;
     border-radius: 2px;
+    border-color : #9C5748;
     margin: 3px;
     padding: 5px;
+color : #000000
 }
 
 QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
@@ -1095,9 +1097,9 @@ QPushButton::menu-indicator  {
 
 QTableView
 {
-    border: 1px solid #76797C;
-    gridline-color: #31363b;
-    background-color: #232629;
+    border: 1px solid #9C5748;
+    gridline-color: #AC6151;
+    background-color: #F5F5DC;
 }
 
 
@@ -1107,20 +1109,20 @@ QTableView, QHeaderView
 }
 
 QTableView::item:pressed, QListView::item:pressed, QTreeView::item:pressed  {
-    background: #3daee9;
+    background: #AC6151;
     color: #eff0f1;
 }
 
 QTableView::item:selected:active, QTreeView::item:selected:active, QListView::item:selected:active  {
-    background: #3daee9;
+    background: #AC6151;
     color: #eff0f1;
 }
 
 
 QHeaderView
 {
-    background-color: #31363b;
-    border: 1px transparent;
+    background-color:#F5F5DC;
+    border: 2px transparent;
     border-radius: 0px;
     margin: 0px;
     padding: 0px;
@@ -1128,8 +1130,8 @@ QHeaderView
 }
 
 QHeaderView::section  {
-    background-color: #31363b;
-    color: #eff0f1;
+    background-color: #F5F5DC;
+    color: #000000;
     padding: 5px;
     border: 1px solid #76797C;
     border-radius: 0px;
@@ -1260,7 +1262,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1377,16 +1379,6 @@ QProgressBar::chunk {
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="signup_passwordText">
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-            <property name="placeholderText">
-             <string>Password</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="1">
            <widget class="QLineEdit" name="signup_userNameText">
             <property name="echoMode">
@@ -1440,10 +1432,23 @@ QProgressBar::chunk {
             </property>
            </spacer>
           </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="signup_passwordText">
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+            <property name="placeholderText">
+             <string>Password</string>
+            </property>
+           </widget>
+          </item>
           <item row="2" column="2">
            <widget class="QCheckBox" name="teacherCheckBox">
             <property name="text">
              <string>Is Teacher</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -1509,6 +1514,12 @@ QProgressBar::chunk {
        </layout>
       </widget>
       <widget class="QWidget" name="startPage">
+       <property name="styleSheet">
+        <string notr="true">QLabel
+{
+background-image : url(:/Icons/Math_Resource.png)
+}</string>
+       </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <spacer name="verticalSpacer_11">
@@ -1543,7 +1554,7 @@ QProgressBar::chunk {
            </font>
           </property>
           <property name="text">
-           <string>GAME TITLE</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1768,14 +1779,12 @@ QProgressBar::chunk {
             <height>0</height>
            </size>
           </property>
+          <property name="rowCount">
+           <number>0</number>
+          </property>
           <column>
            <property name="text">
-            <string>Game ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Player</string>
+            <string>Game #</string>
            </property>
           </column>
           <column>
@@ -1785,7 +1794,7 @@ QProgressBar::chunk {
           </column>
           <column>
            <property name="text">
-            <string/>
+            <string>Level</string>
            </property>
           </column>
          </widget>
@@ -1890,13 +1899,6 @@ QProgressBar::chunk {
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLabel" name="leaderboard_HighScoreLabel">
-            <property name="text">
-             <string>High Score:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
            <spacer name="horizontalSpacer_15">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1926,11 +1928,6 @@ QProgressBar::chunk {
           <column>
            <property name="text">
             <string>Level</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Time Spent</string>
            </property>
           </column>
          </widget>

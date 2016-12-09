@@ -412,13 +412,6 @@ void World::OnUpdate()
         // Clear screen
         this->clear(sf::Color(0, 0, 100));
 
-        sf::Font font;
-        if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
-        {
-            std::cout << "couldn't load font file" << std::endl;
-        }
-
-
 
         //Ground and Sky sprites are drawn to be at the right most position of the texture.
         //That way when it is resized, it appears that the ground and sky are static with the ground.
@@ -431,77 +424,11 @@ void World::OnUpdate()
         backGroundSprite.setScale(widthScale*1.1, heightScale*1.1);
         backGroundSprite.setPosition(25, 800 - (heightScale * backgroundHeight));
 
-        //Health HUD Text
-        sf::Text healthText;
-        healthText.setFont(font);
-        std::stringstream ss;
-        ss << health;
-        std::string int2Str = ss.str();
-        std::string healthString = "HEALTH: " + int2Str;
-        healthText.setString(healthString);
-
-        healthText.setCharacterSize(100 * widthScale * 1.4);
-        healthText.setPosition(0,800 - height());
-        healthText.setColor(sf::Color::Red);
-
-        //Score HUD Text
-        sf::Text scoreText;
-        scoreText.setFont(font);
-        ss.str("");
-        ss << score;
-        int2Str = ss.str();
-        std::string scoreString = "SCORE: " + int2Str;
-        scoreText.setString(scoreString);
-
-
-        scoreText.setCharacterSize(100 * widthScale * 1.4);
-        int textWidth = scoreText.getLocalBounds().width;
-        scoreText.setPosition(width() - textWidth - 10, 800 - height());
-        scoreText.setColor(sf::Color::Red);
-
-        //Level HUD Text
-        sf::Text levelText;
-        levelText.setFont(font);
-        ss.str("");
-        ss << currentPhase;
-        std::string levelString = "PHASE: " + ss.str();
-        levelText.setString(levelString);
-
-        levelText.setCharacterSize(100 * widthScale * 1.4);
-        levelText.setPosition(0, 700);
-        levelText.setColor(sf::Color::Red);
-
-        //Operator HUD Text
-        sf::Text operationText;
-        operationText.setFont(font);
-        ss.str("");
-        ss << currentOperand;
-        std::string operationString;
-        if(currentPhase == 1)
-        {
-            operationString = "X + " + ss.str();
-        }
-        else if(currentPhase == 2)
-        {
-            operationString = "X * " + ss.str();
-        }
-        else if(currentPhase == 3)
-        {
-            operationString = "X^2";
-        }
-        operationText.setString(operationString);
-
-        operationText.setCharacterSize(100 * widthScale * 1.4);
-        textWidth = operationText.getLocalBounds().width;
-        operationText.setPosition(width() - textWidth - 10, 700);
-        operationText.setColor(sf::Color::Red);
-
         //Draw Background and HUD elements
         sf::RenderWindow::draw(backGroundSprite);
-        sf::RenderWindow::draw(healthText);
-        sf::RenderWindow::draw(scoreText);
-        sf::RenderWindow::draw(levelText);
-        sf::RenderWindow::draw(operationText);
+
+        //Draw HUD Text
+        drawHUD(widthScale);
 
         for(int i = 0; i < towers.size(); i++)
         {
@@ -570,6 +497,12 @@ void World::OnUpdate()
 
         if(phaseAnimation > 0)
         {
+            sf::Font font;
+            if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
+            {
+                std::cout << "couldn't load font file" << std::endl;
+            }
+            std::stringstream ss;
             sf::Text phaseText;
             phaseText.setFont(font);
             ss.str("");
@@ -732,4 +665,85 @@ void World::openBrowser()
     // Open in browser WORKS
     std::cout << QDir::currentPath().toStdString() << std::endl;
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
+}
+
+void World::drawHUD(float widthScale)
+{
+    sf::Font font;
+    if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
+    {
+        std::cout << "couldn't load font file" << std::endl;
+    }
+
+
+    //std::stringstream ss;
+    sf::Text healthText;
+    healthText.setFont(font);
+    std::stringstream ss;
+    ss << health;
+    std::string int2Str = ss.str();
+    std::string healthString = "HEALTH: " + int2Str;
+    healthText.setString(healthString);
+
+    healthText.setCharacterSize(100 * widthScale * 1.4);
+    healthText.setPosition(0,800 - height());
+    healthText.setColor(sf::Color::Red);
+
+    //Score HUD Text
+    sf::Text scoreText;
+    scoreText.setFont(font);
+    ss.str("");
+    ss << score;
+    int2Str = ss.str();
+    std::string scoreString = "SCORE: " + int2Str;
+    scoreText.setString(scoreString);
+
+
+    scoreText.setCharacterSize(100 * widthScale * 1.4);
+    int textWidth = scoreText.getLocalBounds().width;
+    scoreText.setPosition(width() - textWidth - 10, 800 - height());
+    scoreText.setColor(sf::Color::Red);
+
+    //Level HUD Text
+    sf::Text levelText;
+    levelText.setFont(font);
+    ss.str("");
+    ss << currentPhase;
+    std::string levelString = "PHASE: " + ss.str();
+    levelText.setString(levelString);
+
+    levelText.setCharacterSize(100 * widthScale * 1.4);
+    levelText.setPosition(0, 700);
+    levelText.setColor(sf::Color::Red);
+
+    //Operator HUD Text
+    sf::Text operationText;
+    operationText.setFont(font);
+    ss.str("");
+    ss << currentOperand;
+    std::string operationString;
+    if(currentPhase == 1)
+    {
+        operationString = "X + " + ss.str();
+    }
+    else if(currentPhase == 2)
+    {
+        operationString = "X * " + ss.str();
+    }
+    else if(currentPhase == 3)
+    {
+        operationString = "X^2";
+    }
+    operationText.setString(operationString);
+
+    operationText.setCharacterSize(100 * widthScale * 1.4);
+    textWidth = operationText.getLocalBounds().width;
+    operationText.setPosition(width() - textWidth - 10, 700);
+    operationText.setColor(sf::Color::Red);
+
+    sf::RenderWindow::draw(healthText);
+    sf::RenderWindow::draw(scoreText);
+    sf::RenderWindow::draw(levelText);
+    sf::RenderWindow::draw(operationText);
+
 }

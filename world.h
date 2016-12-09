@@ -63,6 +63,7 @@ private:
     void createGroundBox2D();
     void towerTexturesSetUp();
     void towerTexturesUpDate(int i);
+    void drawHUD(float);
 
     int randomBSpawn;
 

@@ -128,6 +128,19 @@ void Server(void)
 
                                  outString.append(info.isValid ? "1" : "0");
                               }
+                              else if(tokens.at(0) == "getStudentInfo")
+                              {
+                                 StudentInfo info = dbc.getStudentInfo( ((QString)tokens.at(1)).toInt() );
+
+                                 outString.append(QString::number(info.userID));
+                                 outString.append(info.username);
+                                 outString.append(info.password);
+                                 outString.append(info.realName);
+                                 outString.append((info.isTeacher ? "1" : "0"));
+                                 outString.append(info.classCode);
+
+                                 outString.append(info.isValid ? "1" : "0");
+                              }
                               else if(tokens.at(0) == "getHighScoreGameIDS")
                               {
                                  QVector<int> info = dbc.getHighScoreGameIDS( ((QString)tokens.at(1)).toInt() );

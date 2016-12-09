@@ -1,13 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
-#include <SFML/Network.hpp>
-#include <SFML/System.hpp>
-#include <QtConcurrent/QtConcurrent>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QDebug>
-#include <QFocusEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -55,6 +47,8 @@ void MainWindow::on_cancelButton_clicked()
 void MainWindow::on_submitButton_clicked()
 {
     isTeacher = ui->teacherCheckBox->isChecked();
+    QTimer::singleShot(0, this, SLOT(signUpToServer()));
+
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
@@ -78,16 +72,19 @@ void MainWindow::on_logOutPushButton_clicked()
 void MainWindow::on_statsPushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->statsPage);
+    QTimer::singleShot(0, this, SLOT(populateStats()));
 }
 
 void MainWindow::on_leaderboardPushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->leaderboardPage);
+    QTimer::singleShot(0, this, SLOT(populateLeaderboards()));
 }
 
 void MainWindow::on_stats_backToolButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->startPage);
+    ui->statsTableWidget->clearContents();
 }
 
 void MainWindow::on_managePushButton_clicked()
@@ -103,6 +100,7 @@ void MainWindow::on_teachers_backToolButton_clicked()
 void MainWindow::on_leaderboard_backToolButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->startPage);
+    ui->leaderboardTableWidget->clearContents();
 }
 
 void MainWindow::on_startScreenPushButton_clicked()
@@ -221,22 +219,16 @@ void MainWindow::startGame()
 
 }
 
-//This method attempts to login to the server.
-void MainWindow::loginToServer()
+QString MainWindow::serverRequest(std::string request)
 {
-    //establish connection on the socket.
-    sf::TcpSocket socket;
-    sf::Socket::Status status = socket.connect("127.0.0.1", 5001);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Couldn't connect" << std::endl;
-    }
+  //establish connection on the socket.
+  status = socket.connect("127.0.0.1", 5001);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Couldn't connect" << std::endl;
+  }
 
-    //Build string to send.
-    QString user = ui->login_userNameText->text();
-    QString pass = ui->login_passwordText->text();
-
-    ///TEST CODE
+  ///TEST CODE
 //    std::string s = "loginUser|" + user.toStdString() + "|" + pass.toStdString();
 //    std::string s = "addStudent|"+ user.toStdString() + "|" + pass.toStdString() + "|" + "Test Names Mc Gee" + "|" + "1" + "|" + "why do we have a class code";
 //    std::string s = "addGame|"+ std::to_string(151) + "|" + std::to_string(3503) + "|" + std::to_string(12);
@@ -248,38 +240,157 @@ void MainWindow::loginToServer()
 //    std::string s = "removeStudent|"+ std::to_string(45);
 //    std::string s = "getGameIDS|"+ std::to_string(109);
 //    std::string s = "getStudentIDS";
-    ///TEST CODE
+  ///TEST CODE
 
-    //Use Packets to send to the server.
-    //That way we don't have to worry about collecting a full packet.
-    sf::Packet sendPacket;
-    //sendPacket << s.c_str();
-    status = socket.send(sendPacket);
-    if(status != sf::Socket::Done)
-    {
-        std::cout << "Couldn't send message to server" << std::endl;
-    }
+  std::string s = request;
 
-    //Receive a packet.
-    sf::Packet recPacket;
-    status = socket.receive(recPacket);
-    if(status != sf::Socket::Done)
+  //Use Packets to send to the server.
+  //That way we don't have to worry about collecting a full packet.
+  sf::Packet sendPacket;
+
+  sendPacket << s;
+  status = socket.send(sendPacket);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Couldn't send message to server" << std::endl;
+  }
+
+  //Receive a packet.
+  sf::Packet recPacket;
+  status = socket.receive(recPacket);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Didn't receive anything from server" << std::endl;
+  }
+  else
+  {
+      //This means that the connection was successfull and we received data back from server.
+      std::string s;
+
+      while(!recPacket.endOfPacket())
+        recPacket >> s; QString qs(s.c_str()); qDebug() << qs; return qs;
+  }
+}
+
+//This method attempts to login to the server.
+void MainWindow::loginToServer()
+{
+    //Build string to send.
+    QString user = ui->login_userNameText->text();
+    QString pass = ui->login_passwordText->text();
+
+    QString responseUserID = serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString());
+
+    if(responseUserID.toInt() > 0)
     {
-        std::cout << "Didn't receive anything from server" << std::endl;
+       qDebug() << QString::fromStdString("logged in successfully."); userID = responseUserID.toInt(); qDebug() << userID;
     }
     else
     {
-        //This means that the connection was successfull and we received data back from server.
-        std::string s;
-
-        while(!recPacket.endOfPacket())
-          recPacket >> s; QString qs(s.c_str()); qDebug() << qs;
-
-        ui->stackedWidget->setCurrentWidget(ui->startPage);
+      qDebug() << "Invalid username or password";
     }
+    ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
+void MainWindow::signUpToServer()
+{
+    //Build string to send.
+    QString user = ui->signup_userNameText->text();
 
+    QString pass = ui->signup_passwordText->text();
+    QString confPass = ui->signup_confirmPasswordText->text();
+    bool teacherBool = ui->teacherCheckBox->isChecked();
+
+    if(pass == confPass)
+    {
+      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
+        qDebug() << QString::fromStdString("signed up successfully.");
+    }
+
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+}
+
+void MainWindow::populateStats()
+{
+   //Get User's Game ID's to get info on.
+   QString gIDToProcess = serverRequest("getGameIDS|" + QString::number(userID).toStdString());
+   QStringList splitGIDToProcess = gIDToProcess.split("|");
+
+   //List of responses with each game's info played by the user.
+   QStringList gIDInfoList;
+
+   for (int i = 0; i < splitGIDToProcess.size(); ++i)
+   {
+       gIDInfoList.append(serverRequest("getGameInfo|" + ((QString)splitGIDToProcess.at(i)).toStdString() ) );
+   }
+
+   ui->statsTableWidget->setRowCount(gIDInfoList.size());
+
+   QTableWidgetItem* newItem;
+   for (int i = 0; i < gIDInfoList.size(); ++i)
+   {
+       //Split game into info.
+       QStringList info = ((QString)gIDInfoList.at(i)).split("|");
+
+       //Check if info is valid
+       if(info.at(4) == "1")
+       {
+         //Game Number
+         newItem = new QTableWidgetItem(tr("%1").arg(i + 1));
+         ui->statsTableWidget->setItem(i,0, newItem);
+
+         //Score
+         newItem = new QTableWidgetItem(tr("%1").arg(info.at(2)));
+         ui->statsTableWidget->setItem(i,1, newItem);
+
+         //Level
+         newItem = new QTableWidgetItem(tr("%1").arg(info.at(3)));
+         ui->statsTableWidget->setItem(i,2, newItem);
+       }
+   }
+}
+
+void MainWindow::populateLeaderboards()
+{
+  //Get User's Game ID's to get info on. "10" is how many scores we want.
+  QString gIDToProcess = serverRequest("getHighScoreGameIDS|10");
+  QStringList splitGIDToProcess = gIDToProcess.split("|");
+
+  //List of responses with each game's info played by the user.
+  QStringList gIDInfoList;
+
+  for (int i = 0; i < splitGIDToProcess.size(); ++i)
+  {
+      gIDInfoList.append(serverRequest("getGameInfo|" + ((QString)splitGIDToProcess.at(i)).toStdString() ) );
+  }
+
+  ui->leaderboardTableWidget->setRowCount(gIDInfoList.size());
+
+  QTableWidgetItem* newItem;
+  for (int i = 0; i < gIDInfoList.size(); ++i)
+  {
+      //Split game into info.
+      QStringList info = ((QString)gIDInfoList.at(i)).split("|");
+
+      //Check if info is valid
+      if(info.at(4) == "1")
+      {
+        //Player
+        QString username = serverRequest("getStudentInfo|" + ((QString)info.at(1)).toStdString() ).split("|").at(1);
+        qDebug() << username;
+        newItem = new QTableWidgetItem(tr("%1").arg(username));
+        ui->leaderboardTableWidget->setItem(i,0, newItem);
+
+        //Score
+        newItem = new QTableWidgetItem(tr("%1").arg(info.at(2)));
+        ui->leaderboardTableWidget->setItem(i,1, newItem);
+
+        //Level
+        newItem = new QTableWidgetItem(tr("%1").arg(info.at(3)));
+        ui->leaderboardTableWidget->setItem(i,2, newItem);
+      }
+  }
+}
 
 void MainWindow::on_answerLineEdit_returnPressed()
 {
