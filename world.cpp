@@ -579,6 +579,11 @@ void World::end()
 
 void World::openBrowser()
 {
+    // Get StudentIDs
+    QString dataFromDatabase = serverRequest("getStudentIDS");
+    QStringList studentIDs = dataFromDatabase.split("|");
+
+
     // Setup the document writer
     QTextDocumentWriter documentWriter;
     documentWriter.setFormat("html");
@@ -594,9 +599,9 @@ void World::openBrowser()
 
     // make a table
     // Students row
-    htmlEdit.append("<center><table bgcolor='red' border='1' width='500' cellpadding='10' align='center'>");
+    htmlEdit.append("<center><table border='1' width='600' cellpadding='10' align='center'>");
     htmlEdit.append("<tr>");
-    htmlEdit.append("<td colspan='4'>");
+    htmlEdit.append("<td colspan='6'>");
     htmlEdit.append("<center><h3>Students</h3><center>");
     htmlEdit.append("</td>");
     htmlEdit.append("</tr>");
@@ -607,7 +612,7 @@ void World::openBrowser()
     htmlEdit.append("<b>Student ID</b>");
     htmlEdit.append("</td>");
     htmlEdit.append("<td>");
-    htmlEdit.append("<b>Student Username</b>");
+    htmlEdit.append("<b>Student Name</b>");
     htmlEdit.append("</td>");
     htmlEdit.append("<td>");
     htmlEdit.append("<b>Games Played</b>");
@@ -615,27 +620,73 @@ void World::openBrowser()
     htmlEdit.append("<td>");
     htmlEdit.append("<b>Highscore</b>");
     htmlEdit.append("</td>");
+    htmlEdit.append("<td>");
+    htmlEdit.append("<b>Total Score</b>");
+    htmlEdit.append("</td>");
+    htmlEdit.append("<td>");
+    htmlEdit.append("<b>Average Score</b>");
+    htmlEdit.append("</td>");
     htmlEdit.append("</tr>");
 
 
 
-    // Insert data
-    for(int i = 0; i < 10; i++)
+    // Get games data for each student
+    for(int i = 0; i < studentIDs.size(); i++)
     {
+        // Get the name for this studtent
+        QString infoString = serverRequest("getStudentInfo|" + studentIDs.at(i));
+        QString info = infoString.split("|");
+
+        // Get all the games for this student
+        QString gamesPlayedString = serverRequest("getGamesPlayed|" + studentIDs.at(i));
+        int gamesPlayed = gamesPlayedString.toInt();
+
+        // Get total score of games for this student
+        QString totalScoreString = serverRequest("getTotalScore|" + studentIDs.at(i));
+        int totalScore = totalScoreString.toInt();
+
+        // Get Average score of games for this student
+        QString averageScoreString = serverRequest("getAverageScore|" + studentIDs.at(i));
+        int averageScore = averageScoreString.toInt();
+
+        // Get all games to compute high score
+        QString allGamesString = serverRequest("getGameIDS|" + studentIDs.at(i));
+        QStringList gameIDs = allGamesString.split("|");
+        int highestScore = 0;
+        for(int i = 0; i < gameIDs.size(); i++)
+        {
+            // Get game info for each game
+            QString gameInfoString = serverRequest("getGameInfo|" + gameIDs.at(i));
+            QStringList gameInfo = gameInfoString.split("|");
+
+            // Compare previous highscore to new
+            if(gameInfo.at(2).toInt() >= highestScore) // score should be at index 2
+                highestScore = gameInfo.at(2).toInt();
+        }
+
+
+        // Put all data into html table
         htmlEdit.append("<tr>");
         htmlEdit.append("<td>");
-        htmlEdit.append(QString::number(i));
+        htmlEdit.append(studentIDs.at(i)); //student id
         htmlEdit.append("</td>");
         htmlEdit.append("<td>");
-        htmlEdit.append("name" + QString::number(i));
+        htmlEdit.append(info.at(3)); // name should be at index 3
         htmlEdit.append("</td>");
         htmlEdit.append("<td>");
-        htmlEdit.append(QString::number(i + rand() % 100));
+        htmlEdit.append(QString::number(gamesPlayed)); // games played
         htmlEdit.append("</td>");
         htmlEdit.append("<td>");
-        htmlEdit.append(QString::number(rand() % 10000));
+        htmlEdit.append(QString::number(highestScore)); // highscore
+        htmlEdit.append("</td>");
+        htmlEdit.append("<td>");
+        htmlEdit.append(QString::number(totalScore)); // total score
+        htmlEdit.append("</td>");
+        htmlEdit.append("<td>");
+        htmlEdit.append(QString::number(averageScore)); // average score
         htmlEdit.append("</td>");
         htmlEdit.append("</tr>");
+
     }
 
     // end html stuff
@@ -654,6 +705,59 @@ void World::openBrowser()
     // Open in browser WORKS
     std::cout << QDir::currentPath().toStdString() << std::endl;
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
+}
+
+QString MainWindow::serverRequest(std::string request)
+{
+  //establish connection on the socket.
+  status = socket.connect("127.0.0.1", 5016);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Couldn't connect" << std::endl;
+  }
+
+  ///TEST CODE
+//    std::string s = "loginUser|" + user.toStdString() + "|" + pass.toStdString();
+//    std::string s = "addStudent|"+ user.toStdString() + "|" + pass.toStdString() + "|" + "Test Names Mc Gee" + "|" + "1" + "|" + "why do we have a class code";
+//    std::string s = "addGame|"+ std::to_string(151) + "|" + std::to_string(3503) + "|" + std::to_string(12);
+//    std::string s = "getGameInfo|"+ std::to_string(298);
+//    std::string s = "getHighScoreGameIDS|"+ std::to_string(20);
+//    std::string s = "getTotalScore|"+ std::to_string(76);
+//    std::string s = "getGamesPlayed|"+ std::to_string(142);
+//    std::string s = "getAverageScore|"+ std::to_string(109);
+//    std::string s = "removeStudent|"+ std::to_string(45);
+//    std::string s = "getGameIDS|"+ std::to_string(109);
+//    std::string s = "getStudentIDS";
+  ///TEST CODE
+
+  std::string s = request;
+
+  //Use Packets to send to the server.
+  //That way we don't have to worry about collecting a full packet.
+  sf::Packet sendPacket;
+
+  sendPacket << s;
+  status = socket.send(sendPacket);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Couldn't send message to server" << std::endl;
+  }
+
+  //Receive a packet.
+  sf::Packet recPacket;
+  status = socket.receive(recPacket);
+  if(status != sf::Socket::Done)
+  {
+      std::cout << "Didn't receive anything from server" << std::endl;
+  }
+  else
+  {
+      //This means that the connection was successfull and we received data back from server.
+      std::string s;
+
+      while(!recPacket.endOfPacket())
+        recPacket >> s; QString qs(s.c_str()); qDebug() << qs; return qs;
+  }
 }
 
 void World::drawHUD(float widthScale)
