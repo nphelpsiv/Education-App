@@ -1852,7 +1852,7 @@ background-image : url(:/Icons/Math_Resource.png)
           </column>
           <column>
            <property name="text">
-            <string>High Score</string>
+            <string>Total Score</string>
            </property>
           </column>
           <column>
