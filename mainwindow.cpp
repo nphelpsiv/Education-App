@@ -97,6 +97,7 @@ void MainWindow::on_stats_backToolButton_clicked()
 void MainWindow::on_managePushButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->teacherPage);
+    QTimer::singleShot(0, this, SLOT(populateManageboards()));
 }
 
 void MainWindow::on_teachers_backToolButton_clicked()
@@ -230,7 +231,7 @@ void MainWindow::startGame()
 QString MainWindow::serverRequest(std::string request)
 {
   //establish connection on the socket.
-  status = socket.connect("127.0.0.1", 5015);
+  status = socket.connect("127.0.0.1", 5016);
   if(status != sf::Socket::Done)
   {
       std::cout << "Couldn't connect" << std::endl;
@@ -403,6 +404,75 @@ void MainWindow::populateLeaderboards()
   }
 }
 
+void MainWindow::populateManageboards()
+{
+    //Get User's Game ID's to get info on. "10" is how many scores we want.
+    QString allIDs = serverRequest("getStudentIDS|");
+    QStringList splitIDToProcess = allIDs.split("|");
+
+    //List of responses with each game's info played by the user.
+    QStringList StudentsInfoList;
+
+    for (int i = 0; i < splitIDToProcess.size(); ++i)
+    {
+        StudentsInfoList.append(serverRequest("getStudentInfo|" + ((QString)splitIDToProcess.at(i)).toStdString() ) );
+        //qDebug() << "Student ID: " << ((QString)splitIDToProcess.at(i)) << endl;
+    }
+
+    ui->teacherTableWidget->setRowCount(StudentsInfoList.size());
+
+    //std::cout << "Rows: " << ui->leaderboardTableWidget->rowCount() << std::endl;
+
+    QTableWidgetItem* newItem;
+    for (int i = 0; i < StudentsInfoList.size(); ++i)
+    {
+        //Split game into info.
+        QStringList info = ((QString)StudentsInfoList.at(i)).split("|");
+        qDebug() << "Controllo 1: " << info.at(0) << endl;
+        qDebug() << "Controllo 2: " << info.at(1) << endl;
+        qDebug() << "Controllo 3: " << info.at(2) << endl;
+        qDebug() << "Controllo 4: " << info.at(3) << endl;
+        qDebug() << "Controllo 5: " << info.at(4) << endl;
+        qDebug() << "Controllo 6: " << info.at(5) << endl;
+
+        //Check if info is valid
+        if(info.at(6) == "1")
+        {
+          //Player
+          QString Scores = serverRequest("getAverageScore|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
+          //qDebug() << username;
+          QString acountType;
+          QString gameCount = serverRequest("getGamesPlayed|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
+
+          QString totalScore = serverRequest("getTotalScore|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
+          if (info.at(4)=="1")
+          {
+              acountType = "Teacher";
+          }
+          else
+          {
+              acountType = "Student";
+          }
+          newItem = new QTableWidgetItem(tr("%1").arg(acountType));
+          ui->teacherTableWidget->setItem(i,0, newItem);
+
+          //Score
+          newItem = new QTableWidgetItem(tr("%1").arg(info.at(1)));
+          ui->teacherTableWidget->setItem(i,1, newItem);
+
+          //Level
+          newItem = new QTableWidgetItem(tr("%1").arg(gameCount));
+          ui->teacherTableWidget->setItem(i,2, newItem);
+
+          newItem = new QTableWidgetItem(tr("%1").arg(totalScore));
+          ui->teacherTableWidget->setItem(i,3, newItem);
+
+          newItem = new QTableWidgetItem(tr("%1").arg(Scores));
+          ui->teacherTableWidget->setItem(i,4, newItem);
+        }
+    }
+}
+
 void MainWindow::on_answerLineEdit_returnPressed()
 {
     emit answerEntered(ui->answerLineEdit->text());
@@ -491,4 +561,6 @@ void MainWindow::forceFocus(QWidget* widget)
     // posting event for forcing the focus with low priority
     qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
 }
+
+
 

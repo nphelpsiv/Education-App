@@ -85,6 +85,8 @@ private slots:
 
     void on_teacherPageRemoveButton_clicked();
 
+    void populateManageboards();
+
 signals:
 
     void answerEntered(QString);
