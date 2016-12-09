@@ -25,6 +25,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QDir>
+#include <SFML/Network.hpp>
+#include <SFML/System.hpp>
 
 class World : public QSFMLCanvas
 {
@@ -131,6 +133,10 @@ private:
     sf::Texture debTexture;
     QVector<sf::Sprite> debSprites;
 
+    // For html table with database
+    QString serverRequest(std::string request);
+    sf::TcpSocket socket;
+    sf::Socket::Status status;
 
 private slots:
     void deleteParticles();
