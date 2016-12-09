@@ -56,6 +56,7 @@ void MainWindow::on_submitButton_clicked()
 void MainWindow::on_teacherPageRemoveButton_clicked()
 {
     //Remove row from table
+    QTimer::singleShot(0, this, SLOT(removeStudent()));
     //Call (using single shot) removeStudent from database using serverRequest()
 }
 
@@ -389,7 +390,6 @@ void MainWindow::populateLeaderboards()
       {
         //Player
         QString username = serverRequest("getStudentInfo|" + ((QString)info.at(1)).toStdString() ).split("|").at(1);
-        qDebug() << username;
         newItem = new QTableWidgetItem(tr("%1").arg(username));
         ui->leaderboardTableWidget->setItem(i,0, newItem);
 
@@ -416,31 +416,21 @@ void MainWindow::populateManageboards()
     for (int i = 0; i < splitIDToProcess.size(); ++i)
     {
         StudentsInfoList.append(serverRequest("getStudentInfo|" + ((QString)splitIDToProcess.at(i)).toStdString() ) );
-        //qDebug() << "Student ID: " << ((QString)splitIDToProcess.at(i)) << endl;
     }
 
     ui->teacherTableWidget->setRowCount(StudentsInfoList.size());
-
-    //std::cout << "Rows: " << ui->leaderboardTableWidget->rowCount() << std::endl;
 
     QTableWidgetItem* newItem;
     for (int i = 0; i < StudentsInfoList.size(); ++i)
     {
         //Split game into info.
         QStringList info = ((QString)StudentsInfoList.at(i)).split("|");
-        qDebug() << "Controllo 1: " << info.at(0) << endl;
-        qDebug() << "Controllo 2: " << info.at(1) << endl;
-        qDebug() << "Controllo 3: " << info.at(2) << endl;
-        qDebug() << "Controllo 4: " << info.at(3) << endl;
-        qDebug() << "Controllo 5: " << info.at(4) << endl;
-        qDebug() << "Controllo 6: " << info.at(5) << endl;
 
         //Check if info is valid
         if(info.at(6) == "1")
         {
           //Player
           QString Scores = serverRequest("getAverageScore|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
-          //qDebug() << username;
           QString acountType;
           QString gameCount = serverRequest("getGamesPlayed|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
 
@@ -453,14 +443,14 @@ void MainWindow::populateManageboards()
           {
               acountType = "Student";
           }
+
           newItem = new QTableWidgetItem(tr("%1").arg(acountType));
           ui->teacherTableWidget->setItem(i,0, newItem);
 
-          //Score
+          //Username
           newItem = new QTableWidgetItem(tr("%1").arg(info.at(1)));
           ui->teacherTableWidget->setItem(i,1, newItem);
 
-          //Level
           newItem = new QTableWidgetItem(tr("%1").arg(gameCount));
           ui->teacherTableWidget->setItem(i,2, newItem);
 
@@ -469,8 +459,30 @@ void MainWindow::populateManageboards()
 
           newItem = new QTableWidgetItem(tr("%1").arg(Scores));
           ui->teacherTableWidget->setItem(i,4, newItem);
+
+          //Password
+          newItem = new QTableWidgetItem(tr("%1").arg(info.at(2)));
+          ui->teacherTableWidget->setItem(i,5, newItem);
         }
     }
+}
+
+void MainWindow::removeStudent()
+{
+  if(ui->teacherTableWidget->currentRow() > 0)
+  {
+     int userIDToRemove = serverRequest("loginUser|" + ui->teacherTableWidget->item(ui->teacherTableWidget->currentRow(), 1)->text().toStdString() + "|" +
+                                                       ui->teacherTableWidget->item(ui->teacherTableWidget->currentRow(), 5)->text().toStdString()).toInt();
+
+     qDebug() << "Removed : " << userIDToRemove;
+
+     //Tell Server to delete student from database
+     serverRequest("removeStudent|" + QString::number(userIDToRemove).toStdString());
+
+     //Delete row and select no row.
+     ui->teacherTableWidget->removeRow(ui->teacherTableWidget->currentRow());
+     ui->teacherTableWidget->selectRow(0);
+  }
 }
 
 void MainWindow::on_answerLineEdit_returnPressed()

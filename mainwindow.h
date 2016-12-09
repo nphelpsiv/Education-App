@@ -87,6 +87,8 @@ private slots:
 
     void populateManageboards();
 
+    void removeStudent();
+
 signals:
 
     void answerEntered(QString);

@@ -1,12 +1,12 @@
 #ifndef LINUXDATABASECOMMUNICATOR_H
 #define LINUXDATABASECOMMUNICATOR_H
 
+#ifdef __linux
 #include <QDebug>
 #include <QSqlError>
 #include <QVector>
 #include <iostream>
 #include <mysql.h>
-
 #include <studentinfo.h>
 #include <gameinfo.h>
 
@@ -19,7 +19,7 @@ class LinuxDatabaseCommunicator
 public:
   //QSqlDatabase db;
 
-    MYSQL *connection, mysql;
+  MYSQL *connection, mysql;
   QString user;
   QString password;
   QString hostName;
@@ -64,5 +64,6 @@ public:
   QVector<int> getStudentIDS();
 
 };
+#endif
 
 #endif // LINUXDATABASECOMMUNICATOR_H

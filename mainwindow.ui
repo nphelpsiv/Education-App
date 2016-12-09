@@ -1262,7 +1262,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1794,6 +1794,12 @@ background-image : url(:/Icons/Math_Resource.png)
             <height>0</height>
            </size>
           </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="gridStyle">
+           <enum>Qt::SolidLine</enum>
+          </property>
           <property name="rowCount">
            <number>0</number>
           </property>
@@ -1850,6 +1856,15 @@ background-image : url(:/Icons/Math_Resource.png)
             <height>0</height>
            </size>
           </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <column>
            <property name="text">
             <string>Account Type</string>
@@ -1873,6 +1888,11 @@ background-image : url(:/Icons/Math_Resource.png)
           <column>
            <property name="text">
             <string>Average Score</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Password</string>
            </property>
           </column>
          </widget>
@@ -1930,6 +1950,9 @@ background-image : url(:/Icons/Math_Resource.png)
         </item>
         <item>
          <widget class="QTableWidget" name="leaderboardTableWidget">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
           <column>
            <property name="text">
             <string>Player</string>

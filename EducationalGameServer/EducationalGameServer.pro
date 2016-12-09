@@ -41,6 +41,7 @@ else:unix: LIBS += -lsfml-audio -lsfml-graphics -lsfml-network -lsfml-window -ls
 
 #SQL
 #win32:LIBS += -L$$PWD/../../mysql-5.7.16-winx64/lib -lmysqlclient
+win32:INCLUDEPATH +="C:\Program Files\MySQL\MySQL Connector.C 6.1\include"
 win32:LIBS += -L"C:\Program Files\MySQL\MySQL Connector.C 6.1\lib" -llibmysql
 else:macx: LIBS += -L"$$PWD/mysql_connector_osx/lib" -lmysqlclient
 else:unix: LIBS += -L"/usr/lib/x86_64-linux-gnu" -lmysqlclient
