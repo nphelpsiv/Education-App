@@ -12,10 +12,12 @@ TEMPLATE = app
 
 HEADERS += databasecommunicator.h \
     studentinfo.h \
-    gameinfo.h
+    gameinfo.h \
+    linuxdatabasecommunicator.h
 
 SOURCES += main.cpp \
-    databasecommunicator.cpp
+    databasecommunicator.cpp \
+    linuxdatabasecommunicator.cpp
 
 #SFML
 win32:INCLUDEPATH += $$PWD/../SFML-2.4.1/include
@@ -43,6 +45,8 @@ win32:LIBS += -L"C:\Program Files\MySQL\MySQL Connector.C 6.1\lib" -llibmysql
 else:macx: LIBS += -L"$$PWD/mysql_connector_osx/lib" -lmysqlclient
 else:unix: LIBS += -L"/usr/lib/x86_64-linux-gnu" -lmysqlclient
 
+
+unix: INCLUDEPATH += "/usr/include/mysql"
 #win32:DEPENDPATH += $$PWD/../../mysql-5.7.16-winx64
 
 #win32:INCLUDEPATH += $$PWD/../../mysql-5.7.16-winx64/include

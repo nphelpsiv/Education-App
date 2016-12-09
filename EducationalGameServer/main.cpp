@@ -10,6 +10,8 @@
 #include <QStringList>
 #include <QVector>
 
+#include <linuxdatabasecommunicator.h>
+
 
 
 const unsigned short PORT = 5001;
@@ -22,7 +24,11 @@ bool quit = false;
 
 sf::SocketSelector selector;
 std::vector<sf::TcpSocket*> clients;
-DatabaseCommunicator dbc("127.0.0.1" , "root" , "password");
+#ifdef __linux
+LinuxDatabaseCommunicator dbc("127.0.0.1" , "root" , "pass");
+#else
+DatabaseCommunicator dbc("127.0.0.1", "root", "password");
+#endif
 
 //This method waits for input from the terminal to stop the server.
 //Should be called on another thread to prevent blocking.
