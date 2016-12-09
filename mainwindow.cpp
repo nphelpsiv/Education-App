@@ -210,7 +210,7 @@ void MainWindow::startGame()
     ui->gameRenderFrame->setMinimumHeight(height() * 0.66);
     world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
     QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
-    QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
+    QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(gameOver()));
     QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
     QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
     QObject::connect(world, SIGNAL(phaseChanged(int,int)), this, SLOT(phaseChanged(int, int)));
@@ -564,6 +564,4 @@ void MainWindow::forceFocus(QWidget* widget)
     // posting event for forcing the focus with low priority
     qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
 }
-
-
 
