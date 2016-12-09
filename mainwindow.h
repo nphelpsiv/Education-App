@@ -75,7 +75,7 @@ private slots:
 
     void on_muteButton_clicked();
 
-    void phaseChanged(int, int);
+    void functionChanged(QString);
 
     void on_openInBrowserButton_clicked();
 

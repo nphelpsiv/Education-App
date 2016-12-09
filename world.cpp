@@ -10,8 +10,6 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
 
     world->SetContactListener(&contactListenerInstance);
 
-    //the operand that is shown statically in the GUI
-    currentOperand = (rand() % 9) + 0;
 
     game = true;
     muted = false;
@@ -42,7 +40,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-//    music.play();
+    music.play();
 }
 
 World::~World()
@@ -76,6 +74,10 @@ World::~World()
 
 void World::start()
 {
+    //the operand that is shown statically in the GUI
+    currentOperand = (rand() % 5) + 0;
+    currentOperation = (rand() % operations::square) + 0;
+    currentFunc = "X" + operationToString(currentOperation) + QString::number(currentOperand);
 
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
@@ -104,7 +106,7 @@ void World::start()
     backGroundTexture.setSmooth(true);
 
     music.setLoop(true);
-//    music.play();
+    music.play();
 
 }
 
@@ -113,7 +115,7 @@ void World::ballSpawnCall()
 
     if(balls.size() == 0)
     {
-        emit phaseChanged(currentPhase, currentOperand);
+        emit functionChanged(currentFunc);
     }
     //randomBSpawn = (rand() % 1400) - 700;
     if(rand() % 2 == 0)
@@ -139,7 +141,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-//    cannonSound.play();
+    cannonSound.play();
 }
 
 
@@ -153,15 +155,49 @@ void World::answerEntered(QString s)
 
         if (currentPhase == 1)
         {
-            rightAnswer = (balls[i]->getValue() + currentOperand);
+            switch(currentOperation)
+            {
+                case operations::add:
+                {
+                    rightAnswer = (balls[i]->getValue() + currentOperand);
+                break;
+                }
+                case operations::sub:
+                {
+                    rightAnswer = (balls[i]->getValue() - currentOperand);
+                    break;
+                }
+            }
         }
         if (currentPhase == 2)
         {
-            rightAnswer = (balls[i]->getValue() * currentOperand);
+            rightAnswer = (balls[i]->getValue() ^ 2);
         }
         if (currentPhase == 3)
         {
-            rightAnswer = (balls[i]->getValue() * balls[i]->getValue());
+            switch(currentOperation)
+            {
+                case operations::add:
+                {
+                    rightAnswer = (balls[i]->getValue() + currentOperand);
+                break;
+                }
+                case operations::sub:
+                {
+                    rightAnswer = (balls[i]->getValue() - currentOperand);
+                    break;
+                }
+                case operations::square:
+                {
+                    rightAnswer = (balls[i]->getValue() ^ 2);
+                    break;
+                }
+                case operations::multiply:
+                {
+                    rightAnswer = (balls[i]->getValue() * currentOperand);
+                    break;
+                }
+            }
         }
 
         if(s.toInt() == rightAnswer)
@@ -175,33 +211,55 @@ void World::answerEntered(QString s)
             score += 100;
             emit scoreChanged(score);
 
-            if (score%1000 == 0 && currentPhase!=3)
+            if (score%1000 == 0)
             {
-                phaseAnimation = 120;
-                currentPhase++;
-                currentOperand = (rand() % 9) + 0;
-
-                if(currentPhase == 2)
+                if(currentPhase == 1)
                 {
+                    currentPhase++;
                     phaseAnimation = 120;
+                    currentOperation = operations::square;
+                    currentOperand = 2;
                     backGroundTexture.loadFromFile("Icons/Phase2Background.png");
                     backGroundTexture.setSmooth(true);
                 }
-                else if(currentPhase == 3)
+                else if(currentPhase == 2)
                 {
+                    phaseAnimation = 120;
+                    currentPhase++;
+                    currentOperation = (rand() % operations::multiply + 0);
+                    if(currentOperation == operations::square)
+                    {
+                        currentOperand = 2;
+                    }
+                    else
+                    {
+                        currentOperand = (rand() % 12 + 0);
+                    }
                     backGroundTexture.loadFromFile("Icons/Phase3Background.png");
                     backGroundTexture.setSmooth(true);
                 }
-
+                else if(currentPhase ==3)
+                {
+                    currentOperation = (rand() % (operations::multiply + 1) + 0);
+                    if(currentOperation == operations::square)
+                    {
+                        currentOperand = 2;
+                    }
+                    else
+                    {
+                        currentOperand = (rand() % 12 + 0);
+                    }
+                }
                 backGroundSprite.setTexture(backGroundTexture);
-                emit phaseChanged(currentPhase, currentOperand);
+                currentFunc = "X" + operationToString(currentOperation) + QString::number(currentOperand);
+                emit functionChanged(currentFunc);
             }
 
             if(!answerSound.openFromFile("Sounds/AnswerSound.wav"))
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-//            answerSound.play();
+            answerSound.play();
 
             return;
         }
@@ -211,14 +269,14 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-//    wrongAnswerSound.play();
+    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
 {
     if(h <= 0)
     {
-        emit outOfHealth();
+        emit gameOver();
         game = false;
         //spawnTimer->stop();
         //end();
@@ -379,7 +437,7 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-//                explosionSound.play();
+                explosionSound.play();
             }
         }
 
@@ -506,7 +564,6 @@ void World::OnUpdate()
             sf::RenderWindow::draw(phaseText);
             phaseAnimation--;
         }
-
     }
 
 
@@ -526,7 +583,6 @@ void World::towerTexturesUpDate(int i)
     {
         towers[i]->textureIndex = 6;
     }
-
 }
 
 
@@ -545,6 +601,7 @@ void World::end()
 {
     spawnTimer->stop();
     music.stop();
+
 
 
     while(!balls.isEmpty())
@@ -663,8 +720,8 @@ void World::drawHUD(float widthScale)
     std::string healthString = "HEALTH: " + int2Str;
     healthText.setString(healthString);
 
-    healthText.setCharacterSize(100 * widthScale * 1.4);
-    healthText.setPosition(0,800 - height());
+    healthText.setCharacterSize(100 * widthScale);
+    healthText.setPosition(20,800 - height());
     healthText.setColor(sf::Color::Red);
 
     //Score HUD Text
@@ -677,9 +734,9 @@ void World::drawHUD(float widthScale)
     scoreText.setString(scoreString);
 
 
-    scoreText.setCharacterSize(100 * widthScale * 1.4);
+    scoreText.setCharacterSize(100 * widthScale);
     int textWidth = scoreText.getLocalBounds().width;
-    scoreText.setPosition(width() - textWidth - 10, 800 - height());
+    scoreText.setPosition(width() - textWidth + 50, 800 - height());
     scoreText.setColor(sf::Color::Red);
 
     //Level HUD Text
@@ -690,38 +747,42 @@ void World::drawHUD(float widthScale)
     std::string levelString = "PHASE: " + ss.str();
     levelText.setString(levelString);
 
-    levelText.setCharacterSize(100 * widthScale * 1.4);
-    levelText.setPosition(0, 700);
+    levelText.setCharacterSize(100 * widthScale);
+    levelText.setPosition((width()/2)-(levelText.getLocalBounds().width/2)+20, 800 - height());
     levelText.setColor(sf::Color::Red);
 
-//    //Operator HUD Text
-//    sf::Text operationText;
-//    operationText.setFont(font);
-//    ss.str("");
-//    ss << currentOperand;
-//    std::string operationString;
-//    if(currentPhase == 1)
-//    {
-//        operationString = "X + " + ss.str();
-//    }
-//    else if(currentPhase == 2)
-//    {
-//        operationString = "X * " + ss.str();
-//    }
-//    else if(currentPhase == 3)
-//    {
-//        operationString = "X^2";
-//    }
-//    operationText.setString(operationString);
-
-//    operationText.setCharacterSize(100 * widthScale * 1.4);
-//    textWidth = operationText.getLocalBounds().width;
-//    operationText.setPosition(width() - textWidth - 10, 700);
-//    operationText.setColor(sf::Color::Red);
 
     sf::RenderWindow::draw(healthText);
     sf::RenderWindow::draw(scoreText);
     sf::RenderWindow::draw(levelText);
-//    sf::RenderWindow::draw(operationText);
 
+}
+
+QString World::operationToString(int operation)
+{
+    QString op;
+    switch(operation)
+    {
+        case operations::add:
+        {
+            op = "+";
+            break;
+        }
+        case operations::sub:
+        {
+            op = "-";
+            break;
+        }
+        case operations::square:
+        {
+            op = "^";
+            break;
+        }
+        case operations::multiply:
+        {
+            op = "*";
+            break;
+        }
+    }
+    return op;
 }
