@@ -466,7 +466,7 @@ void World::OnUpdate()
 
         phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
         phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 500);
-        phaseText.setColor(sf::Color::White);
+        phaseText.setColor(sf::Color::Blue);
         sf::RenderWindow::draw(phaseText);
         phaseAnimation--;
     }
@@ -675,7 +675,7 @@ void World::drawHUD(float widthScale)
     scoreText.setCharacterSize(50 * widthScale);
     int textWidth = scoreText.getLocalBounds().width;
     scoreText.setPosition(width() - textWidth + 50, 800 - height());
-    scoreText.setColor(sf::Color::Black);
+    scoreText.setColor(sf::Color::White);
 
     //Level HUD Text
     sf::Text levelText;
@@ -686,8 +686,8 @@ void World::drawHUD(float widthScale)
     levelText.setString(levelString);
 
     levelText.setCharacterSize(50 * widthScale);
-    levelText.setPosition((width()/2)-(levelText.getLocalBounds().width/2)+20, 800 - height());
-    levelText.setColor(sf::Color::Black);
+    levelText.setPosition(20, 800 - height());
+    levelText.setColor(sf::Color::White);
 
 
     //sf::RenderWindow::draw(healthText);
