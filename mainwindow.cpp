@@ -51,6 +51,13 @@ void MainWindow::on_submitButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
+
+void MainWindow::on_teacherPageRemoveButton_clicked()
+{
+    //Remove row from table
+    //Call (using single shot) removeStudent from database using serverRequest()
+}
+
 void MainWindow::on_loginButton_clicked()
 {
     //Start loginToServer() method on a new thread using a singleShot from QTimer
@@ -94,6 +101,7 @@ void MainWindow::on_managePushButton_clicked()
 void MainWindow::on_teachers_backToolButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->startPage);
+    ui->teacherTableWidget->clearContents();
 }
 
 void MainWindow::on_leaderboard_backToolButton_clicked()
@@ -222,7 +230,7 @@ void MainWindow::startGame()
 QString MainWindow::serverRequest(std::string request)
 {
   //establish connection on the socket.
-  status = socket.connect("127.0.0.1", 5001);
+  status = socket.connect("127.0.0.1", 5015);
   if(status != sf::Socket::Done)
   {
       std::cout << "Couldn't connect" << std::endl;
@@ -284,6 +292,9 @@ void MainWindow::loginToServer()
     if(responseUserID.toInt() > 0)
     {
        qDebug() << QString::fromStdString("logged in successfully."); userID = responseUserID.toInt(); qDebug() << userID;
+
+       isTeacher = serverRequest("getStudentInfo|" + QString::number(userID).toStdString()).split("|").at(4) == "1";
+       qDebug() << "we a teacher now";
     }
     else
     {
