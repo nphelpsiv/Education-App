@@ -65,6 +65,7 @@ private:
     void towerTexturesUpDate(int i);
     void drawHUD(float);
     QString operationToString(int operation);
+    void setFunction();
 
     int randomBSpawn;
 

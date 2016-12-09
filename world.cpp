@@ -17,6 +17,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     phaseAnimation = 120;
     functionAnimation = 120;
 
+
     //sfml stuff
     //Set audio volume
     music.setVolume(50);
@@ -40,7 +41,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-    //music.play();
+    music.play();
 }
 
 World::~World()
@@ -103,11 +104,12 @@ void World::start()
     hitAnimationCount = 0;
     currentPhase = 1;
     phaseAnimation = 120;
+    functionAnimation = 120;
     backGroundTexture.loadFromFile("Icons/Phase1Background.png");
     backGroundTexture.setSmooth(true);
 
     music.setLoop(true);
-    //music.play();
+    music.play();
 
 }
 
@@ -142,7 +144,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-    //cannonSound.play();
+    cannonSound.play();
 }
 
 
@@ -214,48 +216,7 @@ void World::answerEntered(QString s)
 
             if (score%1000 == 0)
             {
-                if(currentPhase == 1)
-                {
-                    currentPhase++;
-                    phaseAnimation = 120;
-                    functionAnimation = 120;
-                    currentOperation = operations::square;
-                    currentOperand = 2;
-                    backGroundTexture.loadFromFile("Icons/Phase2Background.png");
-                    backGroundTexture.setSmooth(true);
-                }
-                else if(currentPhase == 2)
-                {
-                    phaseAnimation = 120;
-                    functionAnimation = 120;
-                    currentPhase++;
-                    currentOperation = (rand() % operations::multiply + 0);
-                    if(currentOperation == operations::square)
-                    {
-                        currentOperand = 2;
-                    }
-                    else
-                    {
-                        currentOperand = (rand() % 12 + 0);
-                    }
-                    backGroundTexture.loadFromFile("Icons/Phase3Background.png");
-                    backGroundTexture.setSmooth(true);
-                }
-                else if(currentPhase ==3)
-                {
-                    functionAnimation = 120;
-                    spawnTimer->setInterval(interval);
-                    interval = interval*.75;
-                    currentOperation = (rand() % (operations::multiply + 1) + 0);
-                    if(currentOperation == operations::square)
-                    {
-                        currentOperand = 2;
-                    }
-                    else
-                    {
-                        currentOperand = (rand() % 12 + 0);
-                    }
-                }
+                setFunction();
                 backGroundSprite.setTexture(backGroundTexture);
                 currentFunc = "X" + operationToString(currentOperation) + QString::number(currentOperand);
                 emit functionChanged(currentFunc);
@@ -265,7 +226,7 @@ void World::answerEntered(QString s)
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-            //answerSound.play();
+            answerSound.play();
 
             return;
         }
@@ -275,7 +236,7 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-    //wrongAnswerSound.play();
+    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
@@ -446,7 +407,7 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-                //explosionSound.play();
+                explosionSound.play();
             }
         }
 
@@ -557,7 +518,7 @@ void World::OnUpdate()
                 sf::RenderWindow::draw(debSprites[i]);
             }
         }
-        if(functionAnimation > 0 && phaseAnimation == 0)
+        if(functionAnimation > 0)
         {
             sf::Font font;
             if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
@@ -575,7 +536,7 @@ void World::OnUpdate()
             sf::RenderWindow::draw(functionText);
             functionAnimation--;
         }
-        if(phaseAnimation > 0)
+        if(phaseAnimation > 0 && functionAnimation == 0)
         {
             sf::Font font;
             if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
@@ -819,6 +780,52 @@ QString World::operationToString(int operation)
         }
     }
     return op;
+}
+
+void World::setFunction()
+{
+    if(currentPhase == 1)
+    {
+        currentPhase++;
+        phaseAnimation = 120;
+        functionAnimation = 120;
+        currentOperation = operations::square;
+        currentOperand = 2;
+        backGroundTexture.loadFromFile("Icons/Phase2Background.png");
+        backGroundTexture.setSmooth(true);
+    }
+    else if(currentPhase == 2)
+    {
+        phaseAnimation = 120;
+        functionAnimation = 120;
+        currentPhase++;
+        currentOperation = (rand() % operations::multiply + 0);
+        if(currentOperation == operations::square)
+        {
+            currentOperand = 2;
+        }
+        else
+        {
+            currentOperand = (rand() % 12 + 0);
+        }
+        backGroundTexture.loadFromFile("Icons/Phase3Background.png");
+        backGroundTexture.setSmooth(true);
+    }
+    else if(currentPhase ==3)
+    {
+        functionAnimation = 120;
+        spawnTimer->setInterval(interval);
+        interval = interval*.75;
+        currentOperation = (rand() % (operations::multiply + 1) + 0);
+        if(currentOperation == operations::square)
+        {
+            currentOperand = 2;
+        }
+        else
+        {
+            currentOperand = (rand() % 12 + 0);
+        }
+    }
 }
 
 void World::callEnd()
