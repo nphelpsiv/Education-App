@@ -57,7 +57,6 @@ void Ball::remove()
     collided = true;
 }
 
-
 bool Ball::hasCollided()
 {
     return collided;

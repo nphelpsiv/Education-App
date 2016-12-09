@@ -5,7 +5,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     QSFMLCanvas(parent, position, size, 1000/60)
 {
     time = 0;
-    b2Vec2 gravity(0.0f, -20.0f);
+    b2Vec2 gravity(0.0f, -40.0f);
     world = new b2World(gravity);
 
     world->SetContactListener(&contactListenerInstance);
@@ -86,9 +86,9 @@ void World::start()
 
     groundWidth = 2000;
     groundHeight = 1;
-    ground = new Ground(0, -425, groundWidth, groundHeight, world);
-    towerWidth = 160;
-    towerHeight = 300;
+    ground = new Ground(0, -325, groundWidth, groundHeight, world);
+    towerWidth = 110;
+    towerHeight = 340;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
     towers.push_back(tower);
 
@@ -381,24 +381,6 @@ void World::OnUpdate()
                 }
                 explosionSound.play();
             }
-
-        }
-        for(int i = 0; i<towers.size(); i++)
-        {
-
-            Tower *t = towers[i];
-            if(towers[i]->hasCollided())
-                hitAnimationCount = 10;
-
-            //towerSprites[i].setTexture(towerTextures[1]);
-            towerTexturesUpDate(i);
-
-            if(t[i].destroyed())
-            {
-                std::cout << "Tower Was destroyed" << std::endl;
-                towers.remove(i);
-                delete t;
-            }
         }
 
         // Clear screen
@@ -422,20 +404,29 @@ void World::OnUpdate()
         //Draw HUD Text
         drawHUD(widthScale);
 
-        for(int i = 0; i < towers.size(); i++)
+        for(int j = 0; j < towers.size(); j++)
         {
-            QPoint p = towers[i]->getPosition();
-            sf::Sprite s = towerSprites[i];
+            Tower *t = towers[j];
+            QPoint p = towers[j]->getPosition();
+            sf::Sprite s = towerSprites[j];
+
+            if(towers[j]->hasCollided())
+                hitAnimationCount = 10;
+
+            //towerSprites[i].setTexture(towerTextures[1]);
+            towerTexturesUpDate(j);
+
             //sf::Texture* t = s.getTexture();
             if(hitAnimationCount > 0)
             {
-                towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex + 1]);
+                towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex + 1]);
                 --hitAnimationCount;
             }
             else
             {
-                towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
+                towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex]);
             }
+
             int w = s.getTexture()->getSize().x;
             int h = s.getTexture()->getSize().y;
             float scaleX = s.getScale().x;
@@ -443,16 +434,22 @@ void World::OnUpdate()
             if(health <= 10)
             {
                 //rubble sprite.
-                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 275, p.y() - (h*scaleY) + 600);
+                towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 275, p.y() - (h*scaleY) + 600);
             }
             else
             {
-                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 100, p.y() - (h*scaleY) + 600);
+                towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 130, p.y() - (h*scaleY) + 600);
             }
 
-            sf::RenderWindow::draw(towerSprites[i]);
+            sf::RenderWindow::draw(towerSprites[j]);
             //towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
 
+            if(t[j].destroyed())
+            {
+                std::cout << "Tower Was destroyed" << std::endl;
+                towers.remove(j);
+                delete t;
+            }
         }
         for(int i = 0; i < balls.size(); i++)
         {
