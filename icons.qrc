@@ -3,5 +3,6 @@
         <file>Icons/Mute.png</file>
         <file>Icons/Play.png</file>
         <file>Icons/Math_Resource.png</file>
+        <file>Icons/GameOVER.png</file>
     </qresource>
 </RCC>
