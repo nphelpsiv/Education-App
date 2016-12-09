@@ -210,7 +210,6 @@ void MainWindow::startGame()
     ui->gameRenderFrame->setMinimumHeight(height() * 0.66);
     world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
     QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
-    QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
     QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
     QObject::connect(world, SIGNAL(scoreChanged(int)), this, SLOT(scoreChanged(int)));
     QObject::connect(this, SIGNAL(gameEnded()), world, SLOT(gameEnded()));
@@ -224,8 +223,6 @@ void MainWindow::startGame()
 
     ui->answerLineEdit->setFocus();
     gameScore = 0;
-    ui->scoreLabel->setText("Score: " + QString::number(gameScore));
-    ui->healthLabel->setText("Health: 100");
 
 
 }
@@ -491,12 +488,7 @@ void MainWindow::on_answerLineEdit_returnPressed()
     ui->answerLineEdit->clear();
 }
 
-void MainWindow::healthChanged(int h)
-{
-    ui->healthLabel->setText("Health: " + QString::number(h));
-}
-
-void MainWindow::outOfHealth()
+void MainWindow::gameOver()
 {
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
     endGame();
@@ -505,7 +497,6 @@ void MainWindow::outOfHealth()
 void MainWindow::scoreChanged(int s)
 {
     gameScore = s;
-    ui->scoreLabel->setText("Score: " + QString::number(s));
 }
 
 void MainWindow::phaseChanged(int phase, int operand)

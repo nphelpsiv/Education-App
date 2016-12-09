@@ -69,9 +69,7 @@ private slots:
 
     void on_answerLineEdit_returnPressed();
 
-    void healthChanged(int);
-
-    void outOfHealth();
+    void gameOver();
 
     void scoreChanged(int);
 

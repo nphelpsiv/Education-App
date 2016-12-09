@@ -60,7 +60,7 @@ QToolTip
 
 QWidget
 {
-    color: #eff0f1;
+    color: #000000; /*#eff0f1;*/
     background-color: #556B2F;
     selection-background-color:#9C5748;
     selection-color: #eff0f1;
@@ -1262,7 +1262,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1979,30 +1979,37 @@ background-image : url(:/Icons/Math_Resource.png)
           <property name="verticalSpacing">
            <number>4</number>
           </property>
-          <item row="0" column="1" alignment="Qt::AlignTop">
-           <widget class="QGroupBox" name="groupBox">
-            <property name="minimumSize">
+          <item row="3" column="0">
+           <widget class="QGroupBox" name="workPlaceGroupBox">
+            <property name="maximumSize">
              <size>
-              <width>0</width>
-              <height>80</height>
+              <width>16777215</width>
+              <height>100</height>
              </size>
             </property>
             <property name="title">
              <string/>
             </property>
-            <layout class="QGridLayout" name="gridLayout_9">
-             <item row="0" column="4">
-              <widget class="QPushButton" name="endGamePushButton">
+            <layout class="QGridLayout" name="gridLayout_10">
+             <item row="0" column="3">
+              <widget class="QLineEdit" name="answerLineEdit">
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
-               <property name="text">
-                <string>End Game</string>
+               <property name="inputMask">
+                <string/>
                </property>
               </widget>
              </item>
-             <item row="0" column="3">
-              <spacer name="horizontalSpacer_19">
+             <item row="0" column="2">
+              <widget class="QLabel" name="operatorLabel">
+               <property name="text">
+                <string>Ready!!!</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="4">
+              <spacer name="horizontalSpacer_16">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -2014,29 +2021,28 @@ background-image : url(:/Icons/Math_Resource.png)
                </property>
               </spacer>
              </item>
-             <item row="0" column="2">
-              <layout class="QVBoxLayout" name="verticalLayout_11">
-               <item>
-                <widget class="QLabel" name="scoreLabel">
-                 <property name="text">
-                  <string>Score: 0</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="healthLabel">
-                 <property name="text">
-                  <string>Health: 100</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+             <item row="0" column="1">
+              <spacer name="horizontalSpacer_22">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="0" column="5">
+              <widget class="QPushButton" name="endGamePushButton">
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
+               <property name="text">
+                <string>End Game</string>
+               </property>
+              </widget>
              </item>
              <item row="0" column="0">
               <widget class="QPushButton" name="muteButton">
@@ -2062,93 +2068,10 @@ background-image : url(:/Icons/Math_Resource.png)
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <spacer name="horizontalSpacer_18">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-            <zorder>endGamePushButton</zorder>
-            <zorder>muteButton</zorder>
-            <zorder>horizontalSpacer_18</zorder>
-            <zorder>horizontalSpacer_19</zorder>
-           </widget>
-          </item>
-          <item row="4" column="1" alignment="Qt::AlignVCenter">
-           <widget class="QGroupBox" name="workPlaceGroupBox">
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>100</height>
-             </size>
-            </property>
-            <property name="title">
-             <string/>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_10">
-             <item row="0" column="3">
-              <spacer name="horizontalSpacer_16">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="levelLabel">
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Level&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;1&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="4">
-              <widget class="QLabel" name="answerLabel">
-               <property name="text">
-                <string>Answer :</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <widget class="QLabel" name="operatorLabel">
-               <property name="text">
-                <string>Ready!!!</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="5">
-              <widget class="QLineEdit" name="answerLineEdit">
-               <property name="focusPolicy">
-                <enum>Qt::NoFocus</enum>
-               </property>
-               <property name="inputMask">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLabel" name="operationLabel">
-               <property name="text">
-                <string>Operation :</string>
-               </property>
-              </widget>
-             </item>
             </layout>
            </widget>
           </item>
-          <item row="3" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+          <item row="0" column="0">
            <widget class="QFrame" name="gameRenderFrame">
             <property name="minimumSize">
              <size>

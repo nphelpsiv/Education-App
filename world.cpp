@@ -42,7 +42,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-    music.play();
+//    music.play();
 }
 
 World::~World()
@@ -104,7 +104,7 @@ void World::start()
     backGroundTexture.setSmooth(true);
 
     music.setLoop(true);
-    music.play();
+//    music.play();
 
 }
 
@@ -139,7 +139,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-    cannonSound.play();
+//    cannonSound.play();
 }
 
 
@@ -201,7 +201,7 @@ void World::answerEntered(QString s)
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-            answerSound.play();
+//            answerSound.play();
 
             return;
         }
@@ -211,7 +211,7 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-    wrongAnswerSound.play();
+//    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
@@ -379,7 +379,7 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-                explosionSound.play();
+//                explosionSound.play();
             }
         }
 
@@ -502,9 +502,7 @@ void World::OnUpdate()
 
             phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
             phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 500);
-            phaseText.setFillColor(sf::Color::Cyan);
-            phaseText.setOutlineThickness(3);
-            phaseText.setOutlineColor(sf::Color::Black);
+            phaseText.setColor(sf::Color::White);
             sf::RenderWindow::draw(phaseText);
             phaseAnimation--;
         }
@@ -696,34 +694,34 @@ void World::drawHUD(float widthScale)
     levelText.setPosition(0, 700);
     levelText.setColor(sf::Color::Red);
 
-    //Operator HUD Text
-    sf::Text operationText;
-    operationText.setFont(font);
-    ss.str("");
-    ss << currentOperand;
-    std::string operationString;
-    if(currentPhase == 1)
-    {
-        operationString = "X + " + ss.str();
-    }
-    else if(currentPhase == 2)
-    {
-        operationString = "X * " + ss.str();
-    }
-    else if(currentPhase == 3)
-    {
-        operationString = "X^2";
-    }
-    operationText.setString(operationString);
+//    //Operator HUD Text
+//    sf::Text operationText;
+//    operationText.setFont(font);
+//    ss.str("");
+//    ss << currentOperand;
+//    std::string operationString;
+//    if(currentPhase == 1)
+//    {
+//        operationString = "X + " + ss.str();
+//    }
+//    else if(currentPhase == 2)
+//    {
+//        operationString = "X * " + ss.str();
+//    }
+//    else if(currentPhase == 3)
+//    {
+//        operationString = "X^2";
+//    }
+//    operationText.setString(operationString);
 
-    operationText.setCharacterSize(100 * widthScale * 1.4);
-    textWidth = operationText.getLocalBounds().width;
-    operationText.setPosition(width() - textWidth - 10, 700);
-    operationText.setColor(sf::Color::Red);
+//    operationText.setCharacterSize(100 * widthScale * 1.4);
+//    textWidth = operationText.getLocalBounds().width;
+//    operationText.setPosition(width() - textWidth - 10, 700);
+//    operationText.setColor(sf::Color::Red);
 
     sf::RenderWindow::draw(healthText);
     sf::RenderWindow::draw(scoreText);
     sf::RenderWindow::draw(levelText);
-    sf::RenderWindow::draw(operationText);
+//    sf::RenderWindow::draw(operationText);
 
 }
