@@ -22,8 +22,7 @@ void Ground::createGroundBox2D()
     b2BodyDef groundBodyDef;
     groundBodyDef.type = b2_staticBody;
     groundBodyDef.position.Set(xPos, yPos);
-    b2Body* groundBody = world->CreateBody(&groundBodyDef);
-
+    groundBody = world->CreateBody(&groundBodyDef);
     groundBody->SetUserData(this);
 
     //Ground Shape
