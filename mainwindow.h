@@ -79,7 +79,7 @@ private slots:
 
     void on_openInBrowserButton_clicked();
 
-    QString serverRequest(std::string request);
+    //QString serverRequest(std::string request);
 
     void on_teacherPageRemoveButton_clicked();
 
