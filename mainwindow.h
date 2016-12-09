@@ -10,6 +10,7 @@
 #include <QJsonValue>
 #include <QDebug>
 #include <QTableWidgetItem>
+#include <QFocusEvent>
 #include "world.h"
 
 namespace Ui {
@@ -102,6 +103,8 @@ private:
     void startGame();
 
     void endGame();
+
+    void forceFocus(QWidget* widget);
 
     QGraphicsScene *scene;
     World *world;

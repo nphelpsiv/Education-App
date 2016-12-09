@@ -8,15 +8,10 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     b2Vec2 gravity(0.0f, -20.0f);
     world = new b2World(gravity);
 
-
     world->SetContactListener(&contactListenerInstance);
-
-    createGroundBox2D();
 
     //the operand that is shown statically in the GUI
     currentOperand = (rand() % 9) + 0;
-
-
 
     game = true;
     muted = false;
@@ -24,15 +19,13 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     currentPhase = 1;
     phaseAnimation = 120;
 
-
     //sfml stuff
-
+    //Set audio volume
     music.setVolume(50);
     answerSound.setVolume(100);
     explosionSound.setVolume(50);
     cannonSound.setVolume(50);
     wrongAnswerSound.setVolume(50);
-
 
     for(int i = 0; i < 10; i++)
     {
@@ -44,15 +37,12 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
 
     towerTexturesSetUp();
 
-
-
     if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
     music.play();
-    //emit phaseChanged(currentPhase, currentOperand);
 }
 
 World::~World()
@@ -81,6 +71,7 @@ World::~World()
         //the destructor handles removing itself from world
         delete d;
     }
+    delete world;
 }
 
 void World::start()
@@ -93,6 +84,9 @@ void World::start()
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
     //tower->setHealth(100);
 
+    groundWidth = 2000;
+    groundHeight = 1;
+    ground = new Ground(0, -425, groundWidth, groundHeight, world);
     towerWidth = 160;
     towerHeight = 300;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
@@ -103,7 +97,7 @@ void World::start()
     health = 100;
     score = 0;
     game = true;
-    hit = 0;
+    hitAnimationCount = 0;
     currentPhase = 1;
     phaseAnimation = 120;
     backGroundTexture.loadFromFile("Icons/Phase1Background.png");
@@ -124,11 +118,11 @@ void World::ballSpawnCall()
     //randomBSpawn = (rand() % 1400) - 700;
     if(rand() % 2 == 0)
     {
-        balls.push_back(new Ball(-700, 200, 30, world));
+        balls.push_back(new Ball((-rand())%(-200) - 500, 200, 30, world));
     }
     else
     {
-        balls.push_back(new Ball(700, 200, 30, world));
+        balls.push_back(new Ball(rand()%200 + 500, 200, 30, world));
     }
     //Setup the texture for the cannon ball.
 
@@ -149,22 +143,7 @@ void World::ballSpawnCall()
 }
 
 
-void World::createGroundBox2D()
-{
-    //Ground position
-    groundBodyDef.type = b2_staticBody;
-    groundBodyDef.position.Set(0, -425);
-    b2Body* groundBody = world->CreateBody(&groundBodyDef);
 
-    //Ground Shape
-    groundShape.SetAsBox(2000,1);
-
-    //Ground Fixture
-    b2FixtureDef groundFixtureDef;
-    groundFixtureDef.shape = &groundShape;
-    groundFixtureDef.density = 1;
-    groundBody->CreateFixture(&groundFixtureDef);
-}
 
 void World::answerEntered(QString s)
 {
@@ -179,7 +158,6 @@ void World::answerEntered(QString s)
         if (currentPhase == 2)
         {
             rightAnswer = (balls[i]->getValue() * currentOperand);
-
         }
         if (currentPhase == 3)
         {
@@ -200,7 +178,7 @@ void World::answerEntered(QString s)
             if (score%1000 == 0 && currentPhase!=3)
             {
                 phaseAnimation = 120;
-                currentPhase = currentPhase+1;
+                currentPhase++;
                 currentOperand = (rand() % 9) + 0;
 
                 if(currentPhase == 2)
@@ -229,7 +207,7 @@ void World::answerEntered(QString s)
         }
     }
 
-    if(!wrongAnswerSound.openFromFile("Sounds/AirHorn.wav"))
+    if(!wrongAnswerSound.openFromFile("Sounds/bloop.wav"))
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
@@ -319,20 +297,11 @@ void World::OnInit()
     towerTexture.setSmooth(true);
 
     //Setup Tower Sprite.
-
     towerSprite.setTexture(towerTexture);
     towerSprite.setOrigin(100, 100);
     towerSprite.setPosition(600, 195);
     towerSprite.scale(.25,.25);
     towerSprites.push_back(towerSprite);
-
-//    groundTexture.loadFromFile("Icons/Ground.png");
-//    groundTexture.setSmooth(true);
-
-//    groundSprite.setTexture(groundTexture);
-//    groundSprite.setOrigin(100, 100);
-//    groundSprite.setPosition(width()/8, height()/2);
-//    groundSprite.scale(2, 1);
 
     backGroundTexture.loadFromFile("Icons/Phase1Background.png");
     backGroundTexture.setSmooth(true);
@@ -398,13 +367,11 @@ void World::OnUpdate()
             }
             if(balls[i]->hasCollided())
             {
-                hit = 10;
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
                 QPoint p = b->getPosition();
                 createExplosion(p.x()/0.6, -p.y()/0.6); // before removing create an explosion with these coordinates
                 balls.remove(i);
-
 
                 //the destructor handles removing itself from world
                 delete b;
@@ -413,21 +380,27 @@ void World::OnUpdate()
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
                 explosionSound.play();
+            }
 
-                Tower *t = towers[i];
+        }
+        for(int i = 0; i<towers.size(); i++)
+        {
 
-                //towerSprites[i].setTexture(towerTextures[1]);
-                towerTexturesUpDate(i);
+            Tower *t = towers[i];
+            if(towers[i]->hasCollided())
+                hitAnimationCount = 10;
 
-                if(t[i].destroyed())
-                {
-                    std::cout << "Tower Was destroyed" << std::endl;
-                    towers.remove(i);
-                    delete t;
-                }
+            //towerSprites[i].setTexture(towerTextures[1]);
+            towerTexturesUpDate(i);
 
+            if(t[i].destroyed())
+            {
+                std::cout << "Tower Was destroyed" << std::endl;
+                towers.remove(i);
+                delete t;
             }
         }
+
         // Clear screen
         this->clear(sf::Color(0, 0, 100));
 
@@ -454,10 +427,10 @@ void World::OnUpdate()
             QPoint p = towers[i]->getPosition();
             sf::Sprite s = towerSprites[i];
             //sf::Texture* t = s.getTexture();
-            if(hit > 0 && health > 10)
+            if(hitAnimationCount > 0)
             {
                 towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex + 1]);
-                --hit;
+                --hitAnimationCount;
             }
             else
             {
@@ -469,7 +442,8 @@ void World::OnUpdate()
             float scaleY = s.getScale().y;
             if(health <= 10)
             {
-                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 100, p.y() + (height()/2) - (h*scaleY) + 600);
+                //rubble sprite.
+                towerSprites[i].setPosition(p.x() + (width()/2) - (w*scaleX) + 275, p.y() - (h*scaleY) + 600);
             }
             else
             {
@@ -558,20 +532,6 @@ void World::towerTexturesUpDate(int i)
 
 }
 
-// Trying to delete a debris particle
-// There are indexing issues with this way.
-// When we remove one then another one might
-// have an index that is higher than the vector now is
-void World::deleteParticleAt(int index)
-{
-    if(!debrisVec.isEmpty())
-    {
-        Debris *d = debrisVec[debrisVec.size() - 1];
-        debrisVec.remove(debrisVec.size() - 1);
-        delete d;
-
-    }
-}
 
 // This just deletes particles not by any order they were made, just by the size of the vector
 void World::deleteParticles()
@@ -605,6 +565,8 @@ void World::end()
         towers.remove(towers.size() - 1);
         delete t;
     }
+
+    delete ground;
 }
 
 void World::openBrowser()

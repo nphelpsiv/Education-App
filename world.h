@@ -1,6 +1,12 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include "tower.h"
+#include "ball.h"
+#include "debris.h"
+#include "ground.h"
+#include "contactlistener.h"
+#include "qsfmlcanvas.h"
 #include <QPainter>
 #include <QGraphicsItem>
 #include <Box2D/Box2D.h>
@@ -11,13 +17,8 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <iostream>
-#include "tower.h"
-#include "ball.h"
-#include "debris.h"
 #include <stdlib.h>
-#include "contactlistener.h"
 #include <SFML/Audio.hpp>
-#include "qsfmlcanvas.h"
 #include <string>
 #include <QTextDocument>
 #include <QTextDocumentWriter>
@@ -60,7 +61,6 @@ signals:
     void phaseChanged(int, int);
 
 private:
-    void createGroundBox2D();
     void towerTexturesSetUp();
     void towerTexturesUpDate(int i);
     void drawHUD(float);
@@ -80,16 +80,16 @@ private:
     QTimer *spawnTimer;
     QPainter *painterObj;
     Tower *tower;
+    Ground *ground;
     Ball *ball;
     Debris *debris;
-
-    b2BodyDef groundBodyDef;
-    b2PolygonShape groundShape;
 
     bool game;
     bool muted;
 
     //box2d translation variables
+    int groundWidth;
+    int groundHeight;
     int towerWidth;
     int towerHeight;
 
@@ -98,7 +98,7 @@ private:
 
     int health;
     int score;
-    int hit;
+    int hitAnimationCount;
     int phaseAnimation;
 
     sf::Music music;
@@ -117,8 +117,6 @@ private:
     //sf::Sprite cannonSprite;
     sf::Sprite towerSprite;
 
-//    sf::Texture groundTexture;
-//    sf::Sprite groundSprite;
 
     sf::Texture backGroundTexture;
     sf::Sprite backGroundSprite;
@@ -135,7 +133,6 @@ private:
 
 
 private slots:
-    void deleteParticleAt(int);
     void deleteParticles();
 
 };

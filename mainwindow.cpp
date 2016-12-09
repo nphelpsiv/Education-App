@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+
     delete ui;
 }
 
@@ -171,8 +172,10 @@ void MainWindow::pageChanged(int pageIndex)
 
         case pages::gamePage: //gamePage
         {
+            ui->answerLineEdit->clear();
             setWindowTitle(windowTitle = "Game");
             startGame();
+            forceFocus(ui->answerLineEdit);
             break;
         }
 
@@ -202,11 +205,8 @@ void MainWindow::startGame()
     world = new World(ui->gameRenderFrame, QPoint(0, 0), QSize(2000, 800));
     world->show();
     world->start();
-    world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
-
     ui->gameRenderFrame->setMinimumHeight(height() * 0.66);
     world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
-
     QObject::connect(this, SIGNAL(answerEntered(QString)), world, SLOT(answerEntered(QString)));
     QObject::connect(world, SIGNAL(healthUpdated(int)), this, SLOT(healthChanged(int)));
     QObject::connect(world, SIGNAL(outOfHealth()), this, SLOT(outOfHealth()));
@@ -487,7 +487,6 @@ void MainWindow::healthChanged(int h)
 void MainWindow::outOfHealth()
 {
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
-    //emit gameEnded();
     endGame();
 }
 
@@ -531,7 +530,6 @@ void MainWindow::endGame()
         QPalette palette = ui->gameOver_HighScoreLabel->palette();
         palette.setColor(ui->gameOver_HighScoreLabel->foregroundRole(), Qt::red);
         ui->gameOver_HighScoreLabel->setPalette(palette);
-
     }
     else
     {
@@ -547,7 +545,6 @@ void MainWindow::endGame()
 void MainWindow::on_muteButton_clicked()
 {
     emit world->toggleSound();
-    //ui->muteButton->setChecked(true);
 }
 
 void MainWindow::on_openInBrowserButton_clicked()
@@ -555,6 +552,15 @@ void MainWindow::on_openInBrowserButton_clicked()
     emit world->openBrowser();
 }
 
+void MainWindow::forceFocus(QWidget* widget)
+{
+    // unless set active, no stable set focus here
+    widget->activateWindow();
+    // the event object is released then in event loop (?)
+    QFocusEvent* eventFocus = new QFocusEvent(QEvent::FocusIn);
+    // posting event for forcing the focus with low priority
+    qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
+}
 
 
 
