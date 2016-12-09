@@ -14,23 +14,10 @@ public:
 
     ~Ground();
 
-    void wasHit();
-
-    bool destroyed();
-
-    void setHealth(int);
-
-    int getHealth();
-
     QPoint getPosition();
 
-    int textureIndex;
-
-signals:
-    void healthChanged(int);
 
 private:
-    bool isDestroyed;
 
     int xPos;
     int yPos;
@@ -38,8 +25,6 @@ private:
     int height;
     b2World* world;
     b2Body* groundBody;
-
-    int health;
 
     void createGroundBox2D();
 };

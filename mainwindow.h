@@ -10,6 +10,7 @@
 #include <QJsonValue>
 #include <QDebug>
 #include <QTableWidgetItem>
+#include <QFocusEvent>
 #include "world.h"
 
 namespace Ui {

@@ -7,66 +7,38 @@ Ground::Ground(int x, int y, int w, int h, b2World* worldb2)
     width = w;
     height = h;
     world = worldb2;
-    isDestroyed = false;
 
-    health = 100;
-
-    createTowerBox2D();
-
-    textureIndex = 0;
+    createGroundBox2D();
 }
 
 Ground::~Ground()
 {
-    world->DestroyBody(towerBody);
+    world->DestroyBody(groundBody);
 }
 
 void Ground::createGroundBox2D()
 {
-    //Ground Position
-    b2BodyDef towerBodyDef;
-    towerBodyDef.type = b2_staticBody;
-    towerBodyDef.position.Set(xPos, yPos);
-    towerBody = world->CreateBody(&towerBodyDef);
+    //Ground position
+    b2BodyDef groundBodyDef;
+    groundBodyDef.type = b2_staticBody;
+    groundBodyDef.position.Set(xPos, yPos);
+    b2Body* groundBody = world->CreateBody(&groundBodyDef);
 
-    towerBody->SetUserData(this);
+    groundBody->SetUserData(this);
 
     //Ground Shape
-    b2PolygonShape towerShape;
-    towerShape.SetAsBox(width, height);
+    b2PolygonShape groundShape;
+    groundShape.SetAsBox(width, height);
 
     //Ground Fixture
-    b2FixtureDef towerFixtureDef;
-    towerFixtureDef.shape = &towerShape;
-    towerFixtureDef.density = 1;
-    towerBody->CreateFixture(&towerFixtureDef);
+    b2FixtureDef groundFixtureDef;
+    groundFixtureDef.shape = &groundShape;
+    groundFixtureDef.density = 1;
+    groundBody->CreateFixture(&groundFixtureDef);
 }
 
-void Ground::wasHit()
-{
-    health -= 10;
-
-    if (health <= 0)
-    {
-        isDestroyed = true;
-    }
-    emit healthChanged(health);
-}
-bool Ground::destroyed()
-{
-    return isDestroyed;
-}
-
-void Ground::setHealth(int h)
-{
-    health = h;
-}
-int Ground::getHealth()
-{
-    return health;
-}
 
 QPoint Ground::getPosition()
 {
-    return QPoint(tower Body->GetPosition().x * 0.6, -towerBody->GetPosition().y * 0.6);
+    return QPoint(groundBody->GetPosition().x * 0.6, -groundBody->GetPosition().y * 0.6);
 }

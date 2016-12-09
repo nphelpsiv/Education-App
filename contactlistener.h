@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ball.h"
 #include "tower.h"
+#include "ground.h"
 
 
 class ContactListener : public b2ContactListener
@@ -12,7 +13,8 @@ public:
     ContactListener();
     void BeginContact(b2Contact* contact);
     void EndContact(b2Contact* contact);
-    void handleContact(Ball* b, Tower* t);
+    void handleTowerContact(Ball* b, Tower* t);
+    void handleGroundContact(Ball* b);
 
 private:
     bool contactMade;

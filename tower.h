@@ -18,6 +18,8 @@ public:
 
     bool destroyed();
 
+    bool hasCollided();
+
     void setHealth(int);
 
     int getHealth();
@@ -42,6 +44,8 @@ private:
     int health;
 
     void createTowerBox2D();
+
+    bool collided;
 };
 
 #endif // TOWER_H

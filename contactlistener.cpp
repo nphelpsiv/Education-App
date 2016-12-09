@@ -11,10 +11,10 @@ void ContactListener::BeginContact(b2Contact *contact)
 
     if (objA && objB)
     {
-        if(dynamic_cast<Tower*>(objA) != NULL)
+        if(static_cast<Tower*>(objA) != NULL)
             handleTowerContact(static_cast<Ball*>(objB),static_cast<Tower*>(objA));
         else
-            handleGroundContact(static_cast<Ball*>(objB),static_cast<Ground*>(objA));
+            handleGroundContact(static_cast<Ball*>(objB));
     }
 }
 
@@ -28,6 +28,6 @@ void ContactListener::handleTowerContact(Ball* b, Tower* t2) {
     t2->wasHit();
 }
 
-void ContactListener::handleGroundContact(Ball* b, Ground* g) {
+void ContactListener::handleGroundContact(Ball* b) {
     b->remove();
 }

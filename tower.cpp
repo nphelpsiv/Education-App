@@ -8,6 +8,7 @@ Tower::Tower(int x, int y, int w, int h, b2World* worldb2)
     height = h;
     world = worldb2;
     isDestroyed = false;
+    collided = false;
 
     health = 100;
 
@@ -51,10 +52,19 @@ void Tower::wasHit()
         isDestroyed = true;
     }
     emit healthChanged(health);
+
+    collided = true;
 }
 bool Tower::destroyed()
 {
     return isDestroyed;
+}
+
+bool Tower::hasCollided()
+{
+    bool temp = collided;
+    collided = false;
+    return temp;
 }
 
 void Tower::setHealth(int h)

@@ -10,8 +10,6 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
 
     world->SetContactListener(&contactListenerInstance);
 
-//    createGroundBox2D();
-
     //the operand that is shown statically in the GUI
     currentOperand = (rand() % 9) + 0;
 
@@ -86,6 +84,9 @@ void World::start()
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
     //tower->setHealth(100);
 
+    groundWidth = 2000;
+    groundHeight = 1;
+    ground = new Ground(0, -425, groundWidth, groundHeight, world);
     towerWidth = 160;
     towerHeight = 300;
     tower = new Tower(0, -325, towerWidth, towerHeight, world);
@@ -96,7 +97,7 @@ void World::start()
     health = 100;
     score = 0;
     game = true;
-    hit = 0;
+    hitFrameCount = 0;
     currentPhase = 1;
     phaseAnimation = 120;
     backGroundTexture.loadFromFile("Icons/Phase1Background.png");
@@ -142,22 +143,7 @@ void World::ballSpawnCall()
 }
 
 
-//void World::createGroundBox2D()
-//{
-//    //Ground position
-//    groundBodyDef.type = b2_staticBody;
-//    groundBodyDef.position.Set(0, -425);
-//    b2Body* groundBody = world->CreateBody(&groundBodyDef);
 
-//    //Ground Shape
-//    groundShape.SetAsBox(2000,1);
-
-//    //Ground Fixture
-//    b2FixtureDef groundFixtureDef;
-//    groundFixtureDef.shape = &groundShape;
-//    groundFixtureDef.density = 1;
-//    groundBody->CreateFixture(&groundFixtureDef);
-//}
 
 void World::answerEntered(QString s)
 {
@@ -381,7 +367,6 @@ void World::OnUpdate()
             }
             if(balls[i]->hasCollided())
             {
-                hit = 10;
                 //Since the ball has collided, we can removed the ball.
                 Ball *b = balls[i];
                 QPoint p = b->getPosition();
@@ -398,16 +383,22 @@ void World::OnUpdate()
             }
 
         }
-        Tower *t = towers[0];
-
-        //towerSprites[i].setTexture(towerTextures[1]);
-        towerTexturesUpDate(0);
-
-        if(t[0].destroyed())
+        for(int i = 0; i<towers.size(); i++)
         {
-            std::cout << "Tower Was destroyed" << std::endl;
-            towers.remove(0);
-            delete t;
+
+            Tower *t = towers[i];
+            if(towers[i]->hasCollided())
+                hitFrameCount = 10;
+
+            //towerSprites[i].setTexture(towerTextures[1]);
+            towerTexturesUpDate(i);
+
+            if(t[i].destroyed())
+            {
+                std::cout << "Tower Was destroyed" << std::endl;
+                towers.remove(i);
+                delete t;
+            }
         }
         // Clear screen
         this->clear(sf::Color(0, 0, 100));
@@ -435,10 +426,10 @@ void World::OnUpdate()
             QPoint p = towers[i]->getPosition();
             sf::Sprite s = towerSprites[i];
             //sf::Texture* t = s.getTexture();
-            if(hit > 0 && health > 10)
+            if(hitFrameCount > 0)
             {
                 towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex + 1]);
-                --hit;
+                --hitFrameCount;
             }
             else
             {
@@ -586,6 +577,8 @@ void World::end()
         towers.remove(towers.size() - 1);
         delete t;
     }
+
+    delete ground;
 }
 
 void World::openBrowser()
