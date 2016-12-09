@@ -1271,7 +1271,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2012,6 +2012,14 @@ background-image : url(:/Icons/Math_Resource.png)
              </item>
              <item row="0" column="2">
               <widget class="QLabel" name="operatorLabel">
+               <property name="font">
+                <font>
+                 <family>Century Schoolbook L</family>
+                 <pointsize>22</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
                <property name="text">
                 <string>Ready!!!</string>
                </property>
