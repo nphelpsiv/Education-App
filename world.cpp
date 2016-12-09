@@ -388,7 +388,7 @@ void World::OnUpdate()
 
             Tower *t = towers[i];
             if(towers[i]->hasCollided())
-                hitFrameCount = 10;
+                hitAnimationCount = 10;
 
             //towerSprites[i].setTexture(towerTextures[1]);
             towerTexturesUpDate(i);
@@ -427,10 +427,10 @@ void World::OnUpdate()
             QPoint p = towers[i]->getPosition();
             sf::Sprite s = towerSprites[i];
             //sf::Texture* t = s.getTexture();
-            if(hitFrameCount > 0)
+            if(hitAnimationCount > 0)
             {
                 towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex + 1]);
-                --hitFrameCount;
+                --hitAnimationCount;
             }
             else
             {
