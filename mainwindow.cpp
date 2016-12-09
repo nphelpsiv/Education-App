@@ -58,7 +58,7 @@ void MainWindow::on_teacherPageRemoveButton_clicked()
 {
     //Remove row from table
     QTimer::singleShot(0, this, SLOT(removeStudent()));
-    //Call (using single shot) removeStudent from database using serverRequest()
+    //Call (using single shot) removeStudent from database using world->serverRequest()
 }
 
 void MainWindow::on_loginButton_clicked()
@@ -227,7 +227,7 @@ void MainWindow::startGame()
 
 }
 
-QString MainWindow::serverRequest(std::string request)
+/*QString MainWindow::serverRequest(std::string request)
 {
   //establish connection on the socket.
   status = socket.connect("127.0.0.1", 5016);
@@ -278,7 +278,7 @@ QString MainWindow::serverRequest(std::string request)
       while(!recPacket.endOfPacket())
         recPacket >> s; QString qs(s.c_str()); qDebug() << qs; return qs;
   }
-}
+}*/
 
 //This method attempts to login to the server.
 void MainWindow::loginToServer()
@@ -287,12 +287,12 @@ void MainWindow::loginToServer()
     QString user = ui->login_userNameText->text();
     QString pass = ui->login_passwordText->text();
 
-    QString responseUserID = serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString());
+    QString responseUserID = wworld->serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString());
 
     if(responseUserID.toInt() > 0)
     {
        qDebug() << QString::fromStdString("logged in successfully."); userID = responseUserID.toInt(); qDebug() << userID;
-       isTeacher = serverRequest("getStudentInfo|" + QString::number(userID).toStdString()).split("|").at(4) == "1";
+       isTeacher = world->serverRequest("getStudentInfo|" + QString::number(userID).toStdString()).split("|").at(4) == "1";
        qDebug() << "we a teacher now";
 
        //ui->stackedWidget->setCurrentWidget(ui->startPage);
@@ -315,7 +315,7 @@ void MainWindow::signUpToServer()
 
     if(pass == confPass)
     {
-      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
+      if(world->serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
         qDebug() << QString::fromStdString("signed up successfully."); //ui->stackedWidget->setCurrentWidget(ui->loginPage);
     }
 
@@ -325,7 +325,7 @@ void MainWindow::signUpToServer()
 void MainWindow::populateStats()
 {
    //Get User's Game ID's to get info on.
-   QString gIDToProcess = serverRequest("getGameIDS|" + QString::number(userID).toStdString());
+   QString gIDToProcess = world->serverRequest("getGameIDS|" + QString::number(userID).toStdString());
    QStringList splitGIDToProcess = gIDToProcess.split("|");
 
    //List of responses with each game's info played by the user.
@@ -333,7 +333,7 @@ void MainWindow::populateStats()
 
    for (int i = 0; i < splitGIDToProcess.size(); ++i)
    {
-       gIDInfoList.append(serverRequest("getGameInfo|" + ((QString)splitGIDToProcess.at(i)).toStdString() ) );
+       gIDInfoList.append(world->serverRequest("getGameInfo|" + ((QString)splitGIDToProcess.at(i)).toStdString() ) );
    }
 
    ui->statsTableWidget->setRowCount(gIDInfoList.size());
@@ -365,7 +365,7 @@ void MainWindow::populateStats()
 void MainWindow::populateLeaderboards()
 {
   //Get User's Game ID's to get info on. "10" is how many scores we want.
-  QString gIDToProcess = serverRequest("getHighScoreGameIDS|10");
+  QString gIDToProcess = world->serverRequest("getHighScoreGameIDS|10");
   QStringList splitGIDToProcess = gIDToProcess.split("|");
 
   //List of responses with each game's info played by the user.
@@ -373,7 +373,7 @@ void MainWindow::populateLeaderboards()
 
   for (int i = 0; i < splitGIDToProcess.size(); ++i)
   {
-      gIDInfoList.append(serverRequest("getGameInfo|" + ((QString)splitGIDToProcess.at(i)).toStdString() ) );
+      gIDInfoList.append(world->serverRequest("getGameInfo|" + ((QString)splitGIDToProcess.at(i)).toStdString() ) );
   }
 
   ui->leaderboardTableWidget->setRowCount(gIDInfoList.size());
@@ -388,7 +388,7 @@ void MainWindow::populateLeaderboards()
       if(info.at(4) == "1")
       {
         //Player
-        QString username = serverRequest("getStudentInfo|" + ((QString)info.at(1)).toStdString() ).split("|").at(1);
+        QString username = world->serverRequest("getStudentInfo|" + ((QString)info.at(1)).toStdString() ).split("|").at(1);
         newItem = new QTableWidgetItem(tr("%1").arg(username));
         ui->leaderboardTableWidget->setItem(i,0, newItem);
 
@@ -406,7 +406,7 @@ void MainWindow::populateLeaderboards()
 void MainWindow::populateManageboards()
 {
     //Get User's Game ID's to get info on. "10" is how many scores we want.
-    QString allIDs = serverRequest("getStudentIDS|");
+    QString allIDs = world->serverRequest("getStudentIDS|");
     QStringList splitIDToProcess = allIDs.split("|");
 
     //List of responses with each game's info played by the user.
@@ -414,7 +414,7 @@ void MainWindow::populateManageboards()
 
     for (int i = 0; i < splitIDToProcess.size(); ++i)
     {
-        StudentsInfoList.append(serverRequest("getStudentInfo|" + ((QString)splitIDToProcess.at(i)).toStdString() ) );
+        StudentsInfoList.append(world->serverRequest("getStudentInfo|" + ((QString)splitIDToProcess.at(i)).toStdString() ) );
     }
 
     ui->teacherTableWidget->setRowCount(StudentsInfoList.size());
@@ -429,11 +429,11 @@ void MainWindow::populateManageboards()
         if(info.at(6) == "1")
         {
           //Player
-          QString Scores = serverRequest("getAverageScore|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
+          QString Scores = world->serverRequest("getAverageScore|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
           QString acountType;
-          QString gameCount = serverRequest("getGamesPlayed|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
+          QString gameCount = world->serverRequest("getGamesPlayed|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
 
-          QString totalScore = serverRequest("getTotalScore|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
+          QString totalScore = world->serverRequest("getTotalScore|" + ((QString)info.at(0)).toStdString() ).split("|").at(0);
           if (info.at(4)=="1")
           {
               acountType = "Teacher";
@@ -470,11 +470,11 @@ void MainWindow::removeStudent()
 {
   if(ui->teacherTableWidget->currentRow() > 0)
   {
-     int userIDToRemove = serverRequest("loginUser|" + ui->teacherTableWidget->item(ui->teacherTableWidget->currentRow(), 1)->text().toStdString() + "|" +
+     int userIDToRemove = world->serverRequest("loginUser|" + ui->teacherTableWidget->item(ui->teacherTableWidget->currentRow(), 1)->text().toStdString() + "|" +
                                                        ui->teacherTableWidget->item(ui->teacherTableWidget->currentRow(), 5)->text().toStdString()).toInt();
 
      //Tell Server to delete student from database
-     serverRequest("removeStudent|" + QString::number(userIDToRemove).toStdString());
+     world->serverRequest("removeStudent|" + QString::number(userIDToRemove).toStdString());
 
      //Delete row and select no row.
      ui->teacherTableWidget->removeRow(ui->teacherTableWidget->currentRow());
