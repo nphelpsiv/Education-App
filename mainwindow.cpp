@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QString title = "Login";
     setWindowTitle(title);
     ui->stackedWidget->setCurrentWidget(ui->startPage);
+    ui->managePushButton->hide();
 
     setupConnectAndActions();
 
@@ -294,9 +295,10 @@ void MainWindow::loginToServer()
     if(responseUserID.toInt() > 0)
     {
        qDebug() << QString::fromStdString("logged in successfully."); userID = responseUserID.toInt(); qDebug() << userID;
-
        isTeacher = serverRequest("getStudentInfo|" + QString::number(userID).toStdString()).split("|").at(4) == "1";
        qDebug() << "we a teacher now";
+
+       //ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
     else
     {
@@ -317,7 +319,7 @@ void MainWindow::signUpToServer()
     if(pass == confPass)
     {
       if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
-        qDebug() << QString::fromStdString("signed up successfully.");
+        qDebug() << QString::fromStdString("signed up successfully."); //ui->stackedWidget->setCurrentWidget(ui->loginPage);
     }
 
     ui->stackedWidget->setCurrentWidget(ui->loginPage);
@@ -473,8 +475,6 @@ void MainWindow::removeStudent()
   {
      int userIDToRemove = serverRequest("loginUser|" + ui->teacherTableWidget->item(ui->teacherTableWidget->currentRow(), 1)->text().toStdString() + "|" +
                                                        ui->teacherTableWidget->item(ui->teacherTableWidget->currentRow(), 5)->text().toStdString()).toInt();
-
-     qDebug() << "Removed : " << userIDToRemove;
 
      //Tell Server to delete student from database
      serverRequest("removeStudent|" + QString::number(userIDToRemove).toStdString());
