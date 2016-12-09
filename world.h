@@ -64,6 +64,7 @@ private:
     void towerTexturesSetUp();
     void towerTexturesUpDate(int i);
     void drawHUD(float);
+    void drawGame();
     QString operationToString(int operation);
     void setFunction();
 

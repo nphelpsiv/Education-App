@@ -41,7 +41,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-    music.play();
+//    music.play();
 }
 
 World::~World()
@@ -86,7 +86,6 @@ void World::start()
     spawnTimer->start(interval);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
-    //tower->setHealth(100);
 
     groundWidth = 2000;
     groundHeight = 1;
@@ -109,7 +108,7 @@ void World::start()
     backGroundTexture.setSmooth(true);
 
     music.setLoop(true);
-    music.play();
+//    music.play();
 
 }
 
@@ -144,7 +143,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-    cannonSound.play();
+//    cannonSound.play();
 }
 
 
@@ -226,7 +225,7 @@ void World::answerEntered(QString s)
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-            answerSound.play();
+//            answerSound.play();
 
             return;
         }
@@ -236,7 +235,7 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-    wrongAnswerSound.play();
+//    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
@@ -378,8 +377,23 @@ void World::towerTexturesSetUp()
 
 void World::OnUpdate()
 {
-    if(game)
+    // Clear screen
+    this->clear(sf::Color(0, 0, 100));
+
+    //Ground and Sky sprites are drawn to be at the right most position of the texture.
+    //That way when it is resized, it appears that the ground and sky are static with the ground.
+    float backgroundWidth = backGroundSprite.getTexture()->getSize().x;
+    float backgroundHeight = backGroundSprite.getTexture()->getSize().y;
+
+    float widthScale = width()/backgroundWidth;
+    float heightScale = height()/backgroundHeight;
+
+    if(game && phaseAnimation == 0 && functionAnimation == 0)
     {
+        //MOVING BOX2D OBJECTS
+        if(!(spawnTimer->isActive()))
+            spawnTimer->start(interval);
+
         world->Step(1.0f/60.0f, 8, 3);
         for(int i = 0; i<balls.size(); i++)
         {
@@ -407,160 +421,59 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-                explosionSound.play();
+//                explosionSound.play();
             }
         }
-
-        // Clear screen
-        this->clear(sf::Color(0, 0, 100));
-
-
-        //Ground and Sky sprites are drawn to be at the right most position of the texture.
-        //That way when it is resized, it appears that the ground and sky are static with the ground.
-        float backgroundWidth = backGroundSprite.getTexture()->getSize().x;
-        float backgroundHeight = backGroundSprite.getTexture()->getSize().y;
-
-        float widthScale = width()/backgroundWidth;
-        float heightScale = height()/backgroundHeight;
-
-        backGroundSprite.setScale(widthScale*1.1, heightScale*1.1);
-        backGroundSprite.setPosition(25, 800 - (heightScale * backgroundHeight));
-
-        //Draw Background and HUD elements
-        sf::RenderWindow::draw(backGroundSprite);
-
-        //Draw HUD Text
-        drawHUD(widthScale);
-
-        for(int j = 0; j < towers.size(); j++)
-        {
-            Tower *t = towers[j];
-            QPoint p = towers[j]->getPosition();
-            sf::Sprite s = towerSprites[j];
-
-            if(towers[j]->hasCollided())
-                hitAnimationCount = 10;
-
-            //towerSprites[i].setTexture(towerTextures[1]);
-            towerTexturesUpDate(j);
-
-            //sf::Texture* t = s.getTexture();
-            if(hitAnimationCount > 0 && health > 0)
-            {
-                towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex + 1]);
-                --hitAnimationCount;
-            }
-            else
-            {
-                towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex]);
-            }
-
-            int w = s.getTexture()->getSize().x;
-            int h = s.getTexture()->getSize().y;
-            float scaleX = s.getScale().x;
-            float scaleY = s.getScale().y;
-            if(health <= 0)
-            {
-                //rubble sprite.
-                towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 130, p.y() - (h*scaleY) + 700);
-            }
-            else
-            {
-                towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 130, p.y() - (h*scaleY) + 600);
-            }
-
-            sf::RenderWindow::draw(towerSprites[j]);
-            //towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
-
-            if(t[j].destroyed())
-            {
-                std::cout << "Tower Was destroyed" << std::endl;
-                towers.remove(j);
-                delete t;
-            }
-        }
-        if(health > 0)
-        {
-            for(int i = 0; i < balls.size(); i++)
-            {
-
-                QPoint p = balls[i]->getPosition();
-
-                sf::Sprite s = ballSprites[i];
-                int w = s.getTexture()->getSize().x;
-                int h = s.getTexture()->getSize().y;
-                float scaleX = s.getScale().x;
-                float scaleY = s.getScale().y;
-
-                ballSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50,  p.y() - (h*scaleY) + 600);
-                ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
-
-                sf::RenderWindow::draw(ballSprites[i]);
-            }
-        }
-
-        if(health > 0)
-        {
-        //Draw Debris
-            for(int i = 0; i < debrisVec.size(); i++)
-            {
-                QPoint p = debrisVec[i]->getPosition();
-
-                sf::Sprite s = debSprites[i];
-                int w = s.getTexture()->getSize().x;
-                int h = s.getTexture()->getSize().y;
-                float scaleX = s.getScale().x;
-                float scaleY = s.getScale().y;
-
-                debSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50, p.y()- (h*scaleY) + 600);
-                debSprites[i].setTexture(debTexture);
-
-                sf::RenderWindow::draw(debSprites[i]);
-            }
-        }
-        if(functionAnimation > 0)
-        {
-            sf::Font font;
-            if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
-            {
-                std::cout << "couldn't load font file" << std::endl;
-            }
-            sf::Text functionText;
-            functionText.setFont(font);
-            std::string functionString = currentFunc.toStdString();
-            functionText.setString(functionString);
-
-            functionText.setCharacterSize((100/(functionAnimation * 0.1)));
-            functionText.setPosition(width()/2 - (functionText.getLocalBounds().width/2)+30, 500);
-            functionText.setColor(sf::Color::Red);
-            sf::RenderWindow::draw(functionText);
-            functionAnimation--;
-        }
-        if(phaseAnimation > 0 && functionAnimation == 0)
-        {
-            sf::Font font;
-            if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
-            {
-                std::cout << "couldn't load font file" << std::endl;
-            }
-            std::stringstream ss;
-            sf::Text phaseText;
-            phaseText.setFont(font);
-            ss.str("");
-            ss << currentPhase;
-            std::string phaseString = "PHASE " + ss.str() + "!!!!";
-            phaseText.setString(phaseString);
-
-            phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
-            phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 500);
-            phaseText.setColor(sf::Color::White);
-            sf::RenderWindow::draw(phaseText);
-            phaseAnimation--;
-        }
-
     }
+    backGroundSprite.setScale(widthScale*1.1, heightScale*1.1);
+    backGroundSprite.setPosition(25, 800 - (heightScale * backgroundHeight));
+    //Draw Background and HUD elements
+    sf::RenderWindow::draw(backGroundSprite);
+    //Draw HUD Text
+    drawHUD(widthScale);
+    //Draw World
+    drawGame();
+    if(phaseAnimation > 0)
+    {
+        spawnTimer->stop();
+        sf::Font font;
+        if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
+        {
+            std::cout << "couldn't load font file" << std::endl;
+        }
+        std::stringstream ss;
+        sf::Text phaseText;
+        phaseText.setFont(font);
+        ss.str("");
+        ss << currentPhase;
+        std::string phaseString = "PHASE " + ss.str() + "!!!!";
+        phaseText.setString(phaseString);
 
+        phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
+        phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 500);
+        phaseText.setColor(sf::Color::White);
+        sf::RenderWindow::draw(phaseText);
+        phaseAnimation--;
+    }
+    if(functionAnimation > 0 && phaseAnimation == 0)
+    {
+        spawnTimer->stop();
+        sf::Font font;
+        if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
+        {
+            std::cout << "couldn't load font file" << std::endl;
+        }
+        sf::Text functionText;
+        functionText.setFont(font);
+        std::string functionString = currentFunc.toStdString();
+        functionText.setString(functionString);
 
+        functionText.setCharacterSize((100/(functionAnimation * 0.1)));
+        functionText.setPosition(width()/2 - (functionText.getLocalBounds().width/2)+30, 500);
+        functionText.setColor(sf::Color::Red);
+        sf::RenderWindow::draw(functionText);
+        functionAnimation--;
+    }
 }
 
 void World::towerTexturesUpDate(int i)
@@ -705,7 +618,6 @@ void World::drawHUD(float widthScale)
         std::cout << "couldn't load font file" << std::endl;
     }
 
-
     //std::stringstream ss;
     sf::Text healthText;
     healthText.setFont(font);
@@ -751,6 +663,96 @@ void World::drawHUD(float widthScale)
     sf::RenderWindow::draw(scoreText);
     sf::RenderWindow::draw(levelText);
 
+}
+
+void World::drawGame()
+{
+    for(int j = 0; j < towers.size(); j++)
+    {
+        Tower *t = towers[j];
+        QPoint p = towers[j]->getPosition();
+        sf::Sprite s = towerSprites[j];
+
+        if(towers[j]->hasCollided())
+            hitAnimationCount = 10;
+
+        //towerSprites[i].setTexture(towerTextures[1]);
+        towerTexturesUpDate(j);
+
+        //sf::Texture* t = s.getTexture();
+        if(hitAnimationCount > 0 && health > 0)
+        {
+            towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex + 1]);
+            --hitAnimationCount;
+        }
+        else
+        {
+            towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex]);
+        }
+
+        int w = s.getTexture()->getSize().x;
+        int h = s.getTexture()->getSize().y;
+        float scaleX = s.getScale().x;
+        float scaleY = s.getScale().y;
+        if(health <= 0)
+        {
+            //rubble sprite.
+            towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 130, p.y() - (h*scaleY) + 700);
+        }
+        else
+        {
+            towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 130, p.y() - (h*scaleY) + 600);
+        }
+
+        sf::RenderWindow::draw(towerSprites[j]);
+        //towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
+
+        if(t[j].destroyed())
+        {
+            std::cout << "Tower Was destroyed" << std::endl;
+            towers.remove(j);
+            delete t;
+        }
+    }
+    if(health > 0)
+    {
+        for(int i = 0; i < balls.size(); i++)
+        {
+
+            QPoint p = balls[i]->getPosition();
+
+            sf::Sprite s = ballSprites[i];
+            int w = s.getTexture()->getSize().x;
+            int h = s.getTexture()->getSize().y;
+            float scaleX = s.getScale().x;
+            float scaleY = s.getScale().y;
+
+            ballSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50,  p.y() - (h*scaleY) + 600);
+            ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
+
+            sf::RenderWindow::draw(ballSprites[i]);
+        }
+    }
+
+    if(health > 0)
+    {
+    //Draw Debris
+        for(int i = 0; i < debrisVec.size(); i++)
+        {
+            QPoint p = debrisVec[i]->getPosition();
+
+            sf::Sprite s = debSprites[i];
+            int w = s.getTexture()->getSize().x;
+            int h = s.getTexture()->getSize().y;
+            float scaleX = s.getScale().x;
+            float scaleY = s.getScale().y;
+
+            debSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50, p.y()- (h*scaleY) + 600);
+            debSprites[i].setTexture(debTexture);
+
+            sf::RenderWindow::draw(debSprites[i]);
+        }
+    }
 }
 
 QString World::operationToString(int operation)
@@ -804,6 +806,10 @@ void World::setFunction()
         {
             currentOperand = 2;
         }
+        else if(currentOperation == operations::multiply)
+        {
+            currentOperand = rand() % 5 + 0;
+        }
         else
         {
             currentOperand = (rand() % 12 + 0);
@@ -815,7 +821,7 @@ void World::setFunction()
     {
         functionAnimation = 120;
         spawnTimer->setInterval(interval);
-        interval = interval*.75;
+        interval = interval*.95;
         currentOperation = (rand() % (operations::multiply + 1) + 0);
         if(currentOperation == operations::square)
         {
