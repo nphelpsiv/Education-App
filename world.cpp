@@ -707,7 +707,7 @@ void World::openBrowser()
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
 }
 
-QString MainWindow::serverRequest(std::string request)
+QString World::serverRequest(std::string request)
 {
   //establish connection on the socket.
   status = socket.connect("127.0.0.1", 5016);
