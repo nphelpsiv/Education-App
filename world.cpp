@@ -501,8 +501,10 @@ void World::OnUpdate()
             phaseText.setString(phaseString);
 
             phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
-            phaseText.setPosition(width()/2 - phaseText.getLocalBounds().width/2, 500);
-            phaseText.setColor(sf::Color::Red);
+            phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 500);
+            phaseText.setFillColor(sf::Color::Cyan);
+            phaseText.setOutlineThickness(3);
+            phaseText.setOutlineColor(sf::Color::Black);
             sf::RenderWindow::draw(phaseText);
             phaseAnimation--;
         }
