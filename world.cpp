@@ -36,6 +36,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     }
 
     towerTexturesSetUp();
+    healthTexturesSetUp();
 
     if(!music.openFromFile("Sounds/BackgroundMusic.ogg"))
     {
@@ -312,6 +313,17 @@ void World::OnInit()
     backGroundSprite.setPosition(width()/2, 0);
     backGroundSprite.scale(1.75, .8);
 
+    if(!healthTexture.loadFromFile("Icons/health10.png"))
+    {
+        std::cout << "cant load health file first" << std::endl;
+    }
+
+    healthTexture.setSmooth(true);
+    healthSprite.setTexture(healthTexture);
+    healthSprite.setOrigin(100, 100);
+    healthSprite.setPosition(600, 195);
+    //healthSprite.scale(5,5);
+
 
     sf::Texture t;
 
@@ -413,9 +425,22 @@ void World::OnUpdate()
             Tower *t = towers[j];
             QPoint p = towers[j]->getPosition();
             sf::Sprite s = towerSprites[j];
+            int w = s.getTexture()->getSize().x;
+            int h = s.getTexture()->getSize().y;
+            float scaleX = s.getScale().x;
+            float scaleY = s.getScale().y;
+
+            healthSprite.setPosition(p.x() + (width()/2) - (w*scaleX) + 213, p.y() - (h*scaleY) + 585);
 
             if(towers[j]->hasCollided())
+            {
                 hitAnimationCount = 10;
+                if((health-10)/10 >= 0){
+
+                    std::cout << std::to_string((health - 10)/10) << " " << -healthTextures.size() << std::endl;
+                    healthSprite.setTexture(healthTextures[((health-10)/10)]);
+                }
+            }
 
             //towerSprites[i].setTexture(towerTextures[1]);
             towerTexturesUpDate(j);
@@ -429,12 +454,10 @@ void World::OnUpdate()
             else
             {
                 towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex]);
+
             }
 
-            int w = s.getTexture()->getSize().x;
-            int h = s.getTexture()->getSize().y;
-            float scaleX = s.getScale().x;
-            float scaleY = s.getScale().y;
+
             if(health <= 0)
             {
                 //rubble sprite.
@@ -472,11 +495,13 @@ void World::OnUpdate()
                 ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
 
                 sf::RenderWindow::draw(ballSprites[i]);
+
             }
         }
-
         if(health > 0)
         {
+        //Draw healthBar
+            sf::RenderWindow::draw(healthSprite);
         //Draw Debris
             for(int i = 0; i < debrisVec.size(); i++)
             {
@@ -656,6 +681,22 @@ void World::openBrowser()
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
 }
 
+void World::healthTexturesSetUp()
+{
+
+    for(int i = 1; i <= 10; i++)
+    {
+        sf::Texture t;
+        //std::string str = std::to_string(i);
+        if(!t.loadFromFile("Icons/health" + std::to_string(i) + ".png")){
+            std::cout << "cant load health file for loop" << std::endl;
+        }
+        t.setSmooth(true);
+
+        healthTextures.push_back(t);
+    }
+}
+
 void World::drawHUD(float widthScale)
 {
     sf::Font font;
@@ -663,7 +704,6 @@ void World::drawHUD(float widthScale)
     {
         std::cout << "couldn't load font file" << std::endl;
     }
-
 
     //std::stringstream ss;
     sf::Text healthText;
@@ -675,8 +715,8 @@ void World::drawHUD(float widthScale)
     healthText.setString(healthString);
 
     healthText.setCharacterSize(100 * widthScale * 1.4);
-    healthText.setPosition(0,800 - height());
-    healthText.setColor(sf::Color::Red);
+    healthText.setPosition(0,700);
+    healthText.setColor(sf::Color::Black);
 
     //Score HUD Text
     sf::Text scoreText;
@@ -688,10 +728,10 @@ void World::drawHUD(float widthScale)
     scoreText.setString(scoreString);
 
 
-    scoreText.setCharacterSize(100 * widthScale * 1.4);
+    scoreText.setCharacterSize(50 * widthScale * 1.4);
     int textWidth = scoreText.getLocalBounds().width;
     scoreText.setPosition(width() - textWidth - 10, 800 - height());
-    scoreText.setColor(sf::Color::Red);
+    scoreText.setColor(sf::Color::Black);
 
     //Level HUD Text
     sf::Text levelText;
@@ -701,9 +741,9 @@ void World::drawHUD(float widthScale)
     std::string levelString = "PHASE: " + ss.str();
     levelText.setString(levelString);
 
-    levelText.setCharacterSize(100 * widthScale * 1.4);
-    levelText.setPosition(0, 700);
-    levelText.setColor(sf::Color::Red);
+    levelText.setCharacterSize(50 * widthScale * 1.4);
+    levelText.setPosition(0,800 - height());
+    levelText.setColor(sf::Color::Black);
 
 //    //Operator HUD Text
 //    sf::Text operationText;

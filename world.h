@@ -65,6 +65,8 @@ private:
     void towerTexturesUpDate(int i);
     void drawHUD(float);
 
+    void healthTexturesSetUp();
+
     int randomBSpawn;
 
     b2World *world;
@@ -100,6 +102,7 @@ private:
     int score;
     int hitAnimationCount;
     int phaseAnimation;
+    int healthVecIndex;
 
     sf::Music music;
     sf::Music cannonSound;
@@ -121,12 +124,18 @@ private:
     sf::Texture backGroundTexture;
     sf::Sprite backGroundSprite;
 
+    sf::Texture healthTexture;
+    sf::Sprite healthSprite;
+
     //This will how we will store textures and sprites for the cannon balls.
     QVector<sf::Texture> ballTextures;
     QVector<sf::Sprite> ballSprites;
 
     QVector<sf::Texture> towerTextures;
     QVector<sf::Sprite> towerSprites;
+
+    QVector<sf::Texture> healthTextures;
+    QVector<sf::Sprite> healthSprites;
 
     sf::Texture debTexture;
     QVector<sf::Sprite> debSprites;
