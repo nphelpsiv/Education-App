@@ -420,8 +420,11 @@ void World::OnUpdate()
             {
                 //I call end here because we have to wait for the Box2D Step thread to end
                 //If we call end() in the healthChanged method, then it will delete the objects before the step is done
-                end();
-                return;
+                //end();
+                QTimer::singleShot(2000, this, SLOT(callEnd()));
+                health = 0;
+                towerTexturesUpDate(0);
+                //return;
             }
             if(balls[i]->hasCollided())
             {
@@ -475,7 +478,7 @@ void World::OnUpdate()
             towerTexturesUpDate(j);
 
             //sf::Texture* t = s.getTexture();
-            if(hitAnimationCount > 0)
+            if(hitAnimationCount > 0 && health > 0)
             {
                 towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex + 1]);
                 --hitAnimationCount;
@@ -489,10 +492,10 @@ void World::OnUpdate()
             int h = s.getTexture()->getSize().y;
             float scaleX = s.getScale().x;
             float scaleY = s.getScale().y;
-            if(health <= 10)
+            if(health <= 0)
             {
                 //rubble sprite.
-                towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 275, p.y() - (h*scaleY) + 600);
+                towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 130, p.y() - (h*scaleY) + 700);
             }
             else
             {
@@ -509,38 +512,44 @@ void World::OnUpdate()
                 delete t;
             }
         }
-        for(int i = 0; i < balls.size(); i++)
+        if(health > 0)
         {
+            for(int i = 0; i < balls.size(); i++)
+            {
 
-            QPoint p = balls[i]->getPosition();
+                QPoint p = balls[i]->getPosition();
 
-            sf::Sprite s = ballSprites[i];
-            int w = s.getTexture()->getSize().x;
-            int h = s.getTexture()->getSize().y;
-            float scaleX = s.getScale().x;
-            float scaleY = s.getScale().y;
+                sf::Sprite s = ballSprites[i];
+                int w = s.getTexture()->getSize().x;
+                int h = s.getTexture()->getSize().y;
+                float scaleX = s.getScale().x;
+                float scaleY = s.getScale().y;
 
-            ballSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50,  p.y() - (h*scaleY) + 600);
-            ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
+                ballSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50,  p.y() - (h*scaleY) + 600);
+                ballSprites[i].setTexture(ballTextures[balls[i]->getValue()]);
 
-            sf::RenderWindow::draw(ballSprites[i]);
+                sf::RenderWindow::draw(ballSprites[i]);
+            }
         }
 
-        //Draw Debris
-        for(int i = 0; i < debrisVec.size(); i++)
+        if(health > 0)
         {
-            QPoint p = debrisVec[i]->getPosition();
+        //Draw Debris
+            for(int i = 0; i < debrisVec.size(); i++)
+            {
+                QPoint p = debrisVec[i]->getPosition();
 
-            sf::Sprite s = debSprites[i];
-            int w = s.getTexture()->getSize().x;
-            int h = s.getTexture()->getSize().y;
-            float scaleX = s.getScale().x;
-            float scaleY = s.getScale().y;
+                sf::Sprite s = debSprites[i];
+                int w = s.getTexture()->getSize().x;
+                int h = s.getTexture()->getSize().y;
+                float scaleX = s.getScale().x;
+                float scaleY = s.getScale().y;
 
-            debSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50, p.y()- (h*scaleY) + 600);
-            debSprites[i].setTexture(debTexture);
+                debSprites[i].setPosition(p.x()+ (width()/2)- (w*scaleX) + 50, p.y()- (h*scaleY) + 600);
+                debSprites[i].setTexture(debTexture);
 
-            sf::RenderWindow::draw(debSprites[i]);
+                sf::RenderWindow::draw(debSprites[i]);
+            }
         }
 
         if(phaseAnimation > 0)
@@ -579,7 +588,7 @@ void World::towerTexturesUpDate(int i)
     {
         towers[i]->textureIndex = 4;
     }
-    else if(towers[i]->getHealth() == 10)
+    else if(towers[i]->getHealth() == 0)
     {
         towers[i]->textureIndex = 6;
     }
@@ -620,7 +629,8 @@ void World::end()
         delete t;
     }
 
-    delete ground;
+    emit outOfHealth();
+    //delete ground;
 }
 
 void World::openBrowser()
@@ -786,3 +796,9 @@ QString World::operationToString(int operation)
     }
     return op;
 }
+
+void World::callEnd()
+{
+    end();
+}
+

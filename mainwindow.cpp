@@ -547,5 +547,3 @@ void MainWindow::forceFocus(QWidget* widget)
     qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
 }
 
-
-

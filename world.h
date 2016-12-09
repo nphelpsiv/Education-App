@@ -52,7 +52,7 @@ public slots:
     void gameEnded();
     void toggleSound();
     void openBrowser();
-
+    void callEnd();
 
 signals:
     void healthUpdated(int);
