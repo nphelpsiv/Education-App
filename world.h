@@ -74,6 +74,7 @@ private:
     QVector<Debris*> debrisVec;
     int time;
     QTimer *timer;
+    int interval;
 
     QTimer *debrisTimer;
     QVector<QTimer*> debrisTimeVec;
@@ -104,6 +105,7 @@ private:
     int score;
     int hitAnimationCount;
     int phaseAnimation;
+    int functionAnimation;
 
     QString currentFunc;
 

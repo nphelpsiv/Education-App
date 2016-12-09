@@ -10,12 +10,12 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
 
     world->SetContactListener(&contactListenerInstance);
 
-
     game = true;
     muted = false;
     score = 0;
     currentPhase = 1;
     phaseAnimation = 120;
+    functionAnimation = 120;
 
     //sfml stuff
     //Set audio volume
@@ -40,7 +40,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-    music.play();
+    //music.play();
 }
 
 World::~World()
@@ -75,13 +75,14 @@ World::~World()
 void World::start()
 {
     //the operand that is shown statically in the GUI
-    currentOperand = (rand() % 5) + 0;
+    currentOperand = rand() % 5 + 0;
     currentOperation = (rand() % operations::square) + 0;
     currentFunc = "X" + operationToString(currentOperation) + QString::number(currentOperand);
 
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
-    spawnTimer->start(3000);
+    interval = 3000;
+    spawnTimer->start(interval);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
     //tower->setHealth(100);
@@ -106,7 +107,7 @@ void World::start()
     backGroundTexture.setSmooth(true);
 
     music.setLoop(true);
-    music.play();
+    //music.play();
 
 }
 
@@ -141,7 +142,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-    cannonSound.play();
+    //cannonSound.play();
 }
 
 
@@ -171,7 +172,7 @@ void World::answerEntered(QString s)
         }
         if (currentPhase == 2)
         {
-            rightAnswer = (balls[i]->getValue() ^ 2);
+            rightAnswer = (balls[i]->getValue()*balls[i]->getValue());
         }
         if (currentPhase == 3)
         {
@@ -189,7 +190,7 @@ void World::answerEntered(QString s)
                 }
                 case operations::square:
                 {
-                    rightAnswer = (balls[i]->getValue() ^ 2);
+                    rightAnswer = (balls[i]->getValue()*balls[i]->getValue());
                     break;
                 }
                 case operations::multiply:
@@ -217,6 +218,7 @@ void World::answerEntered(QString s)
                 {
                     currentPhase++;
                     phaseAnimation = 120;
+                    functionAnimation = 120;
                     currentOperation = operations::square;
                     currentOperand = 2;
                     backGroundTexture.loadFromFile("Icons/Phase2Background.png");
@@ -225,6 +227,7 @@ void World::answerEntered(QString s)
                 else if(currentPhase == 2)
                 {
                     phaseAnimation = 120;
+                    functionAnimation = 120;
                     currentPhase++;
                     currentOperation = (rand() % operations::multiply + 0);
                     if(currentOperation == operations::square)
@@ -240,6 +243,9 @@ void World::answerEntered(QString s)
                 }
                 else if(currentPhase ==3)
                 {
+                    functionAnimation = 120;
+                    spawnTimer->setInterval(interval);
+                    interval = interval*.75;
                     currentOperation = (rand() % (operations::multiply + 1) + 0);
                     if(currentOperation == operations::square)
                     {
@@ -259,7 +265,7 @@ void World::answerEntered(QString s)
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-            answerSound.play();
+            //answerSound.play();
 
             return;
         }
@@ -269,7 +275,7 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-    wrongAnswerSound.play();
+    //wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
@@ -440,7 +446,7 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-                explosionSound.play();
+                //explosionSound.play();
             }
         }
 
@@ -551,7 +557,24 @@ void World::OnUpdate()
                 sf::RenderWindow::draw(debSprites[i]);
             }
         }
+        if(functionAnimation > 0 && phaseAnimation == 0)
+        {
+            sf::Font font;
+            if(!font.loadFromFile("Icons/NotoSansCJK-Black.ttc"))
+            {
+                std::cout << "couldn't load font file" << std::endl;
+            }
+            sf::Text functionText;
+            functionText.setFont(font);
+            std::string functionString = currentFunc.toStdString();
+            functionText.setString(functionString);
 
+            functionText.setCharacterSize((100/(functionAnimation * 0.1)));
+            functionText.setPosition(width()/2 - (functionText.getLocalBounds().width/2)+30, 500);
+            functionText.setColor(sf::Color::Red);
+            sf::RenderWindow::draw(functionText);
+            functionAnimation--;
+        }
         if(phaseAnimation > 0)
         {
             sf::Font font;
@@ -573,6 +596,7 @@ void World::OnUpdate()
             sf::RenderWindow::draw(phaseText);
             phaseAnimation--;
         }
+
     }
 
 
@@ -629,7 +653,7 @@ void World::end()
         delete t;
     }
 
-    emit outOfHealth();
+    emit gameOver();
     //delete ground;
 }
 

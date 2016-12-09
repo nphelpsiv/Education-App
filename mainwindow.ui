@@ -1271,7 +1271,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2129,9 +2129,15 @@ background-image : url(:/Icons/GameOVER.png)
         </item>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
            <widget class="QLabel" name="gameOverLabel">
             <property name="minimumSize">
+             <size>
+              <width>812</width>
+              <height>160</height>
+             </size>
+            </property>
+            <property name="maximumSize">
              <size>
               <width>812</width>
               <height>160</height>
