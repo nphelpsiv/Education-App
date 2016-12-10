@@ -391,7 +391,11 @@ void MainWindow::loginToServer()
     {
        qDebug() << QString::fromStdString("logged in successfully."); userID = responseUserID.toInt(); qDebug() << userID;
        isTeacher = serverRequest("getStudentInfo|" + QString::number(userID).toStdString()).split("|").at(4) == "1";
-       qDebug() << "we a teacher now";
+
+       if(isTeacher)
+        qDebug() << "we a teacher now";
+
+       QMainWindow::statusBar()->showMessage("Hello, " + user);
 
        //ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
@@ -417,6 +421,10 @@ void MainWindow::signUpToServer()
     {
       if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + realName.toStdString() + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
         qDebug() << QString::fromStdString("signed up successfully."); //ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    }
+    else
+    {
+        qDebug() << QString::fromStdString("Missing a field you dip.");
     }
 
     ui->stackedWidget->setCurrentWidget(ui->loginPage);

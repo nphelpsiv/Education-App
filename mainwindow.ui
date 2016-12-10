@@ -1497,7 +1497,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2871,45 +2871,45 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Light">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
+                <red>255</red>
                 <green>255</green>
-                <blue>0</blue>
+                <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Midlight">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>212</green>
-                <blue>0</blue>
+                <red>250</red>
+                <green>250</green>
+                <blue>237</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Dark">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>122</red>
+                <green>122</green>
+                <blue>110</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Mid">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>113</green>
-                <blue>0</blue>
+                <red>163</red>
+                <green>163</green>
+                <blue>147</blue>
                </color>
               </brush>
              </colorrole>
@@ -2952,9 +2952,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
@@ -2970,9 +2970,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>127</red>
-                <green>212</green>
-                <blue>127</blue>
+                <red>250</red>
+                <green>250</green>
+                <blue>237</blue>
                </color>
               </brush>
              </colorrole>
@@ -3008,45 +3008,45 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Light">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
+                <red>255</red>
                 <green>255</green>
-                <blue>0</blue>
+                <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Midlight">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>212</green>
-                <blue>0</blue>
+                <red>250</red>
+                <green>250</green>
+                <blue>237</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Dark">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>122</red>
+                <green>122</green>
+                <blue>110</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Mid">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>113</green>
-                <blue>0</blue>
+                <red>163</red>
+                <green>163</green>
+                <blue>147</blue>
                </color>
               </brush>
              </colorrole>
@@ -3089,9 +3089,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
@@ -3107,9 +3107,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>127</red>
-                <green>212</green>
-                <blue>127</blue>
+                <red>250</red>
+                <green>250</green>
+                <blue>237</blue>
                </color>
               </brush>
              </colorrole>
@@ -3136,63 +3136,63 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>122</red>
+                <green>122</green>
+                <blue>110</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Light">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
+                <red>255</red>
                 <green>255</green>
-                <blue>0</blue>
+                <blue>255</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Midlight">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>212</green>
-                <blue>0</blue>
+                <red>250</red>
+                <green>250</green>
+                <blue>237</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Dark">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>122</red>
+                <green>122</green>
+                <blue>110</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Mid">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>113</green>
-                <blue>0</blue>
+                <red>163</red>
+                <green>163</green>
+                <blue>147</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>122</red>
+                <green>122</green>
+                <blue>110</blue>
                </color>
               </brush>
              </colorrole>
@@ -3208,27 +3208,27 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="ButtonText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>122</red>
+                <green>122</green>
+                <blue>110</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
@@ -3244,9 +3244,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
