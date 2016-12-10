@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QTableWidgetItem>
 #include <QFocusEvent>
+#include <QMessageBox>
 #include "world.h"
 
 namespace Ui {
