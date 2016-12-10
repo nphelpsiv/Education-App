@@ -102,6 +102,12 @@ StudentInfo LinuxDatabaseCommunicator::getStudentInfo(int userID)
 
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        info.isValid = false;
+        return info;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
@@ -161,6 +167,11 @@ int LinuxDatabaseCommunicator::addGame(int userID, int score, int level)
         return -1;
     }
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        return -1;
+    }
 
     MYSQL_ROW gID;
     int retGID;
@@ -207,6 +218,11 @@ int LinuxDatabaseCommunicator::loginUser(QString username, QString password)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        return -1;
+    }
 
     MYSQL_ROW row;
     int uid;
@@ -258,9 +274,16 @@ QVector<int> LinuxDatabaseCommunicator::getHighScoreGameIDS(int topN)
     {
         ret.push_back(-1);
         std::cout << mysql_error(connection) << std::endl;
+        return ret;
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        ret.push_back(-1);
+        return ret;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
@@ -300,6 +323,12 @@ GameInfo LinuxDatabaseCommunicator::getGameInfo(int gameID)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        info.isValid = false;
+        return info;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
@@ -346,6 +375,11 @@ int LinuxDatabaseCommunicator::getTotalScore(int userID)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        return -1;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
@@ -381,6 +415,11 @@ int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        return -1;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
@@ -415,6 +454,11 @@ int LinuxDatabaseCommunicator::getAverageScore(int userID)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        return -1;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
@@ -477,6 +521,12 @@ QVector<int> LinuxDatabaseCommunicator::getGameIDS(int userID)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        ret.push_back(-1);
+        return ret;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
@@ -516,6 +566,12 @@ QVector<int> LinuxDatabaseCommunicator::getStudentIDS()
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) > 0)
+    {
+        std::cout << "no result" << std::endl;
+        ret.push_back(-1);
+        return ret;
+    }
 
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
