@@ -226,7 +226,7 @@ void MainWindow::writeAndOpenAnalytics()
   // Students row
   htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' width='500' cellpadding='10' align='center'>");
   htmlEdit.append("<tr>");
-  htmlEdit.append("<td colspan='4'>");
+  htmlEdit.append("<td colspan='5'>");
   htmlEdit.append("<center><h3>The Class</h3><center>");
   htmlEdit.append("</td>");
   htmlEdit.append("</tr>");
@@ -245,6 +245,9 @@ void MainWindow::writeAndOpenAnalytics()
   htmlEdit.append("<td>");
   htmlEdit.append("<b>Average Score</b>");
   htmlEdit.append("</td>");
+  htmlEdit.append("<td>");
+  htmlEdit.append("<b>High Score</b>");
+  htmlEdit.append("</td>");
   htmlEdit.append("</tr>");
 
 
@@ -257,22 +260,34 @@ void MainWindow::writeAndOpenAnalytics()
       QString gamesPlayed = serverRequest("getGamesPlayed|" + ((QString)studentIDResponse.at(i)).toStdString());
       QString averageScore = serverRequest("getAverageScore|" + ((QString)studentIDResponse.at(i)).toStdString());
 
+      // Get all games to compute high score
+      QStringList allGameIDs = serverRequest("getGameIDS|" + ((QString)studentIDResponse.at(i)).toStdString()).split("|");
+      int highestScore = 0;
+      for(int i = 0; i < allGameIDs.size(); i++)
+      {
+          // Get game info for each game
+          QStringList gameInfo = serverRequest("getGameInfo|" + ((QString)allGameIDs.at(i)).toStdString()).split("|");
+
+          // Compare previous highscore to new
+          if(gameInfo.at(2).toInt() >= highestScore) // score should be at index 2
+              highestScore = gameInfo.at(2).toInt();
+      }
+
       htmlEdit.append("<tr>");
       htmlEdit.append("<td>");
-      //Real Name
-      htmlEdit.append(studentInfo.at(3));
+      htmlEdit.append(studentInfo.at(3)); //Real Name
       htmlEdit.append("</td>");
       htmlEdit.append("<td>");
-      //Username/Realname?
-      htmlEdit.append(studentInfo.at(1));
+      htmlEdit.append(studentInfo.at(1)); //User Name
       htmlEdit.append("</td>");
       htmlEdit.append("<td>");
-      //Games Played
-      htmlEdit.append(gamesPlayed);
+      htmlEdit.append(gamesPlayed); //Games Played
       htmlEdit.append("</td>");
       htmlEdit.append("<td>");
-      //Average Score
-      htmlEdit.append(averageScore);
+      htmlEdit.append(averageScore); //Average Score
+      htmlEdit.append("</td>");
+      htmlEdit.append("<td>");
+      htmlEdit.append(QString::number(highestScore)); //High Score
       htmlEdit.append("</td>");
       htmlEdit.append("</tr>");
   }
