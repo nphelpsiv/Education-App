@@ -631,6 +631,13 @@ void MainWindow::endGame()
 
     ui->gameOver_HighScoreLabel->setText("High Score: " + QString::number(highScore));
     ui->gameOver_ScoreLabel->setText("Score: " + QString::number(gameScore));
+
+    std::string requestString = "addGame|"+std::to_string(userID)+"|"+std::to_string(gameScore)+"|"+std::to_string(world->getPhase());
+    QString game = serverRequest(requestString);
+    if(game.toInt() == -1)
+    {
+        std::cout << "Couldn't add game" << std::endl;
+    }
 }
 
 void MainWindow::on_muteButton_clicked()

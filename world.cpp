@@ -872,3 +872,7 @@ void World::callEnd()
     end();
 }
 
+int World::getPhase()
+{
+    return currentPhase;
+}
