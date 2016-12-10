@@ -659,10 +659,11 @@ void World::drawHUD(float widthScale)
     scoreText.setString(scoreString);
 
 
-    scoreText.setCharacterSize(50 * widthScale);
+    scoreText.setCharacterSize(100 * widthScale * 1.4);
     int textWidth = scoreText.getLocalBounds().width;
-    scoreText.setPosition(width() - textWidth + 50, 800 - height());
-    scoreText.setColor(sf::Color::White);
+    scoreText.setPosition(width() - textWidth - 20, 800 - height());
+    //scoreText.setPosition(width() - textWidth + 50, 800 - height());
+    scoreText.setColor(sf::Color(203, 37, 65));
 
     //Level HUD Text
     sf::Text levelText;
@@ -672,9 +673,9 @@ void World::drawHUD(float widthScale)
     std::string levelString = "PHASE: " + ss.str();
     levelText.setString(levelString);
 
-    levelText.setCharacterSize(50 * widthScale);
-    levelText.setPosition(20, 800 - height());
-    levelText.setColor(sf::Color::White);
+    levelText.setCharacterSize(100 * widthScale * 1.4);
+    levelText.setPosition(0,800 - height());
+    levelText.setColor(sf::Color(203, 37, 65));
 
 
     sf::RenderWindow::draw(scoreText);
