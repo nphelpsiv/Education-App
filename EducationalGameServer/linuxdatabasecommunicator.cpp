@@ -35,15 +35,27 @@ LinuxDatabaseCommunicator::LinuxDatabaseCommunicator(QString iHostName, QString 
 
 int LinuxDatabaseCommunicator::addStudent(QString username, QString password, QString realName, bool isTeacher, QString classCode)
 {
-    std::string insertString = "INSERT INTO eduapp.users(username, password, realname, isteacher, classcode) VALUES("
-            +username+", "+password+", "+realName+", "+isTeacher+", "+classCode+")";
-    int state = mysql_query(connection, insertString);
+    std::string insertString = "INSERT INTO eduapp.users(username, password, realname, isteacher, classcode) VALUES(\""
+            +username.toStdString()+"\", \""+password.toStdString()+"\", \""+realName.toStdString()+"\", \""
+            +std::string(isTeacher ? "1" : "0")+"\", \""+classCode.toStdString()+"\")";
+    int state = mysql_query(connection, insertString.c_str());
     if(state != 0)
     {
         std::cout << mysql_error(connection) << std::endl;
     }
 
+    state = mysql_query(connection, "SELECT last_insert_id()");
+    if(state != 0)
+    {
+        std::cout << mysql_error(connection) << std::endl;
+    }
+    MYSQL_RES *result = mysql_store_result(connection);
 
+    MYSQL_ROW uID;
+    while((uID = mysql_fetch_row(result)) != NULL)
+    {
+        std::cout << "uID:" << uID[0] << std::endl;
+    }
 //  QSqlQuery query;
 //  query.prepare("insert into eduapp.users(username, password, realname, isteacher, classcode) Values(:username, :password, :realName, :isTeacher, :classCode)");
 //      query.bindValue(":username", username);
