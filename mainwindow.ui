@@ -60,8 +60,8 @@ QToolTip
 
 QWidget
 {
-    color: #000000; /*#eff0f1;*/
-    background-color: #556B2F;
+    color: #000000;
+   background-color: #d9d1ba;
     selection-background-color:#9C5748;
     selection-color: #eff0f1;
     background-clip: border;
@@ -1282,9 +1282,9 @@ QProgressBar::chunk {
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>85</red>
-            <green>107</green>
-            <blue>47</blue>
+            <red>217</red>
+            <green>209</green>
+            <blue>186</blue>
            </color>
           </brush>
          </colorrole>
@@ -1309,27 +1309,27 @@ QProgressBar::chunk {
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>85</red>
-            <green>107</green>
-            <blue>47</blue>
+            <red>217</red>
+            <green>209</green>
+            <blue>186</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>85</red>
-            <green>107</green>
-            <blue>47</blue>
+            <red>217</red>
+            <green>209</green>
+            <blue>186</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Highlight">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>170</red>
-            <green>85</green>
-            <blue>0</blue>
+            <red>156</red>
+            <green>87</green>
+            <blue>72</blue>
            </color>
           </brush>
          </colorrole>
@@ -1356,9 +1356,9 @@ QProgressBar::chunk {
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>85</red>
-            <green>107</green>
-            <blue>47</blue>
+            <red>217</red>
+            <green>209</green>
+            <blue>186</blue>
            </color>
           </brush>
          </colorrole>
@@ -1383,27 +1383,27 @@ QProgressBar::chunk {
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>85</red>
-            <green>107</green>
-            <blue>47</blue>
+            <red>217</red>
+            <green>209</green>
+            <blue>186</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>85</red>
-            <green>107</green>
-            <blue>47</blue>
+            <red>217</red>
+            <green>209</green>
+            <blue>186</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Highlight">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>170</red>
-            <green>85</green>
-            <blue>0</blue>
+            <red>156</red>
+            <green>87</green>
+            <blue>72</blue>
            </color>
           </brush>
          </colorrole>
@@ -2031,18 +2031,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2085,9 +2085,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
@@ -2103,27 +2103,27 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="ButtonText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2136,12 +2136,30 @@ background-image : url(:/Icons/Math_Resource.png)
                </color>
               </brush>
              </colorrole>
+             <colorrole role="Highlight">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>156</red>
+                <green>87</green>
+                <blue>72</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="HighlightedText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
+               </color>
+              </brush>
+             </colorrole>
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>170</red>
-                <green>212</green>
-                <blue>127</blue>
+                <red>49</red>
+                <green>54</green>
+                <blue>59</blue>
                </color>
               </brush>
              </colorrole>
@@ -2168,18 +2186,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2222,9 +2240,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
@@ -2240,27 +2258,27 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="ButtonText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2273,12 +2291,30 @@ background-image : url(:/Icons/Math_Resource.png)
                </color>
               </brush>
              </colorrole>
+             <colorrole role="Highlight">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>156</red>
+                <green>87</green>
+                <blue>72</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="HighlightedText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
+               </color>
+              </brush>
+             </colorrole>
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>170</red>
-                <green>212</green>
-                <blue>127</blue>
+                <red>49</red>
+                <green>54</green>
+                <blue>59</blue>
                </color>
               </brush>
              </colorrole>
@@ -2305,18 +2341,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>42</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>69</red>
+                <green>69</green>
+                <blue>69</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2359,9 +2395,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>42</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>69</red>
+                <green>69</green>
+                <blue>69</blue>
                </color>
               </brush>
              </colorrole>
@@ -2377,27 +2413,27 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="ButtonText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>42</red>
-                <green>85</green>
-                <blue>0</blue>
+                <red>69</red>
+                <green>69</green>
+                <blue>69</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2410,12 +2446,30 @@ background-image : url(:/Icons/Math_Resource.png)
                </color>
               </brush>
              </colorrole>
+             <colorrole role="Highlight">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>156</red>
+                <green>87</green>
+                <blue>72</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="HighlightedText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
+               </color>
+              </brush>
+             </colorrole>
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>85</red>
-                <green>170</green>
-                <blue>0</blue>
+                <red>49</red>
+                <green>54</green>
+                <blue>59</blue>
                </color>
               </brush>
              </colorrole>
@@ -2524,18 +2578,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>71</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>71</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
@@ -2607,18 +2661,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>71</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>71</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
@@ -2690,9 +2744,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>71</green>
-                <blue>0</blue>
+                <red>49</red>
+                <green>54</green>
+                <blue>59</blue>
                </color>
               </brush>
              </colorrole>
@@ -2862,18 +2916,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2916,9 +2970,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
@@ -2934,27 +2988,27 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="ButtonText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -2967,12 +3021,30 @@ background-image : url(:/Icons/Math_Resource.png)
                </color>
               </brush>
              </colorrole>
+             <colorrole role="Highlight">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>156</red>
+                <green>87</green>
+                <blue>72</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="HighlightedText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
+               </color>
+              </brush>
+             </colorrole>
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>250</red>
-                <green>250</green>
-                <blue>237</blue>
+                <red>49</red>
+                <green>54</green>
+                <blue>59</blue>
                </color>
               </brush>
              </colorrole>
@@ -2999,18 +3071,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -3053,9 +3125,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
@@ -3071,27 +3143,27 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="ButtonText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -3104,12 +3176,30 @@ background-image : url(:/Icons/Math_Resource.png)
                </color>
               </brush>
              </colorrole>
+             <colorrole role="Highlight">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>156</red>
+                <green>87</green>
+                <blue>72</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="HighlightedText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
+               </color>
+              </brush>
+             </colorrole>
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>250</red>
-                <green>250</green>
-                <blue>237</blue>
+                <red>49</red>
+                <green>54</green>
+                <blue>59</blue>
                </color>
               </brush>
              </colorrole>
@@ -3136,18 +3226,18 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="WindowText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>122</red>
-                <green>122</green>
-                <blue>110</blue>
+                <red>69</red>
+                <green>69</green>
+                <blue>69</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -3190,9 +3280,9 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="Text">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>122</red>
-                <green>122</green>
-                <blue>110</blue>
+                <red>69</red>
+                <green>69</green>
+                <blue>69</blue>
                </color>
               </brush>
              </colorrole>
@@ -3208,27 +3298,27 @@ background-image : url(:/Icons/Math_Resource.png)
              <colorrole role="ButtonText">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>122</red>
-                <green>122</green>
-                <blue>110</blue>
+                <red>69</red>
+                <green>69</green>
+                <blue>69</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>118</red>
+                <green>121</green>
+                <blue>124</blue>
                </color>
               </brush>
              </colorrole>
@@ -3241,12 +3331,30 @@ background-image : url(:/Icons/Math_Resource.png)
                </color>
               </brush>
              </colorrole>
+             <colorrole role="Highlight">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>156</red>
+                <green>87</green>
+                <blue>72</blue>
+               </color>
+              </brush>
+             </colorrole>
+             <colorrole role="HighlightedText">
+              <brush brushstyle="SolidPattern">
+               <color alpha="255">
+                <red>239</red>
+                <green>240</green>
+                <blue>241</blue>
+               </color>
+              </brush>
+             </colorrole>
              <colorrole role="AlternateBase">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>245</red>
-                <green>245</green>
-                <blue>220</blue>
+                <red>49</red>
+                <green>54</green>
+                <blue>59</blue>
                </color>
               </brush>
              </colorrole>
