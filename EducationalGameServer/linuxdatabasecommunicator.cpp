@@ -350,7 +350,7 @@ int LinuxDatabaseCommunicator::getTotalScore(int userID)
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
     {
-        return atoi(row[0]);
+        return atoi(row[1]);
     }
     /*
   QSqlQuery query;
@@ -385,7 +385,7 @@ int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
     {
-        return atoi(row[0]);
+        return atoi(row[1]);
     }
 //  QSqlQuery query;
 
@@ -419,7 +419,8 @@ int LinuxDatabaseCommunicator::getAverageScore(int userID)
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
     {
-        return atoi(row[0]);
+        int ret = atoi(row[1]);
+        return ret;
     }
 //  QSqlQuery query;
 
