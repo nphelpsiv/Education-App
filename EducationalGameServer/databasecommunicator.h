@@ -62,7 +62,7 @@ public:
   QVector<int> getGameIDS(int userID);
 
   //Gets All StudentIDs for a user and returns them as a vector. If userID doesn't exist returns 0. If something went wrong returns -1.
-  QVector<int> getStudentIDS();
+  QVector<int> getStudentIDS(QString classCode);
 
 };
 

@@ -183,7 +183,7 @@ void Server(void)
                               }
                               else if(tokens.at(0) == "getStudentIDS")
                               {
-                                 QVector<int> info = dbc.getStudentIDS();
+                                 QVector<int> info = dbc.getStudentIDS( ((QString)tokens.at(1)) );
 
                                  for (int i = 0; i < info.size(); ++i)
                                  {

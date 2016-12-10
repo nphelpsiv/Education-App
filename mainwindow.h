@@ -90,6 +90,8 @@ private slots:
 
     void on_teacherAnalyticsButton_clicked();
 
+    void on_signUpTeacherPushButton_clicked();
+
 signals:
 
     void answerEntered(QString);
