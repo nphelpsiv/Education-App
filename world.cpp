@@ -5,7 +5,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     QSFMLCanvas(parent, position, size, 1000/60)
 {
     time = 0;
-    b2Vec2 gravity(0.0f, -30.0f);
+    b2Vec2 gravity(0.0f, -0.0f);
     world = new b2World(gravity);
 
     world->SetContactListener(&contactListenerInstance);
@@ -83,7 +83,7 @@ void World::start()
 
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
-    interval = 3000;
+    interval = 1000;
     spawnTimer->start(interval);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));

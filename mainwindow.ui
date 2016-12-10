@@ -1271,7 +1271,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2002,6 +2002,12 @@ background-image : url(:/Icons/Math_Resource.png)
             <layout class="QGridLayout" name="gridLayout_10">
              <item row="0" column="3">
               <widget class="QLineEdit" name="answerLineEdit">
+               <property name="maximumSize">
+                <size>
+                 <width>75</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="focusPolicy">
                 <enum>Qt::NoFocus</enum>
                </property>
