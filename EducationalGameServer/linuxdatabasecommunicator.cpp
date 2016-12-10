@@ -35,7 +35,15 @@ LinuxDatabaseCommunicator::LinuxDatabaseCommunicator(QString iHostName, QString 
 
 int LinuxDatabaseCommunicator::addStudent(QString username, QString password, QString realName, bool isTeacher, QString classCode)
 {
-    //int state = mysql
+    std::string insertString = "INSERT INTO eduapp.users(username, password, realname, isteacher, classcode) VALUES("
+            +username+", "+password+", "+realName+", "+isTeacher+", "+classCode+")";
+    int state = mysql_query(connection, insertString);
+    if(state != 0)
+    {
+        std::cout << mysql_error(connection) << std::endl;
+    }
+
+
 //  QSqlQuery query;
 //  query.prepare("insert into eduapp.users(username, password, realname, isteacher, classcode) Values(:username, :password, :realName, :isTeacher, :classCode)");
 //      query.bindValue(":username", username);
