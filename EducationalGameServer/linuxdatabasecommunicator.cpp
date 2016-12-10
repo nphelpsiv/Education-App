@@ -366,7 +366,7 @@ GameInfo LinuxDatabaseCommunicator::getGameInfo(int gameID)
 
 int LinuxDatabaseCommunicator::getTotalScore(int userID)
 {
-    std::string selectString = "SELECT sum(score) FROM eduapp.games where userid = "+std::to_string(userID);
+    std::string selectString = "SELECT score FROM eduapp.games where userid = "+std::to_string(userID);
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
@@ -378,14 +378,16 @@ int LinuxDatabaseCommunicator::getTotalScore(int userID)
     if(mysql_num_rows(result) == 0)
     {
         std::cout << "no result" << std::endl;
-        return -1;
+        return 0;
     }
 
     MYSQL_ROW row;
+    int sum = 0;
     while((row = mysql_fetch_row(result)) != NULL)
     {
-        return atoi(row[1]);
+        sum += atoi(row[0]);
     }
+    return sum;
     /*
   QSqlQuery query;
 
@@ -406,7 +408,7 @@ int LinuxDatabaseCommunicator::getTotalScore(int userID)
 
 int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
 {
-    std::string selectString = "SELECT count(score) FROM eduapp.games where userid = "+std::to_string(userID);
+    std::string selectString = "SELECT score FROM eduapp.games where userid = "+std::to_string(userID);
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
@@ -415,17 +417,14 @@ int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
-    if(mysql_num_rows(result) == 0)
+    int count = mysql_num_rows(result);
+    if(count == 0)
     {
         std::cout << "no result" << std::endl;
-        return -1;
+        return 0;
     }
 
-    MYSQL_ROW row;
-    while((row = mysql_fetch_row(result)) != NULL)
-    {
-        return atoi(row[1]);
-    }
+    return count;
 //  QSqlQuery query;
 
 //  query.prepare("SELECT count(userid) FROM eduapp.games where userid = :userID");
@@ -445,7 +444,7 @@ int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
 
 int LinuxDatabaseCommunicator::getAverageScore(int userID)
 {
-    std::string selectString = "SELECT avg(score) FROM eduapp.games where userid = "+std::to_string(userID);
+    std::string selectString = "SELECT score FROM eduapp.games where userid = "+std::to_string(userID);
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
@@ -454,27 +453,21 @@ int LinuxDatabaseCommunicator::getAverageScore(int userID)
     }
 
     MYSQL_RES *result = mysql_store_result(connection);
-    if(mysql_num_rows(result) == 0)
+    int rowCount = mysql_num_rows(result);
+    if(rowCount == 0)
     {
         std::cout << "no result" << std::endl;
-        return -1;
-    }
-
-    MYSQL_FIELD *field;
-    while((field = mysql_fetch_field(result)) != NULL)
-    {
-        std::cout << field->name << std::endl;
+        return 0;
     }
 
     MYSQL_ROW row;
+    int sum = 0;
     while((row = mysql_fetch_row(result)) != NULL)
     {
-
-        std::cout << row << std::endl;
-        //std::string r = row['avg(score)'];
-        int ret = atoi(row[1]);
-        return ret;
+        sum += atoi(row[0]);
     }
+    sum = sum/rowCount;
+    return sum;
 //  QSqlQuery query;
 
 //  query.prepare("SELECT avg(score) FROM eduapp.games where userid = :userID");
@@ -489,7 +482,7 @@ int LinuxDatabaseCommunicator::getAverageScore(int userID)
 //  {
 //     return query.value("avg(score)").toInt();
 //  }
-    return -1;
+
 }
 
 int LinuxDatabaseCommunicator::removeStudent(int userID)
