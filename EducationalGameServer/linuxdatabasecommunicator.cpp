@@ -77,7 +77,8 @@ StudentInfo LinuxDatabaseCommunicator::getStudentInfo(int userID)
         info.username = row[1];
         info.password = row[2];
         info.realName = row[3];
-        info.isTeacher = (row[4] == "0") ? false : true;
+        std::string teach = row[4];
+        info.isTeacher = (teach == "0") ? false : true;
         info.isValid = true;
     }
 
