@@ -403,7 +403,6 @@ int LinuxDatabaseCommunicator::getTotalScore(int userID)
   {
      return query.value("sum(score)").toInt();
   }*/
-    return -1;
 }
 
 int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
@@ -487,9 +486,17 @@ int LinuxDatabaseCommunicator::getAverageScore(int userID)
 
 int LinuxDatabaseCommunicator::removeStudent(int userID)
 {
-    std::string selectString = "DELETE FROM eduapp.games where userid = "+std::to_string(userID)
-            +"; DELETE FROM eduapp.users where userid = "+std::to_string(userID);
+    //+"; DELETE FROM eduapp.users where userid = "+std::to_string(userID)
+    std::string selectString = "DELETE FROM eduapp.games where userid = "+std::to_string(userID);
     int state = mysql_query(connection, selectString.c_str());
+    if(state != 0)
+    {
+        std::cout << mysql_error(connection) << std::endl;
+        return -1;
+    }
+
+    selectString = "DELETE FROM eduapp.users where userid = "+std::to_string(userID);
+    state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
         std::cout << mysql_error(connection) << std::endl;
