@@ -129,7 +129,7 @@ void MainWindow::on_endGamePushButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
     emit gameEnded();
 
-    endGame();
+    //endGame();
 }
 
 void MainWindow::on_teacherAnalyticsButton_clicked()
