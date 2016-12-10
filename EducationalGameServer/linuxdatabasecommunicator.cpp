@@ -252,7 +252,7 @@ int LinuxDatabaseCommunicator::loginUser(QString username, QString password)
 QVector<int> LinuxDatabaseCommunicator::getHighScoreGameIDS(int topN)
 {
     QVector<int> ret;
-    std::string selectString = "SELECT gamesid FROM eduapp.games order by score desc, level desc limit "+std::to_string(topN);
+    std::string selectString = "SELECT gameid FROM eduapp.games order by score desc, level desc limit "+std::to_string(topN);
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
@@ -290,7 +290,7 @@ QVector<int> LinuxDatabaseCommunicator::getHighScoreGameIDS(int topN)
 GameInfo LinuxDatabaseCommunicator::getGameInfo(int gameID)
 {
     GameInfo info;
-    std::string selectString = "SELECT * FROM eduapp.games where gamesid = "+std::to_string(gameID);
+    std::string selectString = "SELECT * FROM eduapp.games where gameid = "+std::to_string(gameID);
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
@@ -467,7 +467,7 @@ int LinuxDatabaseCommunicator::removeStudent(int userID)
 QVector<int> LinuxDatabaseCommunicator::getGameIDS(int userID)
 {
     QVector<int> ret;
-    std::string selectString = "SELECT gamesid FROM eduapp.games where userid = "+std::to_string(userID);
+    std::string selectString = "SELECT gameid FROM eduapp.games where userid = "+std::to_string(userID);
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
