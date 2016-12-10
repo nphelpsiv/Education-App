@@ -129,12 +129,12 @@ void MainWindow::on_endGamePushButton_clicked()
     ui->stackedWidget->setCurrentWidget(ui->gameOverPage);
     emit gameEnded();
 
-    endGame();
+    //endGame();
 }
 
-void MainWindow::on_openInBrowserButton_clicked()
+void MainWindow::on_teacherAnalyticsButton_clicked()
 {
-  QTimer::singleShot(0, this, SLOT(writeAndOpenAnalytics()));
+    QTimer::singleShot(0, this, SLOT(writeAndOpenAnalytics()));
 }
 
 void MainWindow::pageChanged(int pageIndex)
@@ -220,14 +220,14 @@ void MainWindow::writeAndOpenAnalytics()
 
   // Beggining html
   QString htmlEdit;
-  htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1>");
+  htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body>");
 
   // make a table
   // Students row
-  htmlEdit.append("<center><table bgcolor='red' border='1' width='500' cellpadding='10' align='center'>");
+  htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' width='500' cellpadding='10' align='center'>");
   htmlEdit.append("<tr>");
-  htmlEdit.append("<td colspan='4'>");
-  htmlEdit.append("<center><h3>Students</h3><center>");
+  htmlEdit.append("<td colspan='5'>");
+  htmlEdit.append("<center><h3>The Class</h3><center>");
   htmlEdit.append("</td>");
   htmlEdit.append("</tr>");
 
@@ -245,6 +245,9 @@ void MainWindow::writeAndOpenAnalytics()
   htmlEdit.append("<td>");
   htmlEdit.append("<b>Average Score</b>");
   htmlEdit.append("</td>");
+  htmlEdit.append("<td>");
+  htmlEdit.append("<b>High Score</b>");
+  htmlEdit.append("</td>");
   htmlEdit.append("</tr>");
 
 
@@ -257,22 +260,34 @@ void MainWindow::writeAndOpenAnalytics()
       QString gamesPlayed = serverRequest("getGamesPlayed|" + ((QString)studentIDResponse.at(i)).toStdString());
       QString averageScore = serverRequest("getAverageScore|" + ((QString)studentIDResponse.at(i)).toStdString());
 
+      // Get all games to compute high score
+      QStringList allGameIDs = serverRequest("getGameIDS|" + ((QString)studentIDResponse.at(i)).toStdString()).split("|");
+      int highestScore = 0;
+      for(int i = 0; i < allGameIDs.size(); i++)
+      {
+          // Get game info for each game
+          QStringList gameInfo = serverRequest("getGameInfo|" + ((QString)allGameIDs.at(i)).toStdString()).split("|");
+
+          // Compare previous highscore to new
+          if(gameInfo.at(2).toInt() >= highestScore) // score should be at index 2
+              highestScore = gameInfo.at(2).toInt();
+      }
+
       htmlEdit.append("<tr>");
       htmlEdit.append("<td>");
-      //Real Name
-      htmlEdit.append(studentInfo.at(3));
+      htmlEdit.append(studentInfo.at(3)); //Real Name
       htmlEdit.append("</td>");
       htmlEdit.append("<td>");
-      //Username/Realname?
-      htmlEdit.append(studentInfo.at(1));
+      htmlEdit.append(studentInfo.at(1)); //User Name
       htmlEdit.append("</td>");
       htmlEdit.append("<td>");
-      //Games Played
-      htmlEdit.append(gamesPlayed);
+      htmlEdit.append(gamesPlayed); //Games Played
       htmlEdit.append("</td>");
       htmlEdit.append("<td>");
-      //Average Score
-      htmlEdit.append(averageScore);
+      htmlEdit.append(averageScore); //Average Score
+      htmlEdit.append("</td>");
+      htmlEdit.append("<td>");
+      htmlEdit.append(QString::number(highestScore)); //High Score
       htmlEdit.append("</td>");
       htmlEdit.append("</tr>");
   }
@@ -391,7 +406,11 @@ void MainWindow::loginToServer()
     {
        qDebug() << QString::fromStdString("logged in successfully."); userID = responseUserID.toInt(); qDebug() << userID;
        isTeacher = serverRequest("getStudentInfo|" + QString::number(userID).toStdString()).split("|").at(4) == "1";
-       qDebug() << "we a teacher now";
+
+       if(isTeacher)
+        qDebug() << "we a teacher now";
+
+       QMainWindow::statusBar()->showMessage("Hello, " + user);
 
        //ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
@@ -406,15 +425,21 @@ void MainWindow::signUpToServer()
 {
     //Build string to send.
     QString user = ui->signup_userNameText->text();
-
+    QString realName = ui->signup_realNameText->text();
     QString pass = ui->signup_passwordText->text();
     QString confPass = ui->signup_confirmPasswordText->text();
+
+
     bool teacherBool = ui->teacherCheckBox->isChecked();
 
-    if(pass == confPass)
+    if(realName.size() > 0 & pass.size() > 0 && pass == confPass)
     {
-      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
+      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + realName.toStdString() + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
         qDebug() << QString::fromStdString("signed up successfully."); //ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    }
+    else
+    {
+        qDebug() << QString::fromStdString("Missing a field you dip.");
     }
 
     ui->stackedWidget->setCurrentWidget(ui->loginPage);
@@ -621,6 +646,13 @@ void MainWindow::endGame()
 
     ui->gameOver_HighScoreLabel->setText("High Score: " + QString::number(highScore));
     ui->gameOver_ScoreLabel->setText("Score: " + QString::number(gameScore));
+
+    std::string requestString = "addGame|"+std::to_string(userID)+"|"+std::to_string(gameScore)+"|"+std::to_string(world->getPhase());
+    QString game = serverRequest(requestString);
+    if(game.toInt() == -1)
+    {
+        std::cout << "Couldn't add game" << std::endl;
+    }
 }
 
 void MainWindow::on_muteButton_clicked()
@@ -639,4 +671,6 @@ void MainWindow::forceFocus(QWidget* widget)
     // posting event for forcing the focus with low priority
     qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
 }
+
+
 

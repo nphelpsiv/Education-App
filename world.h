@@ -40,6 +40,8 @@ public:
 
     void createExplosion(int ballX, int ballY);
 
+    int getPhase();
+
     ContactListener contactListenerInstance;
 
     int * particleIndex;

@@ -703,15 +703,13 @@ void World::drawGame()
         float scaleY = s.getScale().y;
 
         healthSprite.setPosition(p.x() + (width()/2) - (w*scaleX) + 220, p.y() - (h*scaleY) + 585);
+        if((health-10)/10 >= 0){
+            healthSprite.setTexture(healthTextures[((health-10)/10)]);
+        }
 
         if(towers[j]->hasCollided())
         {
             hitAnimationCount = 10;
-            if((health-10)/10 >= 0){
-
-                std::cout << std::to_string((health - 10)/10) << " " << -healthTextures.size() << std::endl;
-                healthSprite.setTexture(healthTextures[((health-10)/10)]);
-            }
         }
         //towerSprites[i].setTexture(towerTextures[1]);
         towerTexturesUpDate(j);
@@ -872,3 +870,7 @@ void World::callEnd()
     end();
 }
 
+int World::getPhase()
+{
+    return currentPhase;
+}
