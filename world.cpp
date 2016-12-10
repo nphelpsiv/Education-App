@@ -5,7 +5,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     QSFMLCanvas(parent, position, size, 1000/60)
 {
     time = 0;
-    b2Vec2 gravity(0.0f, -0.0f);
+    b2Vec2 gravity(0.0f, -30.0f);
     world = new b2World(gravity);
 
     world->SetContactListener(&contactListenerInstance);
@@ -42,7 +42,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-//    music.play();
+    music.play();
 }
 
 World::~World()
@@ -83,7 +83,7 @@ void World::start()
 
     //Timer to spawn a new ball
     spawnTimer = new QTimer(this);
-    interval = 1000;
+    interval = 3000;
     spawnTimer->start(interval);
 
     QObject::connect(spawnTimer, SIGNAL(timeout()), this, SLOT(ballSpawnCall()));
@@ -111,7 +111,7 @@ void World::start()
     healthTexture.loadFromFile("Icons/health10");
 
     music.setLoop(true);
-//    music.play();
+    music.play();
 
 }
 
@@ -125,14 +125,10 @@ void World::ballSpawnCall()
     if(rand() % 2 == 0)
     {
         balls.push_back(new Ball((-rand()%-200) - 500, 200, 30, world));
-//        balls.push_back(new Ball(0, 200, 30, world));
-
     }
     else
     {
         balls.push_back(new Ball(rand()%200 + 500, 200, 30, world));
-//        balls.push_back(new Ball(0, 200, 30, world));
-
     }
 
     //Setup the texture for the cannon ball.
@@ -149,7 +145,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-//    cannonSound.play();
+    cannonSound.play();
 }
 
 
@@ -231,7 +227,7 @@ void World::answerEntered(QString s)
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-//            answerSound.play();
+            answerSound.play();
 
             return;
         }
@@ -241,7 +237,7 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-//    wrongAnswerSound.play();
+    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
@@ -438,7 +434,7 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-//                explosionSound.play();
+                explosionSound.play();
             }
         }
     }
@@ -471,7 +467,7 @@ void World::OnUpdate()
 
         phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
         phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 450);
-        phaseText.setColor(sf::Color::Blue);
+        phaseText.setColor(sf::Color::Red);
         sf::RenderWindow::draw(phaseText);
         phaseAnimation--;
     }
@@ -691,7 +687,7 @@ void World::drawHUD(float widthScale)
 }
 
 void World::drawGame()
-{    
+{
     for(int j = 0; j < towers.size(); j++)
     {
         Tower *t = towers[j];
