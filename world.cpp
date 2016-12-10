@@ -1,5 +1,7 @@
 #include "world.h"
 #include <sstream>
+#include <cstdlib>
+#include <ctime>
 
 World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     QSFMLCanvas(parent, position, size, 1000/60)
@@ -77,6 +79,7 @@ World::~World()
 void World::start()
 {
     //the operand that is shown statically in the GUI
+    srand(std::time(NULL));
     currentOperand = rand() % 5 + 0;
     currentOperation = (rand() % operations::square) + 0;
     currentFunc = "X" + operationToString(currentOperation) + QString::number(currentOperand);
