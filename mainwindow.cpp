@@ -220,14 +220,14 @@ void MainWindow::writeAndOpenAnalytics()
 
   // Beggining html
   QString htmlEdit;
-  htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1>");
+  htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body>");
 
   // make a table
   // Students row
-  htmlEdit.append("<center><table bgcolor='#FFFFFF' border='1' width='500' cellpadding='10' align='center'>");
+  htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' width='500' cellpadding='10' align='center'>");
   htmlEdit.append("<tr>");
   htmlEdit.append("<td colspan='4'>");
-  htmlEdit.append("<center><h3>Students</h3><center>");
+  htmlEdit.append("<center><h3>The Class</h3><center>");
   htmlEdit.append("</td>");
   htmlEdit.append("</tr>");
 
@@ -406,14 +406,16 @@ void MainWindow::signUpToServer()
 {
     //Build string to send.
     QString user = ui->signup_userNameText->text();
-
+    QString realName = ui->signup_realNameText->text();
     QString pass = ui->signup_passwordText->text();
     QString confPass = ui->signup_confirmPasswordText->text();
+
+
     bool teacherBool = ui->teacherCheckBox->isChecked();
 
-    if(pass == confPass)
+    if(realName.size() > 0 & pass.size() > 0 && pass == confPass)
     {
-      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + "N/A" + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
+      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + realName.toStdString() + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
         qDebug() << QString::fromStdString("signed up successfully."); //ui->stackedWidget->setCurrentWidget(ui->loginPage);
     }
 
