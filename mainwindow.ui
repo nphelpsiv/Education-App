@@ -1271,7 +1271,7 @@ QProgressBar::chunk {
        <string/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="loginPage">
        <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -1759,7 +1759,7 @@ background-image : url(:/Icons/Math_Resource.png)
             </property>
            </spacer>
           </item>
-          <item row="0" column="4">
+          <item row="0" column="3">
            <spacer name="horizontalSpacer_13">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1783,13 +1783,6 @@ background-image : url(:/Icons/Math_Resource.png)
            <widget class="QToolButton" name="stats_backToolButton">
             <property name="text">
              <string>Back</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QPushButton" name="openInBrowserButton">
-            <property name="text">
-             <string>Open in Browser</string>
             </property>
            </widget>
           </item>
@@ -1842,7 +1835,7 @@ background-image : url(:/Icons/Math_Resource.png)
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item row="0" column="2">
            <spacer name="horizontalSpacer_17">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -1854,6 +1847,13 @@ background-image : url(:/Icons/Math_Resource.png)
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="1">
+           <widget class="QToolButton" name="openInBrowser">
+            <property name="text">
+             <string>Open In Browser</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

@@ -550,11 +550,6 @@ void MainWindow::on_muteButton_clicked()
     emit world->toggleSound();
 }
 
-void MainWindow::on_openInBrowserButton_clicked()
-{
-    emit world->openBrowser();
-}
-
 void MainWindow::forceFocus(QWidget* widget)
 {
     // unless set active, no stable set focus here
@@ -565,3 +560,8 @@ void MainWindow::forceFocus(QWidget* widget)
     qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
 }
 
+
+void MainWindow::on_openInBrowser_clicked()
+{
+    emit world->openBrowser();
+}

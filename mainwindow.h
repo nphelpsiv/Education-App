@@ -87,6 +87,8 @@ private slots:
 
     void removeStudent();
 
+    void on_openInBrowser_clicked();
+
 signals:
 
     void answerEntered(QString);
