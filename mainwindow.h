@@ -87,6 +87,8 @@ private slots:
 
     void removeStudent();
 
+    void writeAndOpenAnalytics();
+
 signals:
 
     void answerEntered(QString);

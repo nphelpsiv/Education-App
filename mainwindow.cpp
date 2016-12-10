@@ -132,6 +132,11 @@ void MainWindow::on_endGamePushButton_clicked()
     endGame();
 }
 
+void MainWindow::on_openInBrowserButton_clicked()
+{
+  QTimer::singleShot(0, this, SLOT(writeAndOpenAnalytics()));
+}
+
 void MainWindow::pageChanged(int pageIndex)
 {
     QString windowTitle;
@@ -197,6 +202,97 @@ void MainWindow::resizeEvent(QResizeEvent*)
         ui->gameRenderFrame->setMinimumWidth(width() * 0.95);
         world->resize(ui->gameRenderFrame->width(), ui->gameRenderFrame->height());
     }
+}
+
+void MainWindow::writeAndOpenAnalytics()
+{
+  //Get Student IDs
+  QStringList studentIDResponse = serverRequest("getStudentIDS").split("|");
+
+  // Setup the document writer
+  QTextDocumentWriter documentWriter;
+  documentWriter.setFormat("html");
+  documentWriter.setFileName("analytics");
+
+  // Use the textDocument to produce HTML
+  QTextDocument document;
+  //document.setHtml("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1></body></html>");
+
+  // Beggining html
+  QString htmlEdit;
+  htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body><h1>Hello World</h1>");
+
+  // make a table
+  // Students row
+  htmlEdit.append("<center><table bgcolor='red' border='1' width='500' cellpadding='10' align='center'>");
+  htmlEdit.append("<tr>");
+  htmlEdit.append("<td colspan='4'>");
+  htmlEdit.append("<center><h3>Students</h3><center>");
+  htmlEdit.append("</td>");
+  htmlEdit.append("</tr>");
+
+  // Row for data titles
+  htmlEdit.append("<tr>");
+  htmlEdit.append("<td>");
+  htmlEdit.append("<b>Real Name</b>");
+  htmlEdit.append("</td>");
+  htmlEdit.append("<td>");
+  htmlEdit.append("<b>Username</b>");
+  htmlEdit.append("</td>");
+  htmlEdit.append("<td>");
+  htmlEdit.append("<b>Games Played</b>");
+  htmlEdit.append("</td>");
+  htmlEdit.append("<td>");
+  htmlEdit.append("<b>Average Score</b>");
+  htmlEdit.append("</td>");
+  htmlEdit.append("</tr>");
+
+
+
+  // Insert data
+  for(int i = 0; i < studentIDResponse.size(); i++)
+  {
+      //Get Student Info one by one.
+      QStringList studentInfo = serverRequest("getStudentInfo|" + ((QString)studentIDResponse.at(i)).toStdString()).split("|");
+      QString gamesPlayed = serverRequest("getGamesPlayed|" + ((QString)studentIDResponse.at(i)).toStdString());
+      QString averageScore = serverRequest("getAverageScore|" + ((QString)studentIDResponse.at(i)).toStdString());
+
+      htmlEdit.append("<tr>");
+      htmlEdit.append("<td>");
+      //Real Name
+      htmlEdit.append(studentInfo.at(3));
+      htmlEdit.append("</td>");
+      htmlEdit.append("<td>");
+      //Username/Realname?
+      htmlEdit.append(studentInfo.at(1));
+      htmlEdit.append("</td>");
+      htmlEdit.append("<td>");
+      //Games Played
+      htmlEdit.append(gamesPlayed);
+      htmlEdit.append("</td>");
+      htmlEdit.append("<td>");
+      //Average Score
+      htmlEdit.append(averageScore);
+      htmlEdit.append("</td>");
+      htmlEdit.append("</tr>");
+  }
+
+  // end html stuff
+  htmlEdit.append("</table></center>");
+  htmlEdit.append("</body></html>");
+
+  // set the document HTML
+  document.setHtml(htmlEdit);
+
+  // Write the document to the documentWriter
+  if(documentWriter.write(&document))
+      std::cout << "HTML document successfully written!" << std::endl;
+  else
+      std::cout << "Could not write to HTML document :(" << std::endl;
+
+  // Open in browser WORKS
+  std::cout << QDir::currentPath().toStdString() << std::endl;
+  QDesktopServices::openUrl(QUrl::fromLocalFile(QDir::currentPath() + "/analytics")); qDebug() << "It shoulda doneit.";
 }
 
 void MainWindow::startGame()
@@ -367,7 +463,7 @@ void MainWindow::populateStats()
 void MainWindow::populateLeaderboards()
 {
   //Get User's Game ID's to get info on. "10" is how many scores we want.
-  QString gIDToProcess = serverRequest("getHighScoreGameIDS|10");
+  QString gIDToProcess = serverRequest("getHighScoreGameIDS|15");
   QStringList splitGIDToProcess = gIDToProcess.split("|");
 
   //List of responses with each game's info played by the user.
@@ -532,10 +628,7 @@ void MainWindow::on_muteButton_clicked()
     emit world->toggleSound();
 }
 
-void MainWindow::on_openInBrowserButton_clicked()
-{
-    emit world->openBrowser();
-}
+
 
 void MainWindow::forceFocus(QWidget* widget)
 {
