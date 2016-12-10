@@ -14,6 +14,7 @@ public:
     void BeginContact(b2Contact* contact);
     void EndContact(b2Contact* contact);
     void handleTowerContact(Ball* b, Tower* t);
+    void handleBallContact(Ball* b1, Ball* b2);
     void handleGroundContact(Ball* b);
 
 private:
