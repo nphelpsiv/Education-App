@@ -634,29 +634,29 @@ void World::openBrowser()
     for(int i = 0; i < studentIDs.size(); i++)
     {
         // Get the name for this studtent
-        QString infoString = serverRequest("getStudentInfo|" + studentIDs.at(i));
-        QString info = infoString.split("|");
+        QString infoString = serverRequest("getStudentInfo|" + studentIDs.at(i).toStdString());
+        QStringList infoList = infoString.split("|");
 
         // Get all the games for this student
-        QString gamesPlayedString = serverRequest("getGamesPlayed|" + studentIDs.at(i));
+        QString gamesPlayedString = serverRequest("getGamesPlayed|" + studentIDs.at(i).toStdString());
         int gamesPlayed = gamesPlayedString.toInt();
 
         // Get total score of games for this student
-        QString totalScoreString = serverRequest("getTotalScore|" + studentIDs.at(i));
+        QString totalScoreString = serverRequest("getTotalScore|" + studentIDs.at(i).toStdString());
         int totalScore = totalScoreString.toInt();
 
         // Get Average score of games for this student
-        QString averageScoreString = serverRequest("getAverageScore|" + studentIDs.at(i));
+        QString averageScoreString = serverRequest("getAverageScore|" + studentIDs.at(i).toStdString());
         int averageScore = averageScoreString.toInt();
 
         // Get all games to compute high score
-        QString allGamesString = serverRequest("getGameIDS|" + studentIDs.at(i));
+        QString allGamesString = serverRequest("getGameIDS|" + studentIDs.at(i).toStdString());
         QStringList gameIDs = allGamesString.split("|");
         int highestScore = 0;
         for(int i = 0; i < gameIDs.size(); i++)
         {
             // Get game info for each game
-            QString gameInfoString = serverRequest("getGameInfo|" + gameIDs.at(i));
+            QString gameInfoString = serverRequest("getGameInfo|" + gameIDs.at(i).toStdString());
             QStringList gameInfo = gameInfoString.split("|");
 
             // Compare previous highscore to new
@@ -671,7 +671,7 @@ void World::openBrowser()
         htmlEdit.append(studentIDs.at(i)); //student id
         htmlEdit.append("</td>");
         htmlEdit.append("<td>");
-        htmlEdit.append(info.at(3)); // name should be at index 3
+        htmlEdit.append(infoList.at(3)); // name should be at index 3
         htmlEdit.append("</td>");
         htmlEdit.append("<td>");
         htmlEdit.append(QString::number(gamesPlayed)); // games played

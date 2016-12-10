@@ -46,6 +46,8 @@ public:
 
     int * particleIndex;
 
+    QString serverRequest(std::string request);
+
 
 public slots:
     void ballSpawnCall();
@@ -134,7 +136,7 @@ private:
     QVector<sf::Sprite> debSprites;
 
     // For html table with database
-    QString serverRequest(std::string request);
+
     sf::TcpSocket socket;
     sf::Socket::Status status;
 

@@ -287,7 +287,7 @@ void MainWindow::loginToServer()
     QString user = ui->login_userNameText->text();
     QString pass = ui->login_passwordText->text();
 
-    QString responseUserID = wworld->serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString());
+    QString responseUserID = world->serverRequest("loginUser|" + user.toStdString() + "|" + pass.toStdString());
 
     if(responseUserID.toInt() > 0)
     {
