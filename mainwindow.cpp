@@ -132,9 +132,9 @@ void MainWindow::on_endGamePushButton_clicked()
     endGame();
 }
 
-void MainWindow::on_openInBrowserButton_clicked()
+void MainWindow::on_teacherAnalyticsButton_clicked()
 {
-  QTimer::singleShot(0, this, SLOT(writeAndOpenAnalytics()));
+    QTimer::singleShot(0, this, SLOT(writeAndOpenAnalytics()));
 }
 
 void MainWindow::pageChanged(int pageIndex)
@@ -224,7 +224,7 @@ void MainWindow::writeAndOpenAnalytics()
 
   // make a table
   // Students row
-  htmlEdit.append("<center><table bgcolor='red' border='1' width='500' cellpadding='10' align='center'>");
+  htmlEdit.append("<center><table bgcolor='#FFFFFF' border='1' width='500' cellpadding='10' align='center'>");
   htmlEdit.append("<tr>");
   htmlEdit.append("<td colspan='4'>");
   htmlEdit.append("<center><h3>Students</h3><center>");
@@ -639,4 +639,6 @@ void MainWindow::forceFocus(QWidget* widget)
     // posting event for forcing the focus with low priority
     qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
 }
+
+
 

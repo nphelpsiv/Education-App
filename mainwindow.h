@@ -77,8 +77,6 @@ private slots:
 
     void functionChanged(QString);
 
-    void on_openInBrowserButton_clicked();
-
     QString serverRequest(std::string request);
 
     void on_teacherPageRemoveButton_clicked();
@@ -88,6 +86,8 @@ private slots:
     void removeStudent();
 
     void writeAndOpenAnalytics();
+
+    void on_teacherAnalyticsButton_clicked();
 
 signals:
 
