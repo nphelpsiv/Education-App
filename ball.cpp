@@ -38,7 +38,6 @@ void Ball::createBallBox2D()
     b2CircleShape ballShape;
     ballShape.m_radius = rad;
 
-
     //Ball Fixture
     b2FixtureDef ballFixtureDef;
     ballFixtureDef.shape = &ballShape;

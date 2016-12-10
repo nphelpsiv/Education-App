@@ -5,7 +5,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     QSFMLCanvas(parent, position, size, 1000/60)
 {
     time = 0;
-    b2Vec2 gravity(0.0f, -40.0f);
+    b2Vec2 gravity(0.0f, -30.0f);
     world = new b2World(gravity);
 
     world->SetContactListener(&contactListenerInstance);
@@ -90,10 +90,10 @@ void World::start()
 
     groundWidth = 2000;
     groundHeight = 1;
-    ground = new Ground(0, -325, groundWidth, groundHeight, world);
+    ground = new Ground(0, -300, groundWidth, groundHeight, world);
     towerWidth = 110;
     towerHeight = 340;
-    tower = new Tower(0, -325, towerWidth, towerHeight, world);
+    tower = new Tower(0, -300, towerWidth, towerHeight, world);
     towers.push_back(tower);
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
@@ -108,6 +108,8 @@ void World::start()
     backGroundTexture.loadFromFile("Icons/Phase1Background.png");
     backGroundTexture.setSmooth(true);
 
+    healthTexture.loadFromFile("Icons/health10");
+
     music.setLoop(true);
 //    music.play();
 
@@ -120,17 +122,20 @@ void World::ballSpawnCall()
     {
         emit functionChanged(currentFunc);
     }
-    //randomBSpawn = (rand() % 1400) - 700;
     if(rand() % 2 == 0)
     {
-        balls.push_back(new Ball((-rand())%(-200) - 500, 200, 30, world));
+        balls.push_back(new Ball((-rand()%-200) - 500, 200, 30, world));
+//        balls.push_back(new Ball(0, 200, 30, world));
+
     }
     else
     {
         balls.push_back(new Ball(rand()%200 + 500, 200, 30, world));
-    }
-    //Setup the texture for the cannon ball.
+//        balls.push_back(new Ball(0, 200, 30, world));
 
+    }
+
+    //Setup the texture for the cannon ball.
     sf::Sprite s;
     s.setTexture(ballTextures[balls[balls.size() - 1]->getValue()]);
     s.setOrigin(10, 10);
@@ -465,7 +470,7 @@ void World::OnUpdate()
         phaseText.setString(phaseString);
 
         phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
-        phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 500);
+        phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 450);
         phaseText.setColor(sf::Color::Blue);
         sf::RenderWindow::draw(phaseText);
         phaseAnimation--;
@@ -484,7 +489,7 @@ void World::OnUpdate()
         functionText.setString(functionString);
 
         functionText.setCharacterSize((100/(functionAnimation * 0.1)));
-        functionText.setPosition(width()/2 - (functionText.getLocalBounds().width/2)+30, 500);
+        functionText.setPosition(width()/2 - (functionText.getLocalBounds().width/2)+30, 450);
         functionText.setColor(sf::Color::Red);
         sf::RenderWindow::draw(functionText);
         functionAnimation--;
@@ -650,24 +655,14 @@ void World::drawHUD(float widthScale)
     }
 
     //std::stringstream ss;
-    sf::Text healthText;
-    healthText.setFont(font);
     std::stringstream ss;
-    ss << health;
-    std::string int2Str = ss.str();
-    std::string healthString = "HEALTH: " + int2Str;
-    healthText.setString(healthString);
-
-    healthText.setCharacterSize(100 * widthScale * 1.4);
-    healthText.setPosition(0,700);
-    healthText.setColor(sf::Color::Black);
 
     //Score HUD Text
     sf::Text scoreText;
     scoreText.setFont(font);
     ss.str("");
     ss << score;
-    int2Str = ss.str();
+    std::string int2Str = ss.str();
     std::string scoreString = "SCORE: " + int2Str;
     scoreText.setString(scoreString);
 
@@ -690,7 +685,6 @@ void World::drawHUD(float widthScale)
     levelText.setColor(sf::Color::White);
 
 
-    //sf::RenderWindow::draw(healthText);
     sf::RenderWindow::draw(scoreText);
     sf::RenderWindow::draw(levelText);
 
@@ -708,7 +702,7 @@ void World::drawGame()
         float scaleX = s.getScale().x;
         float scaleY = s.getScale().y;
 
-        healthSprite.setPosition(p.x() + (width()/2) - (w*scaleX) + 213, p.y() - (h*scaleY) + 585);
+        healthSprite.setPosition(p.x() + (width()/2) - (w*scaleX) + 220, p.y() - (h*scaleY) + 585);
 
         if(towers[j]->hasCollided())
         {
@@ -756,7 +750,7 @@ void World::drawGame()
     {
     //Draw healthBar
         sf::RenderWindow::draw(healthSprite);
-    //Draw Debris
+        //Draw Debris
         for(int i = 0; i < debrisVec.size(); i++)
         {
             QPoint p = debrisVec[i]->getPosition();
