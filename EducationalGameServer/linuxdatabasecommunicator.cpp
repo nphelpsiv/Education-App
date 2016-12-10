@@ -460,9 +460,18 @@ int LinuxDatabaseCommunicator::getAverageScore(int userID)
         return -1;
     }
 
+    MYSQL_FIELD *field;
+    while((field = mysql_fetch_field(result)) != NULL)
+    {
+        std::cout << field->name << std::endl;
+    }
+
     MYSQL_ROW row;
     while((row = mysql_fetch_row(result)) != NULL)
     {
+
+        std::cout << row << std::endl;
+        //std::string r = row['avg(score)'];
         int ret = atoi(row[1]);
         return ret;
     }
