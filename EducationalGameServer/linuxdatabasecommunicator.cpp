@@ -17,20 +17,7 @@ LinuxDatabaseCommunicator::LinuxDatabaseCommunicator(QString iHostName, QString 
   if (connection == NULL)
   {
       std::cout << mysql_error(&mysql) << std::endl;
-
-      //return tables;
   }
-
-//  db = QSqlDatabase::addDatabase("QMYSQL");
-//  db.setHostName(hostName);
-//  db.setUserName(user);
-//  db.setPassword(password);
-//  bool ok = db.open();
-
-//  if(ok)
-//    qDebug() << "connected to "<< db.databaseName() << endl;
-//  else
-//    qDebug() << db.lastError() << endl;
 }
 
 int LinuxDatabaseCommunicator::addStudent(QString username, QString password, QString realName, bool isTeacher, QString classCode)
@@ -55,34 +42,8 @@ int LinuxDatabaseCommunicator::addStudent(QString username, QString password, QS
     int retUID;
     while((uID = mysql_fetch_row(result)) != NULL)
     {
-        //retUID = uID[0];
-        std::cout << "uID:" << uID[0] << std::endl;
+        retUID = atoi(uID[0]);
     }
-//  QSqlQuery query;
-//  query.prepare("insert into eduapp.users(username, password, realname, isteacher, classcode) Values(:username, :password, :realName, :isTeacher, :classCode)");
-//      query.bindValue(":username", username);
-//      query.bindValue(":password", password);
-//      query.bindValue(":realName", realName);
-//      query.bindValue(":isTeacher", isTeacher);
-//      query.bindValue(":classCode", classCode);
-
-//  if(query.exec() == false)
-//  {
-//    cout << "insert student failed (addStudent)" << endl;
-//    qDebug() << db.lastError() << endl; return -1;
-//  }
-
-//  if(query.exec("select last_insert_id()") == false)
-//  {
-//    cout << "get last id failed (addStudent)" << endl;
-//    qDebug() << db.lastError() << endl; return -1;
-//  }
-
-//  int uID;
-//  while (query.next())
-//  {
-//    uID = query.value(0).toInt();
-//  }
 
   return retUID;
 }
@@ -121,31 +82,6 @@ StudentInfo LinuxDatabaseCommunicator::getStudentInfo(int userID)
     }
 
     return info;
-
-//  QSqlQuery query;
-//  query.prepare("SELECT * FROM eduapp.users Where userid = :userID");
-//  query.bindValue(":userID", userID);
-
-
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//      info.isValid = false;
-//      return info;
-//  }
-
-//  while (query.next())
-//  {
-//      info.userID = userID;
-//      info.username = query.value("username").toString();
-//      info.realName = query.value("realname").toString();
-//      info.password = query.value("password").toString();
-//      info.classCode = query.value("classcode").toString();
-//      info.isTeacher = query.value("isteacher").toBool();
-//      info.isValid = true;
-//  }
-
-  return info;
 }
 
 int LinuxDatabaseCommunicator::addGame(int userID, int score, int level)
@@ -182,28 +118,6 @@ int LinuxDatabaseCommunicator::addGame(int userID, int score, int level)
     }
 
     return retGID;
-//  QSqlQuery query;
-//  query.prepare("insert into eduapp.games(userid ,score ,level) values(:userID, :score , :level)");
-//  query.bindValue(":userID", userID);
-//  query.bindValue(":score", score);
-//  query.bindValue(":level", level);
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//     return -1;
-//  }
-//  else if(query.exec("select last_insert_id()") == false || query.size() == 0)
-//  {
-//     return -1;
-//  }
-//  else
-//  {
-//     while (query.next())
-//     {
-//        return query.value(0).toInt();
-//     }
-//  }
-
 }
 
 int LinuxDatabaseCommunicator::loginUser(QString username, QString password)
@@ -241,28 +155,6 @@ int LinuxDatabaseCommunicator::loginUser(QString username, QString password)
         return -1;
 
     return -2;
-//  QSqlQuery query;
-
-//  query.prepare("SELECT * FROM eduapp.users where username = :username");
-//      query.bindValue(":username", username);
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//    return -1;
-//  }
-
-//  while(query.next())
-//  {
-//    if(query.value("password").toString() == password)
-//    {
-//      return query.value("userid").toInt();
-//    }
-//    else
-//    {
-//      return -2;
-//    }
-//  }
-
 }
 
 QVector<int> LinuxDatabaseCommunicator::getHighScoreGameIDS(int topN)
@@ -291,23 +183,7 @@ QVector<int> LinuxDatabaseCommunicator::getHighScoreGameIDS(int topN)
         ret.append(atoi(row[0]));
     }
 
-//  QSqlQuery query;
-
-//  query.prepare("SELECT gameid FROM eduapp.games order by  score desc, level desc limit :topn");
-//      query.bindValue(":topn", topN);
-
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//    ret.push_back(-1);
-//    return ret;
-//  }
-
-//  while(query.next())
-//  {
-//      ret.append(query.value("gameid").toInt());
-//  }
-  return ret;
+    return ret;
 }
 
 GameInfo LinuxDatabaseCommunicator::getGameInfo(int gameID)
@@ -339,29 +215,7 @@ GameInfo LinuxDatabaseCommunicator::getGameInfo(int gameID)
         info.level = atoi(row[3]);
         info.isValid = true;
     }
-//  QSqlQuery query;
-
-//  query.prepare("SELECT * FROM eduapp.games where gameid = :gameID");
-//      query.bindValue(":gameID", gameID);
-
-
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//    info.isValid = false;
-//    return info;
-//  }
-
-//  while(query.next())
-//  {
-//      info.gameID = query.value("gameid").toInt();
-//      info.userID = query.value("userid").toInt();
-//      info.score = query.value("score").toInt();
-//      info.level = query.value("level").toInt();
-//      info.isValid = true;
-//  }
-
-  return info;
+    return info;
 }
 
 int LinuxDatabaseCommunicator::getTotalScore(int userID)
@@ -388,21 +242,6 @@ int LinuxDatabaseCommunicator::getTotalScore(int userID)
         sum += atoi(row[0]);
     }
     return sum;
-    /*
-  QSqlQuery query;
-
-  query.prepare("SELECT sum(score) FROM eduapp.games where userid = :userID");
-      query.bindValue(":userID", userID);
-
-  if(query.exec() == false || query.size() == 0)
-  {
-    return -1;
-  }
-
-  while(query.next())
-  {
-     return query.value("sum(score)").toInt();
-  }*/
 }
 
 int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
@@ -424,21 +263,6 @@ int LinuxDatabaseCommunicator::getGamesPlayed(int userID)
     }
 
     return count;
-//  QSqlQuery query;
-
-//  query.prepare("SELECT count(userid) FROM eduapp.games where userid = :userID");
-//      query.bindValue(":userID", userID);
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//    return -1;
-//  }
-
-//  while(query.next())
-//  {
-//     return query.value("count(userid)").toInt();
-//  }
-    return -1;
 }
 
 int LinuxDatabaseCommunicator::getAverageScore(int userID)
@@ -486,7 +310,6 @@ int LinuxDatabaseCommunicator::getAverageScore(int userID)
 
 int LinuxDatabaseCommunicator::removeStudent(int userID)
 {
-    //+"; DELETE FROM eduapp.users where userid = "+std::to_string(userID)
     std::string selectString = "DELETE FROM eduapp.games where userid = "+std::to_string(userID);
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
@@ -504,17 +327,6 @@ int LinuxDatabaseCommunicator::removeStudent(int userID)
     }
 
     return userID;
-//  QSqlQuery query;
-
-//  query.prepare("delete FROM eduapp.games where userid = :userID ;delete FROM eduapp.users where userid = :userID;");
-//      query.bindValue(":userID", userID);
-
-//  if(query.exec() == false)
-//  {
-//    return -1;
-//  }
-
-//  return userID;
 }
 
 QVector<int> LinuxDatabaseCommunicator::getGameIDS(int userID)
@@ -542,24 +354,8 @@ QVector<int> LinuxDatabaseCommunicator::getGameIDS(int userID)
     {
         ret.append(atoi(row[0]));
     }
-//  QSqlQuery query;
 
-//  query.prepare("SELECT gameid FROM eduapp.games where userid = :userID;");
-//      query.bindValue(":userID", userID);
-
-//  QVector<int> ret;
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//    ret.push_back(-1);
-//    return ret;
-//  }
-
-//  while(query.next())
-//  {
-//      ret.append(query.value("gameid").toInt());
-//  }
-  return ret;
+    return ret;
 }
 
 QVector<int> LinuxDatabaseCommunicator::getStudentIDS()
@@ -587,21 +383,6 @@ QVector<int> LinuxDatabaseCommunicator::getStudentIDS()
     {
         ret.append(atoi(row[0]));
     }
-//  QSqlQuery query;
 
-//  query.prepare("SELECT userid FROM eduapp.users");
-
-//  QVector<int> ret;
-
-//  if(query.exec() == false || query.size() == 0)
-//  {
-//    ret.push_back(-1);
-//    return ret;
-//  }
-
-//  while(query.next())
-//  {
-//      ret.append(query.value("userid").toInt());
-//  }
-  return ret;
+    return ret;
 }
