@@ -42,7 +42,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-//    music.play();
+    music.play();
 }
 
 World::~World()
@@ -111,7 +111,7 @@ void World::start()
     healthTexture.loadFromFile("Icons/health10");
 
     music.setLoop(true);
-//    music.play();
+    music.play();
 
 }
 
@@ -149,7 +149,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-//    cannonSound.play();
+    cannonSound.play();
 }
 
 
@@ -231,7 +231,7 @@ void World::answerEntered(QString s)
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-//            answerSound.play();
+            answerSound.play();
 
             return;
         }
@@ -241,17 +241,14 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-//    wrongAnswerSound.play();
+    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
 {
     if(h <= 0)
     {
-        emit gameOver();
         game = false;
-        //spawnTimer->stop();
-        //end();
         return;
     }
     else
@@ -426,7 +423,7 @@ void World::OnUpdate()
             }
             if(balls[i]->hasCollided())
             {
-                //Since the ball has collided, we can removed the ball.
+                //Since the ball has collided, we can remove the ball.
                 Ball *b = balls[i];
                 QPoint p = b->getPosition();
                 createExplosion(p.x()/0.6, -p.y()/0.6); // before removing create an explosion with these coordinates
@@ -438,7 +435,7 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-//                explosionSound.play();
+                explosionSound.play();
             }
         }
     }
@@ -548,7 +545,6 @@ void World::end()
     }
 
     emit gameOver();
-    //delete ground;
 }
 
 void World::openBrowser()
@@ -726,8 +722,9 @@ void World::drawGame()
         }
         if(health <= 0)
         {
+            towerSprites[j].setTexture(towerTextures[towers[j]->textureIndex]);
             //rubble sprite.
-            towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 130, p.y() - (h*scaleY) + 700);
+            towerSprites[j].setPosition(p.x() + (width()/2) - (w*scaleX) + 250, p.y() - (h*scaleY) + 600);
         }
         else
         {
@@ -737,12 +734,12 @@ void World::drawGame()
         sf::RenderWindow::draw(towerSprites[j]);
         //towerSprites[i].setTexture(towerTextures[towers[i]->textureIndex]);
 
-        if(t[j].destroyed())
+        /*if(t[j].destroyed())
         {
             std::cout << "Tower Was destroyed" << std::endl;
             towers.remove(j);
             delete t;
-        }
+        }*/
     }
     if(health > 0)
     {
