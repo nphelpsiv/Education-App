@@ -61,7 +61,7 @@ QToolTip
 QWidget
 {
     color: #000000;
-   background-color: #d9d1ba;
+    background-color: #d9d1ba;
     selection-background-color:#9C5748;
     selection-color: #eff0f1;
     background-clip: border;
@@ -1106,11 +1106,10 @@ QPushButton::menu-indicator  {
 
 QTableView
 {
-    color: #000000
+    color: #000000;
     border: 1px solid #9C5748;
     gridline-color: #AC6151;
     background-color: #F5F5DC;
-    color : #000000
 }
 
 
@@ -1120,13 +1119,17 @@ QTableView, QHeaderView
 }
 
 QTableView::item:pressed, QListView::item:pressed, QTreeView::item:pressed  {
-    background: #AC6151;
     color: #000000;
+    border: 1px solid #9C5748;
+    gridline-color: #AC6151;
+    background-color: #F5F5DC;
 }
 
 QTableView::item:selected:active, QTreeView::item:selected:active, QListView::item:selected:active  {
-    background: #AC6151;
-    color: #eff0f1;
+    color: #000000;
+    border: 1px solid #9C5748;
+    gridline-color: #AC6151;
+    background-color: #F5F5DC;
 }
 
 
@@ -1187,9 +1190,10 @@ QHeaderView::up-arrow {
 
 
 QTableCornerButton::section {
-    background-color: #31363b;
-    border: 1px transparent #76797C;
-    border-radius: 0px;
+    color: #000000;
+    border: 1px solid #9C5748;
+    gridline-color: #AC6151;
+    background-color: #F5F5DC;
 }
 
 QToolBox  {
@@ -2112,7 +2116,7 @@ background-image : url(:/Icons/Math_Resource.png)
               </brush>
              </colorrole>
              <colorrole role="Base">
-              <brush brushstyle="NoBrush">
+              <brush brushstyle="SolidPattern">
                <color alpha="255">
                 <red>245</red>
                 <green>245</green>
@@ -2267,7 +2271,7 @@ background-image : url(:/Icons/Math_Resource.png)
               </brush>
              </colorrole>
              <colorrole role="Base">
-              <brush brushstyle="NoBrush">
+              <brush brushstyle="SolidPattern">
                <color alpha="255">
                 <red>245</red>
                 <green>245</green>
@@ -2503,13 +2507,8 @@ background-image : url(:/Icons/Math_Resource.png)
            <enum>Qt::SolidLine</enum>
           </property>
           <property name="rowCount">
-           <number>1</number>
+           <number>0</number>
           </property>
-          <row>
-           <property name="text">
-            <string/>
-           </property>
-          </row>
           <column>
            <property name="text">
             <string>Game #</string>
@@ -2525,11 +2524,6 @@ background-image : url(:/Icons/Math_Resource.png)
             <string>Level</string>
            </property>
           </column>
-          <item row="0" column="0">
-           <property name="text">
-            <string>Testing</string>
-           </property>
-          </item>
          </widget>
         </item>
        </layout>
@@ -2589,10 +2583,10 @@ background-image : url(:/Icons/Math_Resource.png)
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="0">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+               <color alpha="255">
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
@@ -2615,20 +2609,20 @@ background-image : url(:/Icons/Math_Resource.png)
               </brush>
              </colorrole>
              <colorrole role="Base">
-              <brush brushstyle="NoBrush">
+              <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="0">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+               <color alpha="255">
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
@@ -2672,10 +2666,10 @@ background-image : url(:/Icons/Math_Resource.png)
              </colorrole>
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
-               <color alpha="0">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+               <color alpha="255">
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
@@ -2698,20 +2692,20 @@ background-image : url(:/Icons/Math_Resource.png)
               </brush>
              </colorrole>
              <colorrole role="Base">
-              <brush brushstyle="NoBrush">
+              <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
-               <color alpha="0">
-                <red>0</red>
-                <green>0</green>
-                <blue>0</blue>
+               <color alpha="255">
+                <red>245</red>
+                <green>245</green>
+                <blue>220</blue>
                </color>
               </brush>
              </colorrole>
@@ -2828,6 +2822,9 @@ background-image : url(:/Icons/Math_Resource.png)
             </disabled>
            </palette>
           </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -2837,6 +2834,11 @@ background-image : url(:/Icons/Math_Resource.png)
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
+          <row>
+           <property name="text">
+            <string>New Row</string>
+           </property>
+          </row>
           <column>
            <property name="text">
             <string>Account Type</string>
@@ -2867,6 +2869,11 @@ background-image : url(:/Icons/Math_Resource.png)
             <string>Password</string>
            </property>
           </column>
+          <item row="0" column="0">
+           <property name="text">
+            <string>Testing</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>
@@ -3007,7 +3014,7 @@ background-image : url(:/Icons/Math_Resource.png)
               </brush>
              </colorrole>
              <colorrole role="Base">
-              <brush brushstyle="NoBrush">
+              <brush brushstyle="SolidPattern">
                <color alpha="255">
                 <red>245</red>
                 <green>245</green>
@@ -3162,7 +3169,7 @@ background-image : url(:/Icons/Math_Resource.png)
               </brush>
              </colorrole>
              <colorrole role="Base">
-              <brush brushstyle="NoBrush">
+              <brush brushstyle="SolidPattern">
                <color alpha="255">
                 <red>245</red>
                 <green>245</green>
