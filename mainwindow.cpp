@@ -454,7 +454,16 @@ void MainWindow::signUpToServer()
     if(realName.size() > 0 & pass.size() > 0 && classCode.size() > 0 && pass == confPass )
     {
       if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + realName.toStdString() + "|" + (teacherBool ? "1" : "0") + "|" + classCode.toStdString()).toInt() > 0)
-        qDebug() << QString::fromStdString("signed up successfully."); ui->stackedWidget->setCurrentWidget(ui->loginPage);
+      {
+          qDebug() << QString::fromStdString("signed up successfully."); ui->stackedWidget->setCurrentWidget(ui->loginPage);
+      }
+      else
+      {
+          qDebug() << QString::fromStdString("Missing a field you dip.");
+          QMessageBox msgBox;
+          msgBox.setText("Could not Sign Up. \nOne or more fields is missing. \nPlease fill out all fields. \nEnsure your password was correctly entered twice.");
+          msgBox.exec();
+      }
     }
     else
     {
