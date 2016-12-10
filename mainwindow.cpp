@@ -219,6 +219,17 @@ void MainWindow::resizeEvent(QResizeEvent*)
     }
 }
 
+QString MainWindow::cssTable()
+{
+    QString a;
+    a = "<style type=\"text/css\">";
+    a += "table {width:60%;  margin:auto;  border-width: 10px;border-spacing: ;border-style: outset;            border-color: gray; border-collapse: collapse;       background-color: white;    }";
+    a +=" table {            border-width: 1px;            padding: 1px;            border-style: inset;            border-color: gray;            background-color: white;            -moz-border-radius: ;    }";
+    a += "table td {            border-width: 1px;            padding: 1px;            border-style: inset;            border-color: gray;            background-color: white;            -moz-border-radius: ;    }";
+    a+="</style>";
+    return a;
+}
+
 void MainWindow::writeAndOpenAnalytics()
 {
   //Get Student IDs
@@ -236,11 +247,14 @@ void MainWindow::writeAndOpenAnalytics()
 
   // Beggining html
   QString htmlEdit;
-  htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body>");
+  htmlEdit.append("<html><head><title>The HTML5 Herald</title>");
+  htmlEdit.append(cssTable());
+  htmlEdit.append("</head><body><center><img src='https://raw.githubusercontent.com/University-of-Utah-CS3505/edu-app-qt_pies-1/master/Icons/Math_Resource.png?token=AIo_QA-dX8SklYJwnM2ewp4Jl7Iy6CRJks5YVcFFwA%3D%3D'/></center>");
+
 
   // make a table
   // Students row
-  htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' width='500' cellpadding='10' align='center'>");
+  htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' cellpadding='10' style='margin:auto;'>");
   htmlEdit.append("<tr>");
   htmlEdit.append("<td colspan='5'>");
   htmlEdit.append("<center><h3>The Class</h3><center>");
