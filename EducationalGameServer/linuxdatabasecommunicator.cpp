@@ -37,6 +37,11 @@ int LinuxDatabaseCommunicator::addStudent(QString username, QString password, QS
         std::cout << mysql_error(connection) << std::endl;
     }
     MYSQL_RES *result = mysql_store_result(connection);
+    if(mysql_num_rows(result) == 0)
+    {
+        std::cout << "no result" << std::endl;
+        return -1;
+    }
 
     MYSQL_ROW uID;
     int retUID;
@@ -80,6 +85,7 @@ StudentInfo LinuxDatabaseCommunicator::getStudentInfo(int userID)
         std::string teach = row[4];
         info.isTeacher = (teach == "0") ? false : true;
         info.isValid = true;
+        info.classCode = row[5];
     }
 
     return info;
@@ -362,7 +368,7 @@ QVector<int> LinuxDatabaseCommunicator::getGameIDS(int userID)
 QVector<int> LinuxDatabaseCommunicator::getStudentIDS(QString classCode)
 {
     QVector<int> ret;
-    std::string selectString = "SELECT userid FROM eduapp.users where classcode = " + classCode.toStdString();
+    std::string selectString = "SELECT userid FROM eduapp.users where classcode = '" + classCode.toStdString()+"'";
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
