@@ -241,7 +241,7 @@ void MainWindow::writeAndOpenAnalytics()
 
   // make a table
   // Students row
-  htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' cellpadding='10' style='margin:auto;'>");
+  htmlEdit.append("<center><table bgcolor='#d9d1ba' border='1' cellpadding='10' style='margin:auto;'>");
   htmlEdit.append("<tr>");
   htmlEdit.append("<td colspan='5'>");
   htmlEdit.append("<center><h3>The Class</h3><center>");
