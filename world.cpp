@@ -80,7 +80,7 @@ void World::start()
 {
     //the operand that is shown statically in the GUI
     srand(std::time(NULL));
-    currentOperand = rand() % 5 + 0;
+    currentOperand = rand() % 5 + 1;
     currentOperation = (rand() % operations::square) + 0;
     currentFunc = "X" + operationToString(currentOperation) + QString::number(currentOperand);
 
@@ -829,7 +829,7 @@ void World::setFunction()
         phaseAnimation = 120;
         functionAnimation = 120;
         currentPhase++;
-        currentOperation = (rand() % operations::multiply + 0);
+        currentOperation = (rand() % operations::multiply + 1);
         if(currentOperation == operations::square)
         {
             currentOperand = 2;
@@ -850,7 +850,7 @@ void World::setFunction()
         functionAnimation = 120;
         spawnTimer->setInterval(interval);
         interval = interval*.95;
-        currentOperation = (rand() % (operations::multiply + 1) + 0);
+        currentOperation = (rand() % (operations::multiply + 1) + 1);
         if(currentOperation == operations::square)
         {
             currentOperand = 2;
