@@ -368,7 +368,7 @@ QVector<int> LinuxDatabaseCommunicator::getGameIDS(int userID)
 QVector<int> LinuxDatabaseCommunicator::getStudentIDS(QString classCode)
 {
     QVector<int> ret;
-    std::string selectString = "SELECT userid FROM eduapp.users where classcode = '" + classCode.toStdString()+"'";
+    std::string selectString = "SELECT userid FROM eduapp.users where classcode = '" + classCode.toStdString()+"'" + "and isteacher = 0";
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {
