@@ -104,6 +104,7 @@ private:
     int currentOperand;
     int currentOperation;
     int currentPhase;
+    int lastPhase;
 
     enum operations{add,sub,square,multiply};
 

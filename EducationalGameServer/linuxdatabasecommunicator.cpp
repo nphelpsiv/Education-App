@@ -77,7 +77,8 @@ StudentInfo LinuxDatabaseCommunicator::getStudentInfo(int userID)
         info.username = row[1];
         info.password = row[2];
         info.realName = row[3];
-        info.isTeacher = (row[4] == "0") ? false : true;
+        std::string teach = row[4];
+        info.isTeacher = (teach == "0") ? false : true;
         info.isValid = true;
     }
 
@@ -358,10 +359,10 @@ QVector<int> LinuxDatabaseCommunicator::getGameIDS(int userID)
     return ret;
 }
 
-QVector<int> LinuxDatabaseCommunicator::getStudentIDS()
+QVector<int> LinuxDatabaseCommunicator::getStudentIDS(QString classCode)
 {
     QVector<int> ret;
-    std::string selectString = "SELECT userid FROM eduapp.users";
+    std::string selectString = "SELECT userid FROM eduapp.users where classcode = " + classCode.toStdString();
     int state = mysql_query(connection, selectString.c_str());
     if(state != 0)
     {

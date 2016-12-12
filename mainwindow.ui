@@ -1623,29 +1623,6 @@ QProgressBar::chunk {
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="3" column="2">
-           <spacer name="horizontalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="signup_userNameText">
-            <property name="echoMode">
-             <enum>QLineEdit::Normal</enum>
-            </property>
-            <property name="placeholderText">
-             <string>Username</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="1">
            <widget class="QLineEdit" name="signup_confirmPasswordText">
             <property name="echoMode">
@@ -1663,8 +1640,25 @@ QProgressBar::chunk {
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <spacer name="horizontalSpacer_5">
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="signup_realNameText">
+            <property name="placeholderText">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="signup_userNameText">
+            <property name="echoMode">
+             <enum>QLineEdit::Normal</enum>
+            </property>
+            <property name="placeholderText">
+             <string>Username</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <spacer name="horizontalSpacer_6">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -1696,10 +1690,23 @@ QProgressBar::chunk {
             </property>
            </widget>
           </item>
-          <item row="5" column="1">
-           <widget class="QLineEdit" name="signup_realNameText">
+          <item row="3" column="0">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="signup_classCodeText">
             <property name="placeholderText">
-             <string>Name</string>
+             <string>Class Code</string>
             </property>
            </widget>
           </item>
@@ -1785,7 +1792,7 @@ background-image : url(:/Icons/Math_Resource.png)
           </property>
          </spacer>
         </item>
-        <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+        <item>
          <widget class="QLabel" name="gameTitleLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -1954,11 +1961,42 @@ background-image : url(:/Icons/Math_Resource.png)
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter">
+         <widget class="QPushButton" name="signUpTeacherPushButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>29</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Teacher Sign Up</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
          <widget class="QPushButton" name="logOutPushButton">
           <property name="minimumSize">
            <size>
             <width>125</width>
             <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>29</height>
            </size>
           </property>
           <property name="text">
@@ -2834,11 +2872,9 @@ background-image : url(:/Icons/Math_Resource.png)
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
-          <row>
-           <property name="text">
-            <string>New Row</string>
-           </property>
-          </row>
+          <property name="rowCount">
+           <number>0</number>
+          </property>
           <column>
            <property name="text">
             <string>Account Type</string>
@@ -2869,11 +2905,6 @@ background-image : url(:/Icons/Math_Resource.png)
             <string>Password</string>
            </property>
           </column>
-          <item row="0" column="0">
-           <property name="text">
-            <string>Testing</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item>

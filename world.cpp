@@ -1,5 +1,7 @@
 #include "world.h"
 #include <sstream>
+#include <cstdlib>
+#include <ctime>
 
 World::World(QWidget* parent, const QPoint& position, const QSize& size) :
     QSFMLCanvas(parent, position, size, 1000/60)
@@ -77,6 +79,7 @@ World::~World()
 void World::start()
 {
     //the operand that is shown statically in the GUI
+    srand(std::time(NULL));
     currentOperand = rand() % 5 + 0;
     currentOperation = (rand() % operations::square) + 0;
     currentFunc = "X" + operationToString(currentOperation) + QString::number(currentOperand);
@@ -464,7 +467,7 @@ void World::OnUpdate()
 
         phaseText.setCharacterSize((100/(phaseAnimation * 0.1)));
         phaseText.setPosition(width()/2 - (phaseText.getLocalBounds().width/2)+30, 450);
-        phaseText.setColor(sf::Color::Red);
+        phaseText.setColor(sf::Color(203, 37, 65));
         sf::RenderWindow::draw(phaseText);
         phaseAnimation--;
     }

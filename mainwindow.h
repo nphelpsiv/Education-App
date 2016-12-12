@@ -11,6 +11,8 @@
 #include <QDebug>
 #include <QTableWidgetItem>
 #include <QFocusEvent>
+#include <QMessageBox>
+#include <QImage>
 #include "world.h"
 
 namespace Ui {
@@ -89,6 +91,8 @@ private slots:
 
     void on_teacherAnalyticsButton_clicked();
 
+    void on_signUpTeacherPushButton_clicked();
+
 signals:
 
     void answerEntered(QString);
@@ -130,6 +134,8 @@ private:
     sf::Socket::Status status;
 
     enum pages{loginPage, signUpPage, startPage, statsPage, teacherPage, leaderboardPage, gamePage, gameOverPage};
+
+    QString cssTable();
 };
 
 #endif // MAINWINDOW_H

@@ -272,11 +272,12 @@ QVector<int> DatabaseCommunicator::getGameIDS(int userID)
   return ret;
 }
 
-QVector<int> DatabaseCommunicator::getStudentIDS()
+QVector<int> DatabaseCommunicator::getStudentIDS(QString classCode)
 {
   QSqlQuery query;
 
-  query.prepare("SELECT userid FROM eduapp.users");
+  query.prepare("SELECT userid FROM eduapp.users where classcode = :classCode");
+       query.bindValue(":classCode", classCode);
 
   QVector<int> ret;
 

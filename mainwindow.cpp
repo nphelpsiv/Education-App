@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(title);
     ui->stackedWidget->setCurrentWidget(ui->startPage);
     ui->managePushButton->hide();
+    ui->signUpTeacherPushButton->hide();
 
     setupConnectAndActions();
 
@@ -35,6 +36,11 @@ void MainWindow::setupConnectAndActions()
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
 }
 
+void MainWindow::on_signUpTeacherPushButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(ui->signUpPage);
+}
+
 void MainWindow::on_signUpButton_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->signUpPage);
@@ -49,8 +55,6 @@ void MainWindow::on_submitButton_clicked()
 {
     isTeacher = ui->teacherCheckBox->isChecked();
     QTimer::singleShot(0, this, SLOT(signUpToServer()));
-
-    ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
 
@@ -150,7 +154,14 @@ void MainWindow::pageChanged(int pageIndex)
         }
         case pages::signUpPage: //signUpPage:
         {
-            ui->teacherCheckBox->setChecked(false);
+            if(!isTeacher)
+            {
+              ui->teacherCheckBox->hide();ui->teacherCheckBox->setChecked(false);
+            }
+            else
+            {
+              ui->teacherCheckBox->show();ui->teacherCheckBox->setChecked(true);
+            }
             setWindowTitle(windowTitle = "Sign Up");
             break;
         }
@@ -158,9 +169,13 @@ void MainWindow::pageChanged(int pageIndex)
         case pages::startPage: //startPage
         {
             if(isTeacher)
-                ui->managePushButton->show();
+            {
+                ui->managePushButton->show(); ui->signUpTeacherPushButton->show();
+            }
             else
-                ui->managePushButton->hide();
+            {
+                ui->managePushButton->hide(); ui->signUpTeacherPushButton->hide();
+            }
             setWindowTitle(windowTitle = "Start Menu");
             break;
         }
@@ -204,10 +219,22 @@ void MainWindow::resizeEvent(QResizeEvent*)
     }
 }
 
+QString MainWindow::cssTable()
+{
+    QString a;
+    a = "<style type=\"text/css\">";
+    a += "table {width:60%;  margin:auto;  border-width: 10px;border-spacing: ;border-style: outset;            border-color: gray; border-collapse: collapse;       background-color: white;    }";
+    a +=" table {            border-width: 1px;            padding: 1px;            border-style: inset;            border-color: gray;            background-color: white;            -moz-border-radius: ;    }";
+    a += "table td {            border-width: 1px;            padding: 1px;            border-style: inset;            border-color: gray;            background-color: white;            -moz-border-radius: ;    }";
+    a+="</style>";
+    return a;
+}
+
 void MainWindow::writeAndOpenAnalytics()
 {
   //Get Student IDs
-  QStringList studentIDResponse = serverRequest("getStudentIDS").split("|");
+  QStringList classCodeToGetUIDsFor = serverRequest("getStudentInfo|" + QString::number(userID).toStdString() ).split("|");
+  QStringList studentIDResponse = serverRequest("getStudentIDS|" + classCodeToGetUIDsFor.at(5).toStdString() ).split("|");
 
   // Setup the document writer
   QTextDocumentWriter documentWriter;
@@ -220,11 +247,14 @@ void MainWindow::writeAndOpenAnalytics()
 
   // Beggining html
   QString htmlEdit;
-  htmlEdit.append("<html><head><title>The HTML5 Herald</title></head><body>");
+  htmlEdit.append("<html><head><title>The HTML5 Herald</title>");
+  htmlEdit.append(cssTable());
+  htmlEdit.append("</head><body><center><img src='https://raw.githubusercontent.com/University-of-Utah-CS3505/edu-app-qt_pies-1/master/Icons/Math_Resource.png?token=AIo_QA-dX8SklYJwnM2ewp4Jl7Iy6CRJks5YVcFFwA%3D%3D'/></center>");
+
 
   // make a table
   // Students row
-  htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' width='500' cellpadding='10' align='center'>");
+  htmlEdit.append("<center><table bgcolor='#ff99ff' border='1' cellpadding='10' style='margin:auto;'>");
   htmlEdit.append("<tr>");
   htmlEdit.append("<td colspan='5'>");
   htmlEdit.append("<center><h3>The Class</h3><center>");
@@ -412,13 +442,16 @@ void MainWindow::loginToServer()
 
        QMainWindow::statusBar()->showMessage("Hello, " + user);
 
-       //ui->stackedWidget->setCurrentWidget(ui->startPage);
+       ui->stackedWidget->setCurrentWidget(ui->startPage);
     }
     else
     {
       qDebug() << "Invalid username or password";
+      QMessageBox msgBox;
+      msgBox.setText("Invalid Username or Password.");
+      msgBox.exec();
     }
-    ui->stackedWidget->setCurrentWidget(ui->startPage);
+    //ui->stackedWidget->setCurrentWidget(ui->startPage);
 }
 
 void MainWindow::signUpToServer()
@@ -428,21 +461,33 @@ void MainWindow::signUpToServer()
     QString realName = ui->signup_realNameText->text();
     QString pass = ui->signup_passwordText->text();
     QString confPass = ui->signup_confirmPasswordText->text();
-
+    QString classCode = ui->signup_classCodeText->text();
 
     bool teacherBool = ui->teacherCheckBox->isChecked();
 
-    if(realName.size() > 0 & pass.size() > 0 && pass == confPass)
+    if(realName.size() > 0 & pass.size() > 0 && classCode.size() > 0 && pass == confPass )
     {
-      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + realName.toStdString() + "|" + (teacherBool ? "1" : "0") + "|" + "N/A").toInt() > 0)
-        qDebug() << QString::fromStdString("signed up successfully."); //ui->stackedWidget->setCurrentWidget(ui->loginPage);
+      if(serverRequest("addStudent|" + user.toStdString() + "|" + pass.toStdString() + "|" + realName.toStdString() + "|" + (teacherBool ? "1" : "0") + "|" + classCode.toStdString()).toInt() > 0)
+      {
+          qDebug() << QString::fromStdString("signed up successfully."); ui->stackedWidget->setCurrentWidget(ui->loginPage);
+      }
+      else
+      {
+          qDebug() << QString::fromStdString("Missing a field you dip.");
+          QMessageBox msgBox;
+          msgBox.setText("Could not Sign Up. \nOne or more fields is missing. \nPlease fill out all fields. \nEnsure your password was correctly entered twice.");
+          msgBox.exec();
+      }
     }
     else
     {
         qDebug() << QString::fromStdString("Missing a field you dip.");
+        QMessageBox msgBox;
+        msgBox.setText("Could not Sign Up. \nOne or more fields is missing. \nPlease fill out all fields. \nEnsure your password was correctly entered twice.");
+        msgBox.exec();
     }
 
-    ui->stackedWidget->setCurrentWidget(ui->loginPage);
+    //ui->stackedWidget->setCurrentWidget(ui->loginPage);
 }
 
 void MainWindow::populateStats()
@@ -528,8 +573,9 @@ void MainWindow::populateLeaderboards()
 
 void MainWindow::populateManageboards()
 {
-    //Get User's Game ID's to get info on. "10" is how many scores we want.
-    QString allIDs = serverRequest("getStudentIDS|");
+    QStringList classCodeToGetUIDsFor = serverRequest("getStudentInfo|" + QString::number(userID).toStdString() ).split("|");
+
+    QString allIDs = serverRequest("getStudentIDS|" + classCodeToGetUIDsFor.at(5).toStdString());
     QStringList splitIDToProcess = allIDs.split("|");
 
     //List of responses with each game's info played by the user.
@@ -671,6 +717,3 @@ void MainWindow::forceFocus(QWidget* widget)
     // posting event for forcing the focus with low priority
     qApp->postEvent(widget, (QEvent *)eventFocus, Qt::LowEventPriority);
 }
-
-
-
