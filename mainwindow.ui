@@ -1792,7 +1792,7 @@ background-image : url(:/Icons/Math_Resource.png)
           </property>
          </spacer>
         </item>
-        <item>
+        <item alignment="Qt::AlignHCenter">
          <widget class="QLabel" name="gameTitleLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">

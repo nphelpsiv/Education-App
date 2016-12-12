@@ -276,7 +276,7 @@ QVector<int> DatabaseCommunicator::getStudentIDS(QString classCode)
 {
   QSqlQuery query;
 
-  query.prepare("SELECT userid FROM eduapp.users where classcode = :classCode");
+  query.prepare("SELECT userid FROM eduapp.users where classcode = :classCode and isteacher = 0");
        query.bindValue(":classCode", classCode);
 
   QVector<int> ret;
