@@ -44,7 +44,7 @@ World::World(QWidget* parent, const QPoint& position, const QSize& size) :
         std::cout << "Yo we aint be findin no mp3, in that location, you be trippin!" << std::endl;
     }
     music.setLoop(true);
-//    music.play();
+    music.play();
 }
 
 World::~World()
@@ -115,7 +115,7 @@ void World::start()
     healthTexture.loadFromFile("Icons/health10");
 
     music.setLoop(true);
-//    music.play();
+    music.play();
 
 }
 
@@ -149,7 +149,7 @@ void World::ballSpawnCall()
     {
         std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
     }
-//    cannonSound.play();
+    cannonSound.play();
 }
 
 
@@ -231,7 +231,7 @@ void World::answerEntered(QString s)
             {
                 std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
             }
-//            answerSound.play();
+            answerSound.play();
 
             return;
         }
@@ -241,7 +241,7 @@ void World::answerEntered(QString s)
     {
         std::cout << "Couldn't find wrong answer sound" << std::endl;
     }
-//    wrongAnswerSound.play();
+    wrongAnswerSound.play();
 }
 
 void World::healthChanged(int h)
@@ -435,7 +435,7 @@ void World::OnUpdate()
                 {
                     std::cout << "Yo we aint be findin no wav, in that location, you be trippin!" << std::endl;
                 }
-//                explosionSound.play();
+                explosionSound.play();
             }
         }
     }
