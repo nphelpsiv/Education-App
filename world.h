@@ -113,6 +113,7 @@ private:
     int hitAnimationCount;
     int phaseAnimation;
     int functionAnimation;
+    bool first3;
 
     QString currentFunc;
 

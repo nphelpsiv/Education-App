@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString title = "Login";
     setWindowTitle(title);
-    ui->stackedWidget->setCurrentWidget(ui->startPage);
+    ui->stackedWidget->setCurrentWidget(ui->loginPage);
     ui->managePushButton->hide();
     ui->signUpTeacherPushButton->hide();
 

@@ -94,10 +94,10 @@ void World::start()
 
     groundWidth = 2000;
     groundHeight = 1;
-    ground = new Ground(0, -325, groundWidth, groundHeight, world);
+    ground = new Ground(0, -300, groundWidth, groundHeight, world);
     towerWidth = 110;
     towerHeight = 340;
-    tower = new Tower(0, -325, towerWidth, towerHeight, world);
+    tower = new Tower(0, -300, towerWidth, towerHeight, world);
     towers.push_back(tower);
 
     QObject::connect(tower, SIGNAL(healthChanged(int)), this, SLOT(healthChanged(int)));
@@ -116,6 +116,8 @@ void World::start()
 
     music.setLoop(true);
     music.play();
+
+    first3 = true;
 
 }
 
@@ -828,14 +830,14 @@ void World::setFunction()
         phaseAnimation = 120;
         functionAnimation = 120;
         currentPhase++;
-        currentOperation = (rand() % (operations::multiply+1));
+        currentOperation = operations::multiply;
         if(currentOperation == operations::square)
         {
             currentOperand = 2;
         }
         else if(currentOperation == operations::multiply)
         {
-            currentOperand = rand() % (5+1) + 1;
+            currentOperand = rand() % (5+1) + 2;
         }
         else
         {
@@ -849,6 +851,8 @@ void World::setFunction()
         functionAnimation = 120;
         spawnTimer->setInterval(interval);
         interval = interval*.95;
+
+        int pastOperation = currentOperation;
         currentOperation = rand() % (operations::multiply+1);
         if(currentOperation == operations::square)
         {
@@ -856,7 +860,20 @@ void World::setFunction()
         }
         else
         {
-            currentOperand = rand() % 12 + 1;
+            int pastOper = currentOperand;
+            bool newOper = false;
+            while(!newOper)
+            {
+                currentOperand = rand() % 12 + 1;
+                if(pastOperation != currentOperation)
+                {
+                    newOper = true;
+                }
+                else if(currentOperand != pastOper)
+                {
+                    newOper = true;
+                }
+            }
         }
     }
 }
